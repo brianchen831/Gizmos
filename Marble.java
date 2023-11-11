@@ -19,11 +19,12 @@ public class Marble {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-		double r = Math.floor(Math.random() * 3);
-		if (r==0) { marbleColor = "Blue"; }
-		if (r==1) { marbleColor = "Red"; }
-		if (r==2) { marbleColor = "Grey"; }
-		if (r==3) { marbleColor = "Yellow"; }
+		
+		int r = (int)(Math.random() * 4) + 1;
+		if (r==1) { marbleColor = "Blue"; }
+		if (r==2) { marbleColor = "Red"; }
+		if (r==3) { marbleColor = "Grey"; }
+		if (r==4) { marbleColor = "Yellow"; }
 		
 		
 	}
