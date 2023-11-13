@@ -5,6 +5,6 @@ public class GizmosRunner {
 		GizmosPanel b = new GizmosPanel("Gizmos");
 
 		
-	}//hi
-//helo
+	}
+
 }

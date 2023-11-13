@@ -13,7 +13,9 @@ public class Player {
         heldGizmos = new TreeMap<>();
         winning = false;
         this.name = name;
+        heldMarbles = new ArrayList<>();
     }
+ 
     
     public void fileGizmo(Gizmo g) {
         heldGizmos.computeIfAbsent("File", k -> new ArrayList<>()).add(g); // the lambda lets you add to an arraylist thats in a treemap with 1000x less effort, if u wanna use ts replace the g with what u need to add and the "File" with a key
@@ -21,6 +23,7 @@ public class Player {
     public void addMarble(Marble m) {
         
         heldMarbles.add(m);
+
 
     }
 

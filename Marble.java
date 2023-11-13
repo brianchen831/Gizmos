@@ -11,10 +11,10 @@ public class Marble {
 	public Marble() {
 		try {
             // Load images
-            redMarble = ImageIO.read(new File("red.png"));
-			yellowMarble = ImageIO.read(new File("yellow.png"));
-			blueMarble = ImageIO.read(new File("blue.png"));
-			greyMarble = ImageIO.read(new File("grey.png"));
+            redMarble = ImageIO.read(Marble.class.getResource("/images/red.png"));
+			yellowMarble = ImageIO.read(Marble.class.getResource("/images/yellow.png"));
+			blueMarble = ImageIO.read(Marble.class.getResource("/images/blue.png"));
+			greyMarble = ImageIO.read(Marble.class.getResource("/images/grey.png"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -26,6 +26,13 @@ public class Marble {
 		if (r==3) { marbleColor = "Grey"; }
 		if (r==4) { marbleColor = "Yellow"; }
 		
+		
+	}
+	
+	
+	public String getMarbleColor() {
+		
+		return marbleColor;
 		
 	}
 

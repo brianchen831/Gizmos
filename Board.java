@@ -22,16 +22,21 @@ public class Board extends JPanel implements MouseListener{
 		}
 		try {
             // Load images
-			marbleDispenser = ImageIO.read(new File("Dispenser.png"));
+			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+		players.add(new Player("Charlie"));
+		addMouseListener(this);
 
 	}
 	public void pickMarble(int playerNum) {
+		
+		//This doesn't work cause something is getting repainted wrong, the dispenser correctly moves all the marbles down appropriately but for somereaosn it draw it in some weird position
 		//Adds a marble to the top of the visibleMarbles and takes out the one that is picked to move it to the corresponding "playerNum" player
-		visibleMarbles.add(visibleMarbles.size() - 1, new Marble());
-		players.get(playerNum).addMarble(visibleMarbles.remove(0));
+		visibleMarbles.add(0, new Marble());
+		players.get(playerNum).addMarble(visibleMarbles.remove(visibleMarbles.size() - 1));
+		repaint();
 	}
 	
 	public void resetMarbleDisp() {
@@ -53,40 +58,40 @@ public class Board extends JPanel implements MouseListener{
 	
 	
 	public void paint(Graphics g) {
-		//ts dont really work the paint is so weird, and also we need new marble images these are way too big and ugly
+
 		g.drawImage(marbleDispenser, 0, 0, null);
 		int i = 0;
 		for (Marble m : visibleMarbles) {
-
+			
 			m.setMarbleX(0);
 			m.setMarbleY(m.getMarbleY() + i);
-			i+=12.5;
-			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY(), null);
+			
+			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY() + i, null);
+			i+=11.8;
 		}
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'mouseClicked'");
+		int x = e.getX();
+		int y = e.getY();
+		
+		pickMarble(0);
+		repaint();
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'mousePressed'");
+
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'");
+
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'mouseEntered'");
+
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'mouseExited'");
+
 	}
 }
