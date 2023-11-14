@@ -27,6 +27,12 @@ public class Player {
 
     }
 
+    public ArrayList<Marble> getHeldMarbles() {
+
+        return heldMarbles;
+
+    }
+
     public int getVictoryPoints() {
 
         return victoryPoints;

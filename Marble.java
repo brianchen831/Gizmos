@@ -58,11 +58,19 @@ public class Marble {
 
 	}
 
+
+
 	public BufferedImage getMarbleImage() {
 		if (marbleColor.equals("Blue")) { return blueMarble; }
 		else if (marbleColor.equals("Red")) { return redMarble; }
 		else if (marbleColor.equals("Grey")) { return greyMarble; }
 		else { return yellowMarble; }
+	}
+
+	public String toString() {
+
+		return marbleColor;
+
 	}
 
 }

@@ -12,6 +12,7 @@ public class Board extends JPanel implements MouseListener{
 	private HashMap<Integer, ArrayList<Gizmo>> playableGizmos;
 	private ArrayList<Marble> visibleMarbles;
 	private ArrayList<Player> players;
+	private boolean firstDraw;
 	public Board() {
 		players = new ArrayList<>();
 		visibleMarbles = new ArrayList<>();
@@ -28,6 +29,7 @@ public class Board extends JPanel implements MouseListener{
         }
 		players.add(new Player("Charlie"));
 		addMouseListener(this);
+		firstDraw = true;
 
 	}
 	public void pickMarble(int playerNum) {
@@ -62,20 +64,21 @@ public class Board extends JPanel implements MouseListener{
 		g.drawImage(marbleDispenser, 0, 0, null);
 		int i = 0;
 		for (Marble m : visibleMarbles) {
-			
 			m.setMarbleX(0);
-			m.setMarbleY(m.getMarbleY() + i);
-			
 			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY() + i, null);
-			i+=11.8;
+			i+=25;
 		}
+
+
 	}
+		
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
 		
 		pickMarble(0);
+		System.out.println(players.get(0).getHeldMarbles());
 		repaint();
 	}
 	@Override
