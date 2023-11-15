@@ -1,10 +1,9 @@
 public class GizmosRunner {
 	public static void main (String args[])
 	{
-		
-		GizmosPanel b = new GizmosPanel("Gizmos");
+		//Menu m = new Menu("Gizmos");
 
-		
-	}
+		Board b = new Board("Gizmos2");
+	}	
 
 }
