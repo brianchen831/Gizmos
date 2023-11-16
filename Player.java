@@ -9,6 +9,7 @@ public class Player {
     private int victoryPoints;
     private boolean winning;
     private String name;
+    private int marbleCount;
     public Player(String name) {
         heldGizmos = new TreeMap<>();
         winning = false;
@@ -42,6 +43,12 @@ public class Player {
     public String getName() {
 
         return name;
+
+    }
+
+    public int getMarbleCount() {
+
+        return marbleCount;
 
     }
     //public Gizmo getFiledGizmos() {

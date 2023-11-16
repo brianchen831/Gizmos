@@ -14,13 +14,17 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private ArrayList<Player> players;
 	private boolean firstDraw;
 	private BufferedImage background, playergui;
+	private int yellowCount, redCount, greyCount, blueCount;
+	
 	public BoardPanel() {
 		players = new ArrayList<>();
 		visibleMarbles = new ArrayList<>();
+		int temp = 0;
 		for (int i = 0 ; i < 6 ; i++) {
-
-			visibleMarbles.add(new Marble());
-
+			Marble marble = new Marble();
+			marble.incBoundY(temp);
+			visibleMarbles.add(marble);
+			temp+=25;
 		}
 		try {
             // Load images
@@ -35,11 +39,16 @@ public class BoardPanel extends JPanel implements MouseListener{
 		firstDraw = true;
 
 	}
-	public void pickMarble(int playerNum) {
-		//Adds a marble to the top of the visibleMarbles and takes out the one that is picked to move it to the corresponding "playerNum" player
-		visibleMarbles.add(0, new Marble());
-		players.get(playerNum).addMarble(visibleMarbles.remove(visibleMarbles.size() - 1));
-		repaint();
+	public void pickMarble(int playerNum, int index) {
+		Marble newMarble = new Marble();
+		
+		if (visibleMarbles.get(index).toString().equals("Red")) { redCount++; }
+		else if (visibleMarbles.get(index).toString().equals("Yellow")) { yellowCount++; }
+		else if (visibleMarbles.get(index).toString().equals("Grey")) { greyCount++; }
+		else { blueCount++; }
+    	players.get(playerNum).addMarble(visibleMarbles.remove(index));
+		visibleMarbles.add(0, newMarble); 
+    	repaint();
 	}
 	
 	public void resetMarbleDisp() {
@@ -57,9 +66,22 @@ public class BoardPanel extends JPanel implements MouseListener{
 	
 	
 	public void paint(Graphics g) {
+		//g.drawString(": " + yellowCount)
+		//g.drawString(": " + blueCount);
+		//g.drawString(": " + greyCount);
+		
 		g.drawImage(background, 0, 0, null);
 		g.drawImage(playergui, 0, 0, null);
 		g.drawImage(marbleDispenser, 0, 0, null);
+		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
+		g.setColor(Color.RED);
+		g.drawString(":" + redCount, 87, 828);
+		g.setColor(Color.GRAY);
+		g.drawString(":" + greyCount, 87, 872);
+		g.setColor(Color.BLUE);
+		g.drawString(":" + blueCount, 142, 828);
+		g.setColor(Color.YELLOW);
+		g.drawString(":" + yellowCount, 142, 872);
 		int i = 0;
 		for (Marble m : visibleMarbles) {
 			m.setMarbleX(0);
@@ -69,13 +91,26 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 
 	}
+
 		
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
 		System.out.println(x + ", " + y);
-		if (x >= 765 && x<=930 && y >= 750 && y <= 813) { pickMarble(0);}
+		
+		
+		for (int i = 0 ; i < visibleMarbles.size() - 1 ; i++) {
+
+			if (visibleMarbles.get(i).getMarbleBounds().contains(e.getPoint())) {
+				
+				pickMarble(0, i);
+				repaint();
+				break;
+			}
+
+		}	
+		
 		repaint();
 		//System.out.println(players.get(0).getHeldMarbles());
 		

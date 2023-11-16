@@ -1,4 +1,5 @@
 import java.io.*;
+import java.awt.Rectangle;
 import java.awt.image.*;
 import java.util.*;
 import javax.imageio.ImageIO;
@@ -7,8 +8,11 @@ public class Marble {
 	private int marbleX, marbleY;
 	private String marbleColor;
 	private BufferedImage redMarble, blueMarble, yellowMarble, greyMarble;
+	private Rectangle bounds;
+	
 
 	public Marble() {
+		
 		try {
             // Load images
             redMarble = ImageIO.read(Marble.class.getResource("/images/red.png"));
@@ -25,10 +29,24 @@ public class Marble {
 		if (r==2) { marbleColor = "Red"; }
 		if (r==3) { marbleColor = "Grey"; }
 		if (r==4) { marbleColor = "Yellow"; }
-		
+	
+		bounds = new Rectangle(940, 250, 21, 17);
 		
 	}
+
+	public void incBoundY(int increment) {
+
+		bounds.setLocation(940, 250 + increment);
+
+	}
+
 	
+
+	public Rectangle getMarbleBounds() {
+
+		return bounds;
+
+	}
 	
 	public String getMarbleColor() {
 		
