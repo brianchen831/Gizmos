@@ -25,27 +25,23 @@ public class BoardPanel extends JPanel implements MouseListener{
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
-		bound1 = new Rectangle(950, 259, 21, 21);
-		bound2 = new Rectangle(950, 285, 21, 21);
-		bound3 = new Rectangle(950, 310, 21, 21);
-		bound4 = new Rectangle(950, 335, 21, 21);
-		bound5 = new Rectangle(950, 360, 21, 21);
-		bound6 = new Rectangle(950, 385, 21, 21);
-		
+		bound1 = new Rectangle(941, 249, 21, 21);
+		bound2 = new Rectangle(941, 273, 21, 21);
+		bound3 = new Rectangle(941, 298, 21, 21);
+		bound4 = new Rectangle(941, 324, 21, 21);
+		bound5 = new Rectangle(941, 348, 21, 21);
+		bound6 = new Rectangle(941, 373, 21, 21);
 		try {
             // Load images
 			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(Board.class.getResource("/images/gameback.png"));
-			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));
-			
-			
+			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));		
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 		players.add(new Player("Charlie"));
 		addMouseListener(this);
 		firstDraw = true;
-
 	}
 	public void pickMarble(int playerNum, int index) {
 		Marble newMarble = new Marble();
