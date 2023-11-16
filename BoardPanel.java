@@ -15,22 +15,30 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private boolean firstDraw;
 	private BufferedImage background, playergui;
 	private int yellowCount, redCount, greyCount, blueCount;
-	
+	private Rectangle bound1, bound2, bound3, bound4, bound5, bound6;
 	public BoardPanel() {
 		players = new ArrayList<>();
 		visibleMarbles = new ArrayList<>();
 		int temp = 0;
 		for (int i = 0 ; i < 6 ; i++) {
-			Marble marble = new Marble();
-			marble.incBoundY(temp);
+			Marble marble = new Marble();			
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
+		bound1 = new Rectangle(950, 259, 21, 21);
+		bound2 = new Rectangle(950, 285, 21, 21);
+		bound3 = new Rectangle(950, 310, 21, 21);
+		bound4 = new Rectangle(950, 335, 21, 21);
+		bound5 = new Rectangle(950, 360, 21, 21);
+		bound6 = new Rectangle(950, 385, 21, 21);
+		
 		try {
             // Load images
 			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(Board.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));
+			
+			
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +83,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
 		g.setColor(Color.RED);
-		g.drawString(":" + redCount, 87, 828);
+		g.drawString(": " + redCount, 87, 828);
 		g.setColor(Color.GRAY);
 		g.drawString(":" + greyCount, 87, 872);
 		g.setColor(Color.BLUE);
@@ -84,6 +92,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		g.drawString(":" + yellowCount, 142, 872);
 		int i = 0;
 		for (Marble m : visibleMarbles) {
+			
 			m.setMarbleX(0);
 			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY() + i, null);
 			i+=25;
@@ -98,23 +107,42 @@ public class BoardPanel extends JPanel implements MouseListener{
 		int x = e.getX();
 		int y = e.getY();
 		System.out.println(x + ", " + y);
+		if(bound1.contains(e.getPoint())) {	  
+			pickMarble(0, 0);
+		} 
+		else if(bound2.contains(e.getPoint())){
+			pickMarble(0, 1);
+		}
+		else if(bound3.contains(e.getPoint())){
+			pickMarble(0, 2);
+		}
+		else if(bound4.contains(e.getPoint())){
+			pickMarble(0, 3);
+		}
+		else if(bound5.contains(e.getPoint())){
+			pickMarble(0, 4);
+		}
+		else if(bound6.contains(e.getPoint())){
+			pickMarble(0, 5);
+		}
+		repaint();
 		
 		
-		for (int i = 0 ; i < visibleMarbles.size() - 1 ; i++) {
+		//for (int i = 0 ; i < visibleMarbles.size() - 1 ; i++) {
 
-			if (visibleMarbles.get(i).getMarbleBounds().contains(e.getPoint())) {
-				
-				pickMarble(0, i);
-				repaint();
-				break;
+			//if (visibleMarbles.get(i).getMarbleBounds().contains(e.getPoint())) {
+				//System.out.println(visibleMarbles.get(i).getMarbleBounds());
+				//pickMarble(0, i);
+				//repaint();
+				//break;
 			}
 
-		}	
+		//}	
 		
-		repaint();
+		//repaint();
 		//System.out.println(players.get(0).getHeldMarbles());
 		
-	}
+	//}
 	@Override
 	public void mousePressed(MouseEvent e) {
 

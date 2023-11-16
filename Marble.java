@@ -8,7 +8,7 @@ public class Marble {
 	private int marbleX, marbleY;
 	private String marbleColor;
 	private BufferedImage redMarble, blueMarble, yellowMarble, greyMarble;
-	private Rectangle bounds;
+
 	
 
 	public Marble() {
@@ -30,23 +30,13 @@ public class Marble {
 		if (r==3) { marbleColor = "Grey"; }
 		if (r==4) { marbleColor = "Yellow"; }
 	
-		bounds = new Rectangle(940, 250, 21, 17);
+		
 		
 	}
 
-	public void incBoundY(int increment) {
 
-		bounds.setLocation(940, 250 + increment);
-
-	}
 
 	
-
-	public Rectangle getMarbleBounds() {
-
-		return bounds;
-
-	}
 	
 	public String getMarbleColor() {
 		
