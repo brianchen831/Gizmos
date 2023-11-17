@@ -11,14 +11,18 @@ public class Gizmo {
 	private BufferedImage gizmoImage;
 	private int tier;
 
-	public Gizmo() {
+	public Gizmo(BufferedImage gizmoImage) {
 		
-		try {
-			gizmoImage = ImageIO.read(Board.class.getResource("/images/playergui.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 		
+		this.gizmoImage = gizmoImage;
+        
+		
+	}
+
+	public BufferedImage getImage() {
+
+		return gizmoImage;
+
 	}
 	
 

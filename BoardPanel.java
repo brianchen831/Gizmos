@@ -4,21 +4,25 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import java.util.*;
 import java.awt.event.*;
+import static java.lang.System.*;	
 import javax.swing.*;
+
 
 public class BoardPanel extends JPanel implements MouseListener{
 	
 	private BufferedImage marbleDispenser;
-	private HashMap<Integer, ArrayList<Gizmo>> playableGizmos;
+	private ArrayList<Gizmo> playableGizmos;
 	private ArrayList<Marble> visibleMarbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage background, playergui;
+	private BufferedImage background, playergui, gizmoSheet1, gizmoSheet2;
 	private int yellowCount, redCount, greyCount, blueCount;
-	private Rectangle bound1, bound2, bound3, bound4, bound5, bound6;
+	private Rectangle bound1, bound2, bound3, bound4, bound5, bound6; //temporary hardcode so we can start the more difficult part
+	
 	public BoardPanel() {
 		players = new ArrayList<>();
 		visibleMarbles = new ArrayList<>();
+		playableGizmos = new ArrayList<>();
 		int temp = 0;
 		for (int i = 0 ; i < 6 ; i++) {
 			Marble marble = new Marble();			
@@ -31,21 +35,31 @@ public class BoardPanel extends JPanel implements MouseListener{
 		bound4 = new Rectangle(941, 324, 21, 21);
 		bound5 = new Rectangle(941, 348, 21, 21);
 		bound6 = new Rectangle(941, 373, 21, 21);
+		
 		try {
             // Load images
 			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(Board.class.getResource("/images/gameback.png"));
-			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));		
+			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));	
+			gizmoSheet1 = ImageIO.read(Board.class.getResource("/images/sheet1.jpg"));
+			gizmoSheet2 = ImageIO.read(Board.class.getResource("/images/sheet2.jpg"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+		for (int i = 0 ; i <= 7 ; i++) {
+			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
+			for (int j = 0 ; j <= 7 ; j++) {
+				playableGizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
+				out.println(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
+			}
+
+		}
 		players.add(new Player("Charlie"));
 		addMouseListener(this);
 		firstDraw = true;
 	}
 	public void pickMarble(int playerNum, int index) {
 		Marble newMarble = new Marble();
-		
 		if (visibleMarbles.get(index).toString().equals("Red")) { redCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Yellow")) { yellowCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Grey")) { greyCount++; }
@@ -79,13 +93,21 @@ public class BoardPanel extends JPanel implements MouseListener{
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
 		g.setColor(Color.RED);
-		g.drawString(": " + redCount, 87, 828);
+		g.drawString(":" + redCount, 87, 828);
 		g.setColor(Color.GRAY);
 		g.drawString(":" + greyCount, 87, 872);
 		g.setColor(Color.BLUE);
 		g.drawString(":" + blueCount, 142, 828);
 		g.setColor(Color.YELLOW);
 		g.drawString(":" + yellowCount, 142, 872);
+		int temp = 0;
+		for (Gizmo x : playableGizmos) {
+
+			g.drawImage(x.getImage(), 200 + temp, 574, 143, 130, null);
+			temp+=170;
+
+		}
+
 		int i = 0;
 		for (Marble m : visibleMarbles) {
 			
@@ -121,9 +143,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		else if(bound6.contains(e.getPoint())){
 			pickMarble(0, 5);
 		}
-		repaint();
-		
-		
+		repaint();		
 		//for (int i = 0 ; i < visibleMarbles.size() - 1 ; i++) {
 
 			//if (visibleMarbles.get(i).getMarbleBounds().contains(e.getPoint())) {
@@ -131,7 +151,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 				//pickMarble(0, i);
 				//repaint();
 				//break;
-			}
+	}
 
 		//}	
 		
