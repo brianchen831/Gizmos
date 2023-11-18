@@ -125,7 +125,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		for (Gizmo x : t2Gizmos) {
 			g.drawImage(x.getImage(), 200 + temp, 420, 143, 130, null);
 			temp+=170;
-			if (temp > 340) { break; }
+			if (temp > 340) { break; }  
 		}
 		int i = 0;
 		for (Marble m : visibleMarbles) {
