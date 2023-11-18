@@ -40,7 +40,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		
 		try {
             // Load images
-			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
+		r	marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(Board.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));	
 			gizmoSheet1 = ImageIO.read(Board.class.getResource("/images/sheet1.jpg"));
