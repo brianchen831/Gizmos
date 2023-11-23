@@ -21,6 +21,8 @@ public class Gizmo {
 		else if (temp==new Color(222, 175, 31)) { gizmoColor="Yellow"; }
 		else if (temp==new Color(56, 95, 163)) { gizmoColor="Blue"; }
 		
+
+
 	}
 
 	public BufferedImage getImage() {

@@ -44,7 +44,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
 			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
-			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet2.jpg"));	
+			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));	
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,6 +89,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	}
 	public void pickMarble(int playerNum, int index) {
 		Marble newMarble = new Marble();
+		System.out.println("Picking a marble");
 		if (visibleMarbles.get(index).toString().equals("Red")) { redCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Yellow")) { yellowCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Grey")) { greyCount++; }
