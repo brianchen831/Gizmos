@@ -40,11 +40,11 @@ public class BoardPanel extends JPanel implements MouseListener{
 		
 		try {
             // Load images
-			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
-			background = ImageIO.read(Board.class.getResource("/images/gameback.png"));
-			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));
-			gizmoSheet1 = ImageIO.read(Board.class.getResource("/images/sheet1.jpg"));
-			gizmoSheet2 = ImageIO.read(Board.class.getResource("/images/sheet2.jpg"));	
+			marbleDispenser = ImageIO.read(BoardFrame.class.getResource("/images/Dispenser.png"));
+			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
+			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
+			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
+			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet2.jpg"));	
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
