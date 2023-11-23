@@ -42,28 +42,42 @@ public class BoardPanel extends JPanel implements MouseListener{
             // Load images
 			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(Board.class.getResource("/images/gameback.png"));
-			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));	
+			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));
 			gizmoSheet1 = ImageIO.read(Board.class.getResource("/images/sheet1.jpg"));
-			gizmoSheet2 = ImageIO.read(Board.class.getResource("/images/sheet2.jpg"));
+			gizmoSheet2 = ImageIO.read(Board.class.getResource("/images/sheet2.jpg"));	
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-		for (int i = 0 ; i <= 4; i++) {
+
+
+		for (int i = 0 ; i <= 3 ; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
-			for (int j = 0 ; j <= 3 ; j++) {
+			for (int j = 0 ; j <= 7 /*why only 3 */ ; j++) {
 				t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
 			}
+			
+		}
+		for(int j = 0; j <= 3; j++){
+			t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, 4*490, 490, 490)));
+		}
+
+		for(int j = 4; j <= 7; j++){
+			t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, 4*490, 490, 490)));
 		}
 		for (int i = 5 ; i <= 7; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
 			for (int j = 0 ; j <= 3 ; j++) {
 				t2Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
 			}
+			//we need to add from sheet2 as well
 		}
-		for (int i = 0 ; i <= 4; i++) {
+		//for(sheet 2 stuff)
+
+		//doesnt work rn
+		for (int i = 2 ; i <= 5; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
-			for (int j = 0 ; j <= 3 ; j++) {
-				t3Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
+			for (int j = 0 ; j <= 5 ; j++) {
+				t3Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490))); //fix this later
 			}
 		}
 		Collections.shuffle(t1Gizmos);
@@ -117,15 +131,21 @@ public class BoardPanel extends JPanel implements MouseListener{
 		g.drawString(":" + yellowCount, 142, 872);
 		int temp = 0;
 		for (Gizmo x : t1Gizmos) {
-			g.drawImage(x.getImage(), 200 + temp, 575, 143, 130, null);
+			g.drawImage(x.getImage(), 200 + temp, 390, 143, 130, null);
 			temp+=170;
 			if (temp > 510) { break; }
 		}
 		temp = 0;
 		for (Gizmo x : t2Gizmos) {
-			g.drawImage(x.getImage(), 200 + temp, 420, 143, 130, null);
+			g.drawImage(x.getImage(), 200 + temp, 235, 143, 130, null);
 			temp+=170;
 			if (temp > 340) { break; }  
+		}
+		temp = 0;
+		for (Gizmo x : t3Gizmos) {
+			g.drawImage(x.getImage(), 200 + temp, 80, 143, 130, null);
+			temp+=170;
+			if (temp > 170) { break; }  
 		}
 		int i = 0;
 		for (Marble m : visibleMarbles) {
