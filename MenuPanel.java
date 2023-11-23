@@ -27,7 +27,7 @@ public class MenuPanel extends JPanel implements MouseListener{
     }
 
     public void paint(Graphics g) {
-
+        //dont focus on menu right now its not important
         g.drawImage(background, 0, 0, null);
 
     }

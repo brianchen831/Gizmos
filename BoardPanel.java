@@ -17,8 +17,14 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private boolean firstDraw;
 	private BufferedImage background, playergui, gizmoSheet1, gizmoSheet2;
 	private int yellowCount, redCount, greyCount, blueCount;
-	private Rectangle bound1, bound2, bound3, bound4, bound5, bound6; //temporary hardcode so we can start the more difficult part
-	
+	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; //temporary hardcode so we can start the more difficult part
+	private Rectangle gizmoBound1_1, gizmoBound1_2, gizmoBound1_3, gizmoBound1_4;
+	private Rectangle gizmoBound2_1, gizmoBound2_2, gizmoBound2_3;
+	private Rectangle gizmoBound3_1, gizmoBound3_2;
+	private Rectangle fileBound, pickBound, buildBound, researchBound, archiveBound;
+	private Rectangle upgBound, convertBound;
+
+
 	public BoardPanel() {
 		players = new ArrayList<>();
 		visibleMarbles = new ArrayList<>();
@@ -31,20 +37,32 @@ public class BoardPanel extends JPanel implements MouseListener{
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
-		bound1 = new Rectangle(941, 249, 21, 21);
-		bound2 = new Rectangle(941, 273, 21, 21);
-		bound3 = new Rectangle(941, 298, 21, 21);
-		bound4 = new Rectangle(941, 324, 21, 21);
-		bound5 = new Rectangle(941, 348, 21, 21);
-		bound6 = new Rectangle(941, 373, 21, 21);
-		
+		marbleBound1 = new Rectangle(941, 249, 21, 21);
+		marbleBound2 = new Rectangle(941, 273, 21, 21);
+		marbleBound3 = new Rectangle(941, 298, 21, 21);
+		marbleBound4 = new Rectangle(941, 324, 21, 21);
+		marbleBound5 = new Rectangle(941, 348, 21, 21);
+		marbleBound6 = new Rectangle(941, 373, 21, 21);
+
+		gizmoBound1_1 = new Rectangle(200, 390, 140, 130);
+		gizmoBound1_2 = new Rectangle(370, 390, 140, 130);
+		gizmoBound1_3 = new Rectangle(540, 390, 140, 130);
+		gizmoBound1_4 = new Rectangle(710, 390, 140, 130);
+
+		gizmoBound2_1 = new Rectangle(200, 235, 140, 130);
+		gizmoBound2_2 = new Rectangle(370, 235, 140, 130);
+		gizmoBound2_3 = new Rectangle(540, 235, 140, 130);
+
+		gizmoBound3_1 = new Rectangle(200, 80, 140, 130);
+		gizmoBound3_2 = new Rectangle(370, 80, 140, 130);
+
 		try {
             // Load images
-			marbleDispenser = ImageIO.read(Board.class.getResource("/images/Dispenser.png"));
-			background = ImageIO.read(Board.class.getResource("/images/gameback.png"));
-			playergui = ImageIO.read(Board.class.getResource("/images/playergui.png"));
-			gizmoSheet1 = ImageIO.read(Board.class.getResource("/images/sheet1.jpg"));
-			gizmoSheet2 = ImageIO.read(Board.class.getResource("/images/sheet2.jpg"));	
+			marbleDispenser = ImageIO.read(BoardFrame.class.getResource("/images/Dispenser.png"));
+			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
+			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
+			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
+			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));	
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,6 +107,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	}
 	public void pickMarble(int playerNum, int index) {
 		Marble newMarble = new Marble();
+		System.out.println("Picking a marble");
 		if (visibleMarbles.get(index).toString().equals("Red")) { redCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Yellow")) { yellowCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Grey")) { greyCount++; }
@@ -118,7 +137,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		//g.drawString(": " + greyCount);
 		
 		g.drawImage(background, 0, 0, null);
-		g.drawImage(playergui, 0, 0, null);
+		g.drawImage(playergui, 0, -180, null);
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
 		g.setColor(Color.RED);
@@ -161,24 +180,44 @@ public class BoardPanel extends JPanel implements MouseListener{
 		int x = e.getX();
 		int y = e.getY();
 		System.out.println(x + ", " + y);
-		if(bound1.contains(e.getPoint())) {	  
+		if(marbleBound1.contains(e.getPoint())) {	  
 			pickMarble(0, 0);
 		} 
-		else if(bound2.contains(e.getPoint())){
+		else if(marbleBound2.contains(e.getPoint())){
 			pickMarble(0, 1);
 		}
-		else if(bound3.contains(e.getPoint())){
+		else if(marbleBound3.contains(e.getPoint())){
 			pickMarble(0, 2);
 		}
-		else if(bound4.contains(e.getPoint())){
+		else if(marbleBound4.contains(e.getPoint())){
 			pickMarble(0, 3);
 		}
-		else if(bound5.contains(e.getPoint())){
+		else if(marbleBound5.contains(e.getPoint())){
 			pickMarble(0, 4);
 		}
-		else if(bound6.contains(e.getPoint())){
+		else if(marbleBound6.contains(e.getPoint())){
 			pickMarble(0, 5);
 		}
+		else if(gizmoBound1_1.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 first card");		
+		else if(gizmoBound1_2.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 second card");
+		else if(gizmoBound1_3.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 third card");
+		else if(gizmoBound1_4.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 4th card");
+		else if(gizmoBound2_1.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 first card");
+		else if(gizmoBound2_2.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 second card");
+		else if(gizmoBound2_3.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 third card");			
+		else if(gizmoBound3_1.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 first card");
+		else if(gizmoBound3_2.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 second card");
+		else
+			System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
 		repaint();		
 		//for (int i = 0 ; i < visibleMarbles.size() - 1 ; i++) {
 
