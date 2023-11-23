@@ -24,6 +24,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private Rectangle fileBound, pickBound, buildBound, researchBound, archiveBound;
 	private Rectangle upgBound, convertBound;
 	private Rectangle tier1bound, tier2bound, tier3bound;
+	private boolean researched = false;
 
 
 	public BoardPanel() {
@@ -38,6 +39,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
+		tier3bound = new Rectangle(35, 80, 137, 124);
+		tier2bound = new Rectangle(35, 240, 137, 124);
+		tier1bound = new Rectangle(35, 400, 137, 124);
 		marbleBound1 = new Rectangle(941, 249, 21, 21);
 		marbleBound2 = new Rectangle(941, 273, 21, 21);
 		marbleBound3 = new Rectangle(941, 298, 21, 21);
@@ -191,6 +195,20 @@ public class BoardPanel extends JPanel implements MouseListener{
 		}
 		Gizmo firstCard = new Gizmo(gizmoSheet2.getSubimage(2*490, 6*490, 490, 490), 1);
 		g.drawImage(firstCard.getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130, null);
+		if(researched == true){
+			g.fillRect(35, 80, 140, 2);
+			g.fillRect(35, 210, 140, 2);
+			g.fillRect(35, 80, 2, 132);
+			g.fillRect(175, 80, 2, 132);
+			g.fillRect(35, 237, 140, 2);
+			g.fillRect(35, 367, 140, 2);
+			g.fillRect(35, 237, 2, 132);
+			g.fillRect(175, 237, 2, 132);
+			g.fillRect(35, 395, 140, 2);
+			g.fillRect(35, 525, 140, 2);
+			g.fillRect(35, 395, 2, 132);
+			g.fillRect(175, 395, 2, 132);
+		}
 	}
 
 		
@@ -248,6 +266,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Research");
 		else
 			System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
+		if(researchBound.contains(e.getPoint())){
+			researched = true;
+		}
 		repaint();		
 		//for (int i = 0 ; i < visibleMarbles.size() - 1 ; i++) {
 
