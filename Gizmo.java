@@ -11,8 +11,10 @@ public class Gizmo {
 	private BufferedImage gizmoImage;
 	private int tier;
 	private String gizmoColor;
-	public Gizmo(BufferedImage gizmoImage) {
+	public Gizmo(BufferedImage gizmoImage, int t) {
 
+		tier = t;
+		
 		this.gizmoImage = gizmoImage;
 		//System.out.println(new Color(gizmoImage.getRGB(30, 255)));
 		Color temp = new Color(gizmoImage.getRGB(4, 123));

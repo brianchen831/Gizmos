@@ -62,7 +62,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
 			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
-			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));	
+			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet2.jpg"));	
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,33 +71,44 @@ public class BoardPanel extends JPanel implements MouseListener{
 		for (int i = 0 ; i <= 3 ; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
 			for (int j = 0 ; j <= 7 /*why only 3 */ ; j++) {
-				t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
+				t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490), 1));
 			}
 			
 		}
 		for(int j = 0; j <= 3; j++){
-			t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, 4*490, 490, 490)));
+			t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, 4*490, 490, 490), 1));
 		}
 
-		// for(int j = 4; j <= 7; j++){
-		// 	t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, 4*490, 490, 490)));
-		// }
+
+		for(int j = 4; j <= 7; j++){
+			t2Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, 4*490, 490, 490), 2));
+		}
 		for (int i = 5 ; i <= 7; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
-			for (int j = 0 ; j <= 3 ; j++) {
-				t2Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
+			for (int j = 0 ; j <= 7 ; j++) {
+				t2Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490), 2));
 			}
-			//we need to add from sheet2 as well
+			
 		}
-		//for(sheet 2 stuff)
+		for(int j = 0; j <= 6; j++){
+			t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, 0*490, 490, 490), 2));
+		}
+		t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(0*490, 1*490, 490, 490), 2));
 
-		//doesnt work rn
+		
+		for(int j = 1; j <= 6; j++){
+			t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, 1*490, 490, 490), 3));
+		}
 		for (int i = 2 ; i <= 5; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
 			for (int j = 0 ; j <= 6 ; j++) {
-				t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, i*490, 490, 490))); //fix this later
+				t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, i*490, 490, 490), 3)); //fix this later
 			}
 		}
+		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 0*490, 490, 490), 3));
+		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 1*490, 490, 490), 3));
+
+
 		Collections.shuffle(t1Gizmos);
 		Collections.shuffle(t2Gizmos);
 		Collections.shuffle(t3Gizmos);
