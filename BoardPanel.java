@@ -210,23 +210,23 @@ public class BoardPanel extends JPanel implements MouseListener{
 			pickMarble(0, 5);
 		}
 		else if(gizmoBound1_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 first card");		
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 first card");		
 		else if(gizmoBound1_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 second card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 second card");
 		else if(gizmoBound1_3.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 third card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 third card");
 		else if(gizmoBound1_4.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 4th card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 4th card");
 		else if(gizmoBound2_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 first card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 first card");
 		else if(gizmoBound2_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 second card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 second card");
 		else if(gizmoBound2_3.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 third card");			
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 third card");			
 		else if(gizmoBound3_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 first card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 3 first card");
 		else if(gizmoBound3_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 second card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 3 second card");
 		else
 			System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
 		repaint();		
