@@ -23,6 +23,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private Rectangle gizmoBound3_1, gizmoBound3_2;
 	private Rectangle fileBound, pickBound, buildBound, researchBound, archiveBound;
 	private Rectangle upgBound, convertBound;
+	private Rectangle tier1bound, tier2bound, tier3bound;
 
 
 	public BoardPanel() {
@@ -37,6 +38,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
+		tier3bound = new Rectangle(35, 80, 137, 124);
+		tier2bound = new Rectangle(35, 240, 137, 124);
+		tier1bound = new Rectangle(35, 400, 137, 124);
 		marbleBound1 = new Rectangle(941, 249, 21, 21);
 		marbleBound2 = new Rectangle(941, 273, 21, 21);
 		marbleBound3 = new Rectangle(941, 298, 21, 21);
@@ -67,7 +71,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
 			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
-			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));	
+			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet2.jpg"));	
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -76,33 +80,44 @@ public class BoardPanel extends JPanel implements MouseListener{
 		for (int i = 0 ; i <= 3 ; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
 			for (int j = 0 ; j <= 7 /*why only 3 */ ; j++) {
-				t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
+				t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490), 1));
 			}
 			
 		}
 		for(int j = 0; j <= 3; j++){
-			t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, 4*490, 490, 490)));
+			t1Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, 4*490, 490, 490), 1));
 		}
 
+
 		for(int j = 4; j <= 7; j++){
-			t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, 4*490, 490, 490)));
+			t2Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, 4*490, 490, 490), 2));
 		}
 		for (int i = 5 ; i <= 7; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
-			for (int j = 0 ; j <= 3 ; j++) {
-				t2Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490)));
+			for (int j = 0 ; j <= 7 ; j++) {
+				t2Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490), 2));
 			}
-			//we need to add from sheet2 as well
+			
 		}
-		//for(sheet 2 stuff)
+		for(int j = 0; j <= 6; j++){
+			t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, 0*490, 490, 490), 2));
+		}
+		t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(0*490, 1*490, 490, 490), 2));
 
-		//doesnt work rn
+		
+		for(int j = 1; j <= 6; j++){
+			t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, 1*490, 490, 490), 3));
+		}
 		for (int i = 2 ; i <= 5; i++) {
 			//subimage makes it so we dont need 900000 diff images, basically a bitmap, each gizmo is 490x490, if u want to get the image of the 2nd gizmo on the top for example it would be getSubimage(x: 490, y: 0, width: 490, height: 490)
-			for (int j = 0 ; j <= 5 ; j++) {
-				t3Gizmos.add(new Gizmo(gizmoSheet1.getSubimage(j*490, i*490, 490, 490))); //fix this later
+			for (int j = 0 ; j <= 6 ; j++) {
+				t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j*490, i*490, 490, 490), 3)); //fix this later
 			}
 		}
+		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 0*490, 490, 490), 3));
+		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 1*490, 490, 490), 3));
+
+
 		Collections.shuffle(t1Gizmos);
 		Collections.shuffle(t2Gizmos);
 		Collections.shuffle(t3Gizmos);
@@ -177,8 +192,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY() + i, null);
 			i+=25;
 		}
-		Gizmo gm = new Gizmo(gizmoSheet1.getSubimage(4*490, 3*490, 490, 490));
-		g.drawImage(gm.getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130, null);
+		Gizmo firstCard = new Gizmo(gizmoSheet2.getSubimage(2*490, 6*490, 490, 490), 1);
+		g.drawImage(firstCard.getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130, null);
 	}
 
 		
@@ -187,6 +202,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		int x = e.getX();
 		int y = e.getY();
 		System.out.println(x + ", " + y);
+
+		
+
 		if(marbleBound1.contains(e.getPoint())) {	  
 			pickMarble(0, 0);
 		} 
@@ -206,21 +224,21 @@ public class BoardPanel extends JPanel implements MouseListener{
 			pickMarble(0, 5);
 		}
 		else if(gizmoBound1_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 first card");		
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 first card");		
 		else if(gizmoBound1_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 second card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 second card");
 		else if(gizmoBound1_3.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 third card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 third card");
 		else if(gizmoBound1_4.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 1 4th card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 4th card");
 		else if(gizmoBound2_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 first card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 first card");
 		else if(gizmoBound2_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 second card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 second card");
 		else if(gizmoBound2_3.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 2 third card");			
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 third card");			
 		else if(gizmoBound3_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 first card");
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 3 first card");
 		else if(gizmoBound3_2.contains(e.getPoint()))
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 second card");
 		else if(fileBound.contains(e.getPoint()))
