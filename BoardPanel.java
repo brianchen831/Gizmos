@@ -23,6 +23,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private Rectangle gizmoBound3_1, gizmoBound3_2;
 	private Rectangle fileBound, pickBound, buildBound, researchBound, archiveBound;
 	private Rectangle upgBound, convertBound;
+	private Rectangle tier1bound, tier2bound, tier3bound;
 
 
 	public BoardPanel() {
@@ -37,6 +38,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
+		tier3bound = new Rectangle(35, 80, 137, 124);
+		tier2bound = new Rectangle(35, 240, 137, 124);
+		tier1bound = new Rectangle(35, 400, 137, 124);
 		marbleBound1 = new Rectangle(941, 249, 21, 21);
 		marbleBound2 = new Rectangle(941, 273, 21, 21);
 		marbleBound3 = new Rectangle(941, 298, 21, 21);
@@ -191,6 +195,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		int x = e.getX();
 		int y = e.getY();
 		System.out.println(x + ", " + y);
+
+		
+
 		if(marbleBound1.contains(e.getPoint())) {	  
 			pickMarble(0, 0);
 		} 
