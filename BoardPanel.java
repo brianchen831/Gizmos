@@ -38,9 +38,6 @@ public class BoardPanel extends JPanel implements MouseListener{
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
-		tier3bound = new Rectangle(35, 80, 137, 124);
-		tier2bound = new Rectangle(35, 240, 137, 124);
-		tier1bound = new Rectangle(35, 400, 137, 124);
 		marbleBound1 = new Rectangle(941, 249, 21, 21);
 		marbleBound2 = new Rectangle(941, 273, 21, 21);
 		marbleBound3 = new Rectangle(941, 298, 21, 21);
