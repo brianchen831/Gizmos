@@ -11,6 +11,11 @@ public class Gizmo {
 	private BufferedImage gizmoImage;
 	private int tier;
 	private String gizmoColor;
+	private int cost; 
+	private int type;	 // file/convert/upgrade..., very left
+	private int trigger; // specific trigger, left side, use enum
+	private int effect; // right side
+	private int victoryPoint;
 	public Gizmo(BufferedImage gizmoImage) {
 
 		this.gizmoImage = gizmoImage;

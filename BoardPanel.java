@@ -56,6 +56,11 @@ public class BoardPanel extends JPanel implements MouseListener{
 		gizmoBound3_1 = new Rectangle(200, 80, 140, 130);
 		gizmoBound3_2 = new Rectangle(370, 80, 140, 130);
 
+		fileBound = new Rectangle(585, 580, 180, 75);
+		pickBound = new Rectangle(765, 580, 180, 75);
+		buildBound = new Rectangle(930, 580, 180, 75);
+		researchBound = new Rectangle(1095, 580, 120, 75);
+
 		try {
             // Load images
 			marbleDispenser = ImageIO.read(BoardFrame.class.getResource("/images/Dispenser.png"));
@@ -172,6 +177,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY() + i, null);
 			i+=25;
 		}
+		Gizmo gm = new Gizmo(gizmoSheet1.getSubimage(4*490, 3*490, 490, 490));
+		g.drawImage(gm.getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130, null);
 	}
 
 		
@@ -216,6 +223,14 @@ public class BoardPanel extends JPanel implements MouseListener{
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 first card");
 		else if(gizmoBound3_2.contains(e.getPoint()))
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 second card");
+		else if(fileBound.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of File");
+		else if(pickBound.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Pick");
+		else if(buildBound.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Build");
+		else if(researchBound.contains(e.getPoint()))
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of Research");
 		else
 			System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
 		repaint();		
