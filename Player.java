@@ -53,4 +53,7 @@ public class Player {
     }
     //public Gizmo getFiledGizmos() {
     //}
+    public void researchMethod(int tear) {
+
+    }
 }
