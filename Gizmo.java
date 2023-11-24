@@ -56,7 +56,7 @@ public class Gizmo {
 		BuildFromFileII,
 		BuildFromResearch,
 
-		File
+		File,
 	}
 
 	public enum GizmoEffect{
@@ -75,7 +75,18 @@ public class Gizmo {
 		OneMarbleOneResearch,
 		OneMarbleOneArchive,
 		OneVictoryPoint,
-		TwoMarbleOneFileTwoResearch
+		TwoMarbleOneFileTwoResearch,
+
+		DiscountMarbleWhenResearchBuilt,
+		DiscountMarbleWhenFileBuilt,
+		DiscountMarbleWhenT2Built,
+
+		Research,
+		File,
+
+		RestrictFile,
+		RestrictBuild,
+		RestrictResearch,
 
 	}
 
@@ -510,33 +521,97 @@ public class Gizmo {
 			case 68:
 			case 69:
 			case 70:
-			case 90:
+            case 71:
+            case 72:
+            case 73:
+            case 74:
+            case 75:
+            case 76:
+            case 77:
+            case 78:
+            case 79:
+            case 80:
+            case 81:
+            case 82:
+            case 83:
+            case 84:
+            case 85:
+            case 86:
+            case 87:
+            case 88:
+            case 89:
+            case 90:
 			case 91:
 			case 92:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictResearch;
+				cost = 4;
+				victoryPoint = 8;
 			case 93:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictResearch;
+				cost = 4;
+				victoryPoint = 8;
 			case 94:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictFile;
+				cost = 4;
+				victoryPoint = 7;
 			case 95:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictFile;
+				cost = 4;
+				victoryPoint = 7;
 			case 96:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildBlueOrYellow;
+				effect = GizmoEffect.File;
+				cost = 5;
+				victoryPoint = 5;
 			case 97:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildGreyOrRed;
+				effect = GizmoEffect.File;
+				cost = 5;
+				victoryPoint = 5;
 			case 98:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenFileBuilt;
+				cost = 5;
+				victoryPoint = 5;
 			case 99:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenFileBuilt;
+				cost = 5;
+				victoryPoint = 5;
 			case 100:
-				
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenResearchBuilt;
+				cost = 6;
+				victoryPoint = 6;
 			case 101:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
-				//effect = GizmoEffect.
-
+				effect = GizmoEffect.DiscountMarbleWhenResearchBuilt;
+				cost = 6;
+				victoryPoint = 6;
 			case 102:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildYellowOrRed;
-				//effect = GizmoEffect.Research; Brian i think we need a Research enum but you should double check, dont wanna fuck it up
+				effect = GizmoEffect.Research; //potentially did 102 and 103 wrong but double check, its near the end of sheet 2
 				cost = 7;
 				victoryPoint = 7;
 			case 103:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrGrey;
-				//effect = GizmoEffect.Research; Brian i think we need a Research enum but you should double check, dont wanna fuck it up
+				effect = GizmoEffect.Research;
 				cost = 7;
 				victoryPoint = 7;
 			case 104:
