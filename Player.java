@@ -43,9 +43,9 @@ public class Player {
         // the lambda lets you add to an arraylist thats in a treemap with 1000x less effort, if u wanna use ts replace the g with what u need to add and the "File" with a key
     }
     public void addMarble(Marble m) {
-        
+        //System.out.println("Player " + name + " getting a " + m.getMarbleColor() + " marble");
         heldMarbles.add(m);
-
+        marbleCount++;
 
     }
 

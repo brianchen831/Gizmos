@@ -14,6 +14,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private BufferedImage marbleDispenser;
 	private ArrayList<Gizmo> t1Gizmos, t2Gizmos, t3Gizmos;
 	private ArrayList<Marble> visibleMarbles;
+	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
 	private BufferedImage background, playergui, gizmoSheet1, gizmoSheet2;
@@ -22,24 +23,59 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private Rectangle gizmoBound1_1, gizmoBound1_2, gizmoBound1_3, gizmoBound1_4;
 	private Rectangle gizmoBound2_1, gizmoBound2_2, gizmoBound2_3;
 	private Rectangle gizmoBound3_1, gizmoBound3_2;
-	private Rectangle fileBound, pickBound, buildBound, researchBound, archiveBound;
+
 	private Rectangle upgBound, convertBound;
 	private Rectangle tier1bound, tier2bound, tier3bound;
+	private Rectangle fileBound, pickBound, buildBound, researchBound;
+	private ArrayList<Rectangle> upgradeBoundList, convertBoundList, fileBoundList, pickBoundList, buildBoundList, archiveBoundList;
+	private Rectangle nextPlayerBound; //temporary rectangle for player to click to give up the turn to the next player
+	private int totalPlayers; // 4 players for the game
+	private int currentPlayer;
+
 	private boolean researched = false;
 	private Gizmo firstCard;
 
 	public BoardPanel() {
 		players = new ArrayList<>();
+		totalPlayers = 4;
+		currentPlayer = 0;
 		visibleMarbles = new ArrayList<>();
+		marbles = new ArrayList<>();
 		t1Gizmos = new ArrayList<>();
 		t2Gizmos = new ArrayList<>();
 		t3Gizmos = new ArrayList<>();
+
+		upgradeBoundList = new ArrayList<>();
+		convertBoundList = new ArrayList<>();
+		fileBoundList = new ArrayList<>();
+		pickBoundList = new ArrayList<>();
+		buildBoundList = new ArrayList<>();
+		archiveBoundList = new ArrayList<>();
+
 		int temp = 0;
+		String marbleColor = "";
+		for (int i = 0 ; i < 4 ; i++) {
+			if(i == 0)
+				marbleColor = "Red";
+			else if(i == 1)
+				marbleColor = "Yellow";
+			else if(i == 2)
+				marbleColor = "Blue";
+			else
+				marbleColor = "Grey";
+			for(int j = 0; j < 13; j++){
+				Marble m = new Marble(marbleColor);
+				marbles.add(m);	
+			}
+								
+		}
+		Collections.shuffle(marbles);
 		for (int i = 0 ; i < 6 ; i++) {
-			Marble marble = new Marble();			
+			Marble marble = marbles.remove(0);			
 			visibleMarbles.add(marble);
 			temp+=25;
 		}
+		nextPlayerBound = new Rectangle(1800, 900, 100, 100);
 		tier3bound = new Rectangle(35, 80, 137, 124);
 		tier2bound = new Rectangle(35, 240, 137, 124);
 		tier1bound = new Rectangle(35, 400, 137, 124);
@@ -62,10 +98,19 @@ public class BoardPanel extends JPanel implements MouseListener{
 		gizmoBound3_1 = new Rectangle(200, 80, 140, 130);
 		gizmoBound3_2 = new Rectangle(370, 80, 140, 130);
 
+		upgBound = new Rectangle(240, 580, 165, 75);
+		convertBound = new Rectangle(405, 580, 180, 75);
 		fileBound = new Rectangle(585, 580, 180, 75);
 		pickBound = new Rectangle(765, 580, 180, 75);
 		buildBound = new Rectangle(930, 580, 180, 75);
 		researchBound = new Rectangle(1095, 580, 120, 75);
+
+		upgradeBoundList.add(new Rectangle(upgBound.x + 10, upgBound.y + upgBound.height, 143, 130));
+		convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height, 143, 130));
+		fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height, 143, 130));
+		pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height, 143, 130));
+		buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height, 143, 130));
+		archiveBoundList.add(new Rectangle(1215, buildBound.y + buildBound.height, 143, 130));
 
 		try {
             // Load images
@@ -123,19 +168,26 @@ public class BoardPanel extends JPanel implements MouseListener{
 		Collections.shuffle(t1Gizmos);
 		Collections.shuffle(t2Gizmos);
 		Collections.shuffle(t3Gizmos);
-		players.add(new Player("Mark"));
+		players.add(new Player("A"));
+		players.add(new Player("B"));
+		players.add(new Player("C"));
+		players.add(new Player("D"));
 		addMouseListener(this);
 		firstDraw = true;
 	}
-	public void pickMarble(int playerNum, int index) {
-		Marble newMarble = new Marble();
-		System.out.println("Picking a marble");
+	public void pickMarble(int index, String color) {
+		// Marble newMarble = new Marble(color);
+
 		if (visibleMarbles.get(index).toString().equals("Red")) { redCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Yellow")) { yellowCount++; }
 		else if (visibleMarbles.get(index).toString().equals("Grey")) { greyCount++; }
 		else { blueCount++; }
-    	players.get(playerNum).addMarble(visibleMarbles.remove(index));
-		visibleMarbles.add(0, newMarble); 
+		// players.get(playerNum).addMarble(visibleMarbles.remove(index));
+		// visibleMarbles.add(0, newMarble); 
+    	players.get(currentPlayer).addMarble(visibleMarbles.remove(index));
+		visibleMarbles.add(marbles.remove(0));
+		
+		System.out.println("Picking a " + color + " marble with " + marbles.size() + " marbles left in the dispenser");
     	repaint();
 	}
 	
@@ -209,6 +261,12 @@ public class BoardPanel extends JPanel implements MouseListener{
 			g.fillRect(35, 395, 2, 132);
 			g.fillRect(175, 395, 2, 132);
 		}
+
+		g.drawRect(nextPlayerBound.x, nextPlayerBound.y, nextPlayerBound.width, nextPlayerBound.height);
+		Player p = players.get(currentPlayer);
+		g.drawString(p.getName(), nextPlayerBound.x + 25, nextPlayerBound.y + 30);
+		g.drawString("Next", nextPlayerBound.x + 25, nextPlayerBound.y + 60);
+
 	}
 
 		
@@ -219,24 +277,24 @@ public class BoardPanel extends JPanel implements MouseListener{
 		System.out.println(x + ", " + y);
 
 		
-
+ 
 		if(marbleBound1.contains(e.getPoint())) {	  
-			pickMarble(0, 0);
+			pickMarble(0, visibleMarbles.get(0).getMarbleColor());
 		} 
 		else if(marbleBound2.contains(e.getPoint())){
-			pickMarble(0, 1);
+			pickMarble(1, visibleMarbles.get(1).getMarbleColor());
 		}
 		else if(marbleBound3.contains(e.getPoint())){
-			pickMarble(0, 2);
+			pickMarble(2, visibleMarbles.get(2).getMarbleColor());
 		}
 		else if(marbleBound4.contains(e.getPoint())){
-			pickMarble(0, 3);
+			pickMarble(3, visibleMarbles.get(3).getMarbleColor());
 		}
 		else if(marbleBound5.contains(e.getPoint())){
-			pickMarble(0, 4);
+			pickMarble(4, visibleMarbles.get(4).getMarbleColor());
 		}
 		else if(marbleBound6.contains(e.getPoint())){
-			pickMarble(0, 5);
+			pickMarble(5, visibleMarbles.get(5).getMarbleColor());
 		}
 		else if(gizmoBound1_1.contains(e.getPoint())){
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 first card");
@@ -267,27 +325,38 @@ public class BoardPanel extends JPanel implements MouseListener{
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Build");
 		else if(researchBound.contains(e.getPoint()))
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Research");
+		else if(nextPlayerBound.contains(e.getPoint())) {	  
+			Player p = players.get(currentPlayer);
+			
+			currentPlayer++;
+			currentPlayer = currentPlayer % 4;
+			p = players.get(currentPlayer);
+			System.out.println("Next player: " + p.getName());
+			redCount = yellowCount = blueCount = greyCount = 0;
+			for(int i = 0; i < p.getHeldMarbles().size(); i++)
+			{
+				Marble m = p.getHeldMarbles().get(i);
+				System.out.println("Player " + p.getName() + " marble " + m.getMarbleColor());
+				if(m.getMarbleColor() == "Red")
+					redCount++;
+				else if(m.getMarbleColor() == "Yellow")
+					yellowCount++;
+				else if(m.getMarbleColor() == "Blue")
+					blueCount++;
+				else
+					greyCount++;
+			}
+			System.out.println("Current player: " + p.getName() + " has " + p.getHeldMarbles().size() + " marbles");
+			System.out.println("Red: " + redCount + " Yellow: " + yellowCount + " Blue: " + blueCount + " Grey: " + greyCount);
+		}
 		else
 			System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
 		if(researchBound.contains(e.getPoint())){
 			researched = true;
 		}
 		repaint();		
-		//for (int i = 0 ; i < visibleMarbles.size() - 1 ; i++) {
-
-			//if (visibleMarbles.get(i).getMarbleBounds().contains(e.getPoint())) {
-				//System.out.println(visibleMarbles.get(i).getMarbleBounds());
-				//pickMarble(0, i);
-				//repaint();
-				//break;
 	}
 
-		//}	
-		
-		//repaint();
-		//System.out.println(players.get(0).getHeldMarbles());
-		
-	//}
 	@Override
 	public void mousePressed(MouseEvent e) {
 
