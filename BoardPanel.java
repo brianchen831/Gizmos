@@ -185,7 +185,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		// players.get(playerNum).addMarble(visibleMarbles.remove(index));
 		// visibleMarbles.add(0, newMarble); 
     	players.get(currentPlayer).addMarble(visibleMarbles.remove(index));
-		visibleMarbles.add(marbles.remove(0));
+		visibleMarbles.add(0, marbles.remove(0));
 		
 		System.out.println("Picking a " + color + " marble with " + marbles.size() + " marbles left in the dispenser");
     	repaint();
