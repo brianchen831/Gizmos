@@ -92,18 +92,17 @@ public class Gizmo {
 	private static int IDNum;
 	private int ID;
 
-	public Gizmo(BufferedImage gizmoImage, int t) { //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
+	public Gizmo(BufferedImage gizmoImage, int t){ //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
 
 	 	IDNum++;
 	    ID = IDNum;
 		tier = t;
 		this.gizmoImage = gizmoImage;
-		//System.out.println(new Color(gizmoImage.getRGB(30, 255)));
-		Color temp = new Color(gizmoImage.getRGB(4, 123));
-        if (temp==new Color(55, 55, 55)) { color="Grey"; }
-		else if (temp==new Color(170, 28, 35)) { color="Red"; }
-		else if (temp==new Color(222, 175, 31)) { color="Yellow"; }
-		else if (temp==new Color(56, 95, 163)) { color="Blue"; }
+		color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
+        // if (temp=="Gray") { color="Grey"; System.out.println("Grey");}
+		// else if (temp=="Red") { color="Red"; System.out.println("Red");}
+		// else if (temp=="Yellow") { color="Yellow"; System.out.println("Yellow");}
+		// else if (temp=="Blue") { color="Blue"; System.out.println("Blue");}
 		victoryPoint = 1;  //default to 1 unless not
 		cost = 1; //default to 1 unless not
 		AssignProperties();
@@ -511,6 +510,40 @@ public class Gizmo {
 			case 68:
 			case 69:
 			case 70:
+			case 90:
+			case 91:
+			case 92:
+			case 93:
+			case 94:
+			case 95:
+			case 96:
+			case 97:
+			case 98:
+			case 99:
+			case 100:
+				
+			case 101:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				//effect = GizmoEffect.
+
+			case 102:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildYellowOrRed;
+				//effect = GizmoEffect.Research; Brian i think we need a Research enum but you should double check, dont wanna fuck it up
+				cost = 7;
+				victoryPoint = 7;
+			case 103:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildBlueOrGrey;
+				//effect = GizmoEffect.Research; Brian i think we need a Research enum but you should double check, dont wanna fuck it up
+				cost = 7;
+				victoryPoint = 7;
+			case 104:
+			case 105:
+			case 106:
+			case 107:
+			case 108:
 		}
 	}
 //CONTINUE THIS STUFF DEBARSHI AND MARK
