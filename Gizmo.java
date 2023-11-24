@@ -34,10 +34,11 @@ public class Gizmo {
 		PickYellow,
 		PickBlue,
 		PickYellowOrRed,
+		PickYellowOrGrey,
 		PickYellowOrBlue,
-		PickBlueOrBlack,
+		PickRedOrGrey,
 		PickRedOrBlue,
-		PickBlueAndBlue,
+		PickGreyOrBlue,
 		PickAny,
 
 		BuildGrey,
@@ -60,7 +61,7 @@ public class Gizmo {
 
 	public enum GizmoEffect{
 		AnyMarble,
-		BlindMarble,
+		DrawMarble,
 		AnyTwoMarble,
 		TwoYellowMarble,
 		TwoRedMarble,
@@ -68,13 +69,12 @@ public class Gizmo {
 		TwoBlueMarble,
 		PickAny,
 		PickAnyTwo,
-		PickBlind,
 		PickTwoBlue,
 		PickTwoGrey,
 		PickTwo,
-		OneMoreMarbleAndResearch,
-		OneMoreMarbleAndFile,
-		OneMoreVictoryPoint,
+		OneMarbleOneResearch,
+		OneMarbleOneArchive,
+		OneVictoryPoint,
 		TwoMarbleOneFileTwoResearch
 
 	}
@@ -150,93 +150,367 @@ public class Gizmo {
 		switch(ID)
 	    {
 			case 0:
-
+				//starting gizmo 
 				break;
-
 			case 1:
-			case 6:
-				type = GizmoType.CONVERT;			
+				type = GizmoType.CONVERT;
 				trigger = GizmoTgr.YellowMarble;
-				effect = GizmoEffect.AnyMarble;				
+				effect = GizmoEffect.AnyMarble;
 				break;
 			case 2:
-			case 5:
 				type = GizmoType.CONVERT;
 				trigger = GizmoTgr.RedMarble;
 				effect = GizmoEffect.AnyMarble;
 				break;
 			case 3:
-			case 8:
 				type = GizmoType.CONVERT;
-				trigger = GizmoTgr.GreyMarble;
 				effect = GizmoEffect.AnyMarble;
+				trigger = GizmoTgr.GreyMarble;
 				break;
 			case 4:
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.AnyMarble;
+				trigger = GizmoTgr.BlueMarble;
+				break;
+			case 5:
+				type = GizmoType.CONVERT;
+				trigger = GizmoTgr.RedMarble;
+				effect = GizmoEffect.AnyMarble;
+				break;
+			case 6:
+				type = GizmoType.CONVERT;			
+				trigger = GizmoTgr.YellowMarble;
+				effect = GizmoEffect.AnyMarble;				
+				break;
 			case 7:
 				type = GizmoType.CONVERT;
 				trigger = GizmoTgr.BlueMarble;
 				effect = GizmoEffect.AnyMarble;
+				break;
+			case 8:
+				type = GizmoType.CONVERT;
+				trigger = GizmoTgr.GreyMarble;
+				effect = GizmoEffect.AnyMarble;
 				break;								
-	
-
 			case 9:
-			case 15:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.BlueMarble;
-				effect = GizmoEffect.BlindMarble;
+				effect = GizmoEffect.DrawMarble;
+				trigger = GizmoTgr.PickBlue;
 				break;
 			case 10:
-			case 16:
+				trigger = GizmoTgr.PickRed;
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.RedMarble;
-				effect = GizmoEffect.BlindMarble;
+				effect = GizmoEffect.DrawMarble;
 				break;
 			case 11:
+				trigger = GizmoTgr.PickYellow;
+				type = GizmoType.PICK;
+				effect = GizmoEffect.DrawMarble;
+				break;
+			case 12:
+				trigger = GizmoTgr.PickGrey;
+				type = GizmoType.PICK;
+				effect = GizmoEffect.DrawMarble;
+				break;
 			case 13:
 				type = GizmoType.PICK;
 				trigger = GizmoTgr.YellowMarble;
-				effect = GizmoEffect.BlindMarble;
+				effect = GizmoEffect.DrawMarble;
 				break;
-			case 12:
 			case 14:
 				type = GizmoType.PICK;
 				trigger = GizmoTgr.GreyMarble;
-				effect = GizmoEffect.BlindMarble;
+				effect = GizmoEffect.DrawMarble;
 				break;
-
-
-
-
+			case 15:
+				type = GizmoType.PICK;
+				trigger = GizmoTgr.BlueMarble;
+				effect = GizmoEffect.DrawMarble;
+				break;
+			case 16:
+				type = GizmoType.PICK;
+				trigger = GizmoTgr.RedMarble;
+				effect = GizmoEffect.DrawMarble;
+				break;
 			case 17:
+				type = GizmoType.FILE;
+				trigger = GizmoTgr.File;
+				effect = GizmoEffect.PickAny;
+				break;
 			case 18:
+				type = GizmoType.FILE;
+				trigger = GizmoTgr.File;
+				effect = GizmoEffect.PickAny;
+				break;
 			case 19:
+				type = GizmoType.FILE;
+				trigger = GizmoTgr.File;
+				effect = GizmoEffect.PickAny;
+				break;
 			case 20:
 				type = GizmoType.FILE;
 				trigger = GizmoTgr.File;
 				effect = GizmoEffect.PickAny;
 				break;
 			case 21:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.OneMarbleOneResearch;
+				break;
 			case 22:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.OneMarbleOneResearch;
+				break;
 			case 23:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.OneMarbleOneResearch;
+				break;
 			case 24:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
-				effect = GizmoEffect.OneMoreMarbleAndResearch;
+				effect = GizmoEffect.OneMarbleOneResearch;
 				break;
-
 			case 25:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.OneMarbleOneArchive;
+				break;
 			case 26:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.OneMarbleOneArchive;
+				break;
 			case 27:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.OneMarbleOneArchive;
+				break;
 			case 28:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
-				effect = GizmoEffect.OneMoreMarbleAndFile;
+				effect = GizmoEffect.OneMarbleOneArchive;
 				break;
 			case 29:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlue;
 				effect = GizmoEffect.PickAny;
 				break;
+			case 30:
+				trigger = GizmoTgr.BuildYellow;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.PickAny;
+				break;
+			case 31:
+				trigger = GizmoTgr.BuildGrey;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.PickAny;
+				break;
+			case 32:
+				trigger = GizmoTgr.BuildRed;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.PickAny;
+				break;
+			case 33:
+				trigger = GizmoTgr.BuildRed;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.OneVictoryPoint;
+				break;
+			case 34:
+				trigger = GizmoTgr.BuildGrey;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.OneVictoryPoint;
+				break;
+			case 35:
+				trigger = GizmoTgr.BuildYellow;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.OneVictoryPoint;
+				break;
+			case 36:
+				trigger = GizmoTgr.BuildBlue;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.OneVictoryPoint;
+				break;
+			case 37:
+				//TIER TWOS NOW
+				trigger = GizmoTgr.none;
+				type = GizmoType.UPGRADE;
+				effect = GizmoEffect.TwoMarbleOneFileTwoResearch;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 38:
+				trigger = GizmoTgr.none;
+				type = GizmoType.UPGRADE;
+				effect = GizmoEffect.TwoMarbleOneFileTwoResearch;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 39:
+				trigger = GizmoTgr.none;
+				type = GizmoType.UPGRADE;
+				effect = GizmoEffect.TwoMarbleOneFileTwoResearch;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 40:
+				trigger = GizmoTgr.none;
+				type = GizmoType.UPGRADE;
+				effect = GizmoEffect.TwoMarbleOneFileTwoResearch;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 41:
+				trigger = GizmoTgr.BuildFromFile;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.PickAnyTwo;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 42:
+				trigger = GizmoTgr.BuildFromFile;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.PickAnyTwo;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 43:
+				trigger = GizmoTgr.BuildFromFile;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.PickAnyTwo;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 44:
+				trigger = GizmoTgr.BuildFromFile;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.PickAnyTwo;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 45:
+				trigger = GizmoTgr.PickYellowOrRed;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.DrawMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 46:
+				trigger = GizmoTgr.PickYellowOrGrey;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.DrawMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 47:
+				trigger = GizmoTgr.PickGreyOrBlue;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.DrawMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 48:
+				trigger = GizmoTgr.PickRedOrBlue;
+				type = GizmoType.BUILD;
+				effect = GizmoEffect.DrawMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 49:
+				trigger = GizmoTgr.BlueAndBlueMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.AnyTwoMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 50:
+				trigger = GizmoTgr.GreyAndGreyMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.AnyTwoMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 51:
+				trigger = GizmoTgr.YellowAndYellowMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.AnyTwoMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 52:
+				trigger = GizmoTgr.RedAndRedMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.AnyTwoMarble;
+				cost = 2;
+				victoryPoint = 2;
+				break;
+			case 53:
+				trigger = GizmoTgr.YellowMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoYellowMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 54:
+				trigger = GizmoTgr.RedMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoRedMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 55:
+				trigger = GizmoTgr.BlueMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoBlueMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 56:
+				trigger = GizmoTgr.GreyMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoGreyMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 57:
+				trigger = GizmoTgr.RedMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoRedMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 58:
+				trigger = GizmoTgr.YellowMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoYellowMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 59:
+				trigger = GizmoTgr.GreyMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoGreyMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 60:
+				trigger = GizmoTgr.BlueMarble;
+				type = GizmoType.CONVERT;
+				effect = GizmoEffect.TwoBlueMarble;
+				cost = 3;
+				victoryPoint = 3;
+				break;
+			case 61:
+			case 62:
+			case 63:
+			case 64:
+			case 65:
+			case 66:
+			case 67:
+			case 68:
+			case 69:
+			case 70:
 		}
 	}
 //CONTINUE THIS STUFF DEBARSHI AND MARK
