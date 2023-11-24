@@ -100,6 +100,7 @@ public class Gizmo {
 		this.gizmoImage = gizmoImage;
 		//System.out.println(new Color(gizmoImage.getRGB(30, 255)));
 		Color temp = new Color(gizmoImage.getRGB(4, 123));
+		System.out.println("color: " + temp);
         if (temp==new Color(55, 55, 55)) { color="Grey"; }
 		else if (temp==new Color(170, 28, 35)) { color="Red"; }
 		else if (temp==new Color(222, 175, 31)) { color="Yellow"; }
