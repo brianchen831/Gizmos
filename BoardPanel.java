@@ -25,7 +25,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private Rectangle upgBound, convertBound;
 	private Rectangle tier1bound, tier2bound, tier3bound;
 	private boolean researched = false;
-
+	private Gizmo firstCard;
 
 	public BoardPanel() {
 		players = new ArrayList<>();
@@ -118,7 +118,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 0*490, 490, 490), 3));
 		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 1*490, 490, 490), 3));
 
-
+		firstCard = new Gizmo(gizmoSheet2.getSubimage(2*490, 6*490, 490, 490), 0);
 		Collections.shuffle(t1Gizmos);
 		Collections.shuffle(t2Gizmos);
 		Collections.shuffle(t3Gizmos);
@@ -193,7 +193,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY() + i, null);
 			i+=25;
 		}
-		Gizmo firstCard = new Gizmo(gizmoSheet2.getSubimage(2*490, 6*490, 490, 490), 1);
+
 		g.drawImage(firstCard.getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130, null);
 		if(researched == true){
 			g.fillRect(35, 80, 140, 2);
