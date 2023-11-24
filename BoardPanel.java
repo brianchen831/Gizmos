@@ -8,6 +8,7 @@ import static java.lang.System.*;
 import javax.swing.*;
 
 
+
 public class BoardPanel extends JPanel implements MouseListener{
 	
 	private BufferedImage marbleDispenser;
@@ -170,22 +171,21 @@ public class BoardPanel extends JPanel implements MouseListener{
 		g.setColor(Color.YELLOW);
 		g.drawString(":" + yellowCount, 142, 872);
 		int temp = 0;
-		for (Gizmo x : t1Gizmos) {
-			g.drawImage(x.getImage(), 200 + temp, 390, 143, 130, null);
+		for (int i = 0; i < 4; i++) {
+			g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
 			temp+=170;
-			if (temp > 510) { break; }
 		}
 		temp = 0;
-		for (Gizmo x : t2Gizmos) {
-			g.drawImage(x.getImage(), 200 + temp, 235, 143, 130, null);
+
+		for (int i = 0; i < 3; i++) {
+			g.drawImage(t2Gizmos.get(i).getImage(), 200 + temp, 235, 143, 130, null);
 			temp+=170;
-			if (temp > 340) { break; }  
+			//if (temp > 340) { break; }  
 		}
 		temp = 0;
-		for (Gizmo x : t3Gizmos) {
-			g.drawImage(x.getImage(), 200 + temp, 80, 143, 130, null);
+		for (int i = 0; i < 2; i++) {
+			g.drawImage(t3Gizmos.get(i).getImage(), 200 + temp, 80, 143, 130, null);
 			temp+=170;
-			if (temp > 170) { break; }  
 		}
 		int i = 0;
 		for (Marble m : visibleMarbles) {
@@ -238,8 +238,11 @@ public class BoardPanel extends JPanel implements MouseListener{
 		else if(marbleBound6.contains(e.getPoint())){
 			pickMarble(0, 5);
 		}
-		else if(gizmoBound1_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 first card");		
+		else if(gizmoBound1_1.contains(e.getPoint())){
+			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 first card");
+			System.out.println(t1Gizmos.get(0).getType());
+		}
+					
 		else if(gizmoBound1_2.contains(e.getPoint()))
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 second card");
 		else if(gizmoBound1_3.contains(e.getPoint()))

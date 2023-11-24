@@ -7,76 +7,80 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
-enum GizmoType {
-    CONVERT,
-    PICK,
-    BUILD,
-	FILE,
-    UPGRADE
-}
-
-enum GizmoTgr {
-	none,
-	GreyMarble,
-	RedMarble,
-	YellowMarble,
-	BlueMarble,
-	BlueAndBlueMarble,
-	GreyAndGreyMarble,
-	YellowAndYellowMarble,
-	RedAndRedMarble,
-	AnyMarble,
-
-	PickGrey,
-	PickRed,
-	PickYellow,
-	PickBlue,
-	PickYellowOrRed,
-	PickYellowOrBlue,
-	PickBlueOrBlack,
-	PickRedOrBlue,
-	PickBlueAndBlue,
-	PickAny,
-
-	BuildGrey,
-	BuildRed,
-	BuildYellow,
-	BuildBlue,
-	BuildYellowOrGrey,
-	BuildYellowOrRed,
-	BuildBlueOrGrey,
-	BuildBlueOrRed,
-	BuildBlueOrYellow,
-	BuildGreyOrRed,
-	BuildGreyOrYellow,
-	BuildFromFile,
-	BuildFromFileII,
-	BuildFromResearch,
-
-	File
-}
-
-enum GizmoEffect{
-	AnyMarble,
-	BlindMarble,
-	AnyTwoMarble,
-	TwoYellowMarble,
-	TwoRedMarble,
-	TwoGreyMarble,
-	TwoBlueMarble,
-	PickAny,
-	PickAnyTwo,
-	PickBlind,
-	PickTwoBlue,
-	PickTwoGrey,
-	PickTwo,
-	OneMoreMarbleAndResearch,
-	OneMoreMarbleAndFile,
-	OneMoreVictoryPoint,
-	TwoMarbleOneFileTwoResearch
-
-}
 public class Gizmo {
+
+	public enum GizmoType {
+		CONVERT,
+		PICK,
+		BUILD,
+		FILE,
+		UPGRADE
+	}
+
+	public enum GizmoTgr {
+		none,
+		GreyMarble,
+		RedMarble,
+		YellowMarble,
+		BlueMarble,
+		BlueAndBlueMarble,
+		GreyAndGreyMarble,
+		YellowAndYellowMarble,
+		RedAndRedMarble,
+		AnyMarble,
+
+		PickGrey,
+		PickRed,
+		PickYellow,
+		PickBlue,
+		PickYellowOrRed,
+		PickYellowOrBlue,
+		PickBlueOrBlack,
+		PickRedOrBlue,
+		PickBlueAndBlue,
+		PickAny,
+
+		BuildGrey,
+		BuildRed,
+		BuildYellow,
+		BuildBlue,
+		BuildYellowOrGrey,
+		BuildYellowOrRed,
+		BuildBlueOrGrey,
+		BuildBlueOrRed,
+		BuildBlueOrYellow,
+		BuildGreyOrRed,
+		BuildGreyOrYellow,
+		BuildFromFile,
+		BuildFromFileII,
+		BuildFromResearch,
+
+		File
+	}
+
+	public enum GizmoEffect{
+		AnyMarble,
+		BlindMarble,
+		AnyTwoMarble,
+		TwoYellowMarble,
+		TwoRedMarble,
+		TwoGreyMarble,
+		TwoBlueMarble,
+		PickAny,
+		PickAnyTwo,
+		PickBlind,
+		PickTwoBlue,
+		PickTwoGrey,
+		PickTwo,
+		OneMoreMarbleAndResearch,
+		OneMoreMarbleAndFile,
+		OneMoreVictoryPoint,
+		TwoMarbleOneFileTwoResearch
+
+	}
+
+
+
 	private BufferedImage gizmoImage;
 	private int tier;
 	private String gizmoColor;
@@ -108,9 +112,13 @@ public class Gizmo {
 	public BufferedImage getImage() {
 
 		return gizmoImage;
+	}
 
+	public GizmoType getType(){
+		return type;
 	}
 	private void AssignProperties(){
+		
 		// switch (ID) {
         //     case 0:  System.out.println(ID + "  tier: " + tier);
         //              break; 
