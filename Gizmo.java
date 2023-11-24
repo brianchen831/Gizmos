@@ -56,7 +56,7 @@ public class Gizmo {
 		BuildFromFileII,
 		BuildFromResearch,
 
-		File
+		File,
 	}
 
 	public enum GizmoEffect{
@@ -75,7 +75,18 @@ public class Gizmo {
 		OneMarbleOneResearch,
 		OneMarbleOneArchive,
 		OneVictoryPoint,
-		TwoMarbleOneFileTwoResearch
+		TwoMarbleOneFileTwoResearch,
+
+		DiscountMarbleWhenResearchBuilt,
+		DiscountMarbleWhenFileBuilt,
+		DiscountMarbleWhenT2Built,
+
+		Research,
+		File,
+
+		RestrictFile,
+		RestrictBuild,
+		RestrictResearch,
 
 	}
 
@@ -92,19 +103,17 @@ public class Gizmo {
 	private static int IDNum;
 	private int ID;
 
-	public Gizmo(BufferedImage gizmoImage, int t) { //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
+	public Gizmo(BufferedImage gizmoImage, int t){ //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
 
 	 	IDNum++;
 	    ID = IDNum;
 		tier = t;
 		this.gizmoImage = gizmoImage;
-		//System.out.println(new Color(gizmoImage.getRGB(30, 255)));
-		Color temp = new Color(gizmoImage.getRGB(4, 123));
-		System.out.println("color: " + temp);
-        if (temp==new Color(55, 55, 55)) { color="Grey"; }
-		else if (temp==new Color(170, 28, 35)) { color="Red"; }
-		else if (temp==new Color(222, 175, 31)) { color="Yellow"; }
-		else if (temp==new Color(56, 95, 163)) { color="Blue"; }
+		color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
+        // if (temp=="Gray") { color="Grey"; System.out.println("Grey");}
+		// else if (temp=="Red") { color="Red"; System.out.println("Red");}
+		// else if (temp=="Yellow") { color="Yellow"; System.out.println("Yellow");}
+		// else if (temp=="Blue") { color="Blue"; System.out.println("Blue");}
 		victoryPoint = 1;  //default to 1 unless not
 		cost = 1; //default to 1 unless not
 		AssignProperties();
@@ -512,6 +521,104 @@ public class Gizmo {
 			case 68:
 			case 69:
 			case 70:
+            case 71:
+            case 72:
+            case 73:
+            case 74:
+            case 75:
+            case 76:
+            case 77:
+            case 78:
+            case 79:
+            case 80:
+            case 81:
+            case 82:
+            case 83:
+            case 84:
+            case 85:
+            case 86:
+            case 87:
+            case 88:
+            case 89:
+            case 90:
+			case 91:
+			case 92:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictResearch;
+				cost = 4;
+				victoryPoint = 8;
+			case 93:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictResearch;
+				cost = 4;
+				victoryPoint = 8;
+			case 94:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictFile;
+				cost = 4;
+				victoryPoint = 7;
+			case 95:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictFile;
+				cost = 4;
+				victoryPoint = 7;
+			case 96:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildBlueOrYellow;
+				effect = GizmoEffect.File;
+				cost = 5;
+				victoryPoint = 5;
+			case 97:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildGreyOrRed;
+				effect = GizmoEffect.File;
+				cost = 5;
+				victoryPoint = 5;
+			case 98:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenFileBuilt;
+				cost = 5;
+				victoryPoint = 5;
+			case 99:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenFileBuilt;
+				cost = 5;
+				victoryPoint = 5;
+			case 100:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenResearchBuilt;
+				cost = 6;
+				victoryPoint = 6;
+			case 101:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenResearchBuilt;
+				cost = 6;
+				victoryPoint = 6;
+			case 102:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildYellowOrRed;
+				effect = GizmoEffect.Research; //potentially did 102 and 103 wrong but double check, its near the end of sheet 2
+				cost = 7;
+				victoryPoint = 7;
+			case 103:
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildBlueOrGrey;
+				effect = GizmoEffect.Research;
+				cost = 7;
+				victoryPoint = 7;
+			case 104:
+			case 105:
+			case 106:
+			case 107:
+			case 108:
 		}
 	}
 //CONTINUE THIS STUFF DEBARSHI AND MARK
