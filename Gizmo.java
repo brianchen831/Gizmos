@@ -72,12 +72,12 @@ public class Gizmo {
 		TwoRedMarble,
 		TwoGreyMarble,
 		TwoBlueMarble,
-		TwoYellowAndRed,
-		TwoYellowAndGrey,
-		TwoYellowAndBlue,
-		TwoRedAndGrey,
-		TwoRedAndBlue,
-		TwoGreyAndBlue,
+		TwoYellowOrRed,
+		TwoYellowOrGrey,
+		TwoYellowOrBlue,
+		TwoRedOrGrey,
+		TwoRedOrBlue,
+		TwoGreyOrBlue,
 		
 		PickAny,
 		PickAnyTwo,
@@ -640,15 +640,15 @@ public class Gizmo {
 				break;
 			case 76:
 				type = GizmoType.CONVERT;
-				trigger = GizmoTgr.BlueAndYellow;
-				effect = GizmoEffect.TwoYellowAndBlue;
+				trigger = GizmoTgr.BlueOrYellow;
+				effect = GizmoEffect.TwoYellowOrBlue;
 				cost = 5;
 				victoryPoint = 5;
 				break;
 			case 77:
 				type = GizmoType.CONVERT;
-				trigger = GizmoTgr.RedAndGrey;
-				effect = GizmoEffect.TwoRedAndGrey;
+				trigger = GizmoTgr.RedOrGrey;
+				effect = GizmoEffect.TwoRedOrGrey;
 				cost = 5;
 				victoryPoint = 5;
 				break;
