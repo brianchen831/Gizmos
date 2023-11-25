@@ -35,17 +35,21 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private int currentPlayer;
 
 	private boolean researched = false;
-	private Gizmo firstCard;
+	private ArrayList<Gizmo> firstCard;
+
+	private Gizmo selectedPrivateGizmo;
 
 	public BoardPanel() {
 		players = new ArrayList<>();
 		totalPlayers = 4;
 		currentPlayer = 0;
+		selectedPrivateGizmo = null;
 		visibleMarbles = new ArrayList<>();
 		marbles = new ArrayList<>();
 		t1Gizmos = new ArrayList<>();
 		t2Gizmos = new ArrayList<>();
 		t3Gizmos = new ArrayList<>();
+		firstCard = new ArrayList<>();
 
 		upgradeBoundList = new ArrayList<>();
 		convertBoundList = new ArrayList<>();
@@ -167,15 +171,24 @@ public class BoardPanel extends JPanel implements MouseListener{
 		}
 		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 0*490, 490, 490), 3));
 		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6*490, 1*490, 490, 490), 3));
+		for(int i = 0; i < 4; i++)
+			firstCard.add(new Gizmo(gizmoSheet2.getSubimage(2*490, 6*490, 490, 490), 0));
 
-		firstCard = new Gizmo(gizmoSheet2.getSubimage(2*490, 6*490, 490, 490), 0);
 		Collections.shuffle(t1Gizmos);
 		Collections.shuffle(t2Gizmos);
 		Collections.shuffle(t3Gizmos);
-		players.add(new Player("A"));
-		players.add(new Player("B"));
-		players.add(new Player("C"));
-		players.add(new Player("D"));
+		Player p1 = new Player("A");
+		p1.addFileGizmo(firstCard.get(0));
+		players.add(p1);
+		Player p2 = new Player("B");
+		p2.addFileGizmo(firstCard.get(1));
+		players.add(p2);
+		Player p3 = new Player("C");
+		p3.addFileGizmo(firstCard.get(2));
+		players.add(p3);
+		Player p4 = new Player("D");
+		p4.addFileGizmo(firstCard.get(3));
+		players.add(p4);
 		addMouseListener(this);
 		firstDraw = true;
 	}
@@ -251,7 +264,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			i+=25;
 		}
 
-		g.drawImage(firstCard.getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130, null);
+		g.drawImage(firstCard.get(currentPlayer).getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130, null);
 		if(researched == true){
 			g.fillRect(35, 80, 140, 2);
 			g.fillRect(35, 210, 140, 2);
@@ -270,11 +283,37 @@ public class BoardPanel extends JPanel implements MouseListener{
 		g.drawRect(nextPlayerBound.x, nextPlayerBound.y, nextPlayerBound.width, nextPlayerBound.height);
 		g.setColor(Color.GREEN);
 		if(activeBound.x > 0)
-			g.drawRect(activeBound.x, activeBound.y, activeBound.width, activeBound.height);
+			g.fillRect(activeBound.x, activeBound.y, activeBound.width, activeBound.height);
 		Player p = players.get(currentPlayer);
 		g.drawString(p.getName(), nextPlayerBound.x + 25, nextPlayerBound.y + 30);
 		g.drawString("Next", nextPlayerBound.x + 25, nextPlayerBound.y + 60);
 
+		//draw player dashboard area
+		for(i = 0; i < p.getBuildGizmos().size(); i++)
+		{
+			Gizmo gm = p.getBuildGizmos().get(i);			
+			g.drawImage(gm.getImage(), buildBoundList.get(i).x, buildBoundList.get(i).y + i * 20, 143, 130, null);
+		}
+		for(i = 0; i < p.getConvertGizmos().size(); i++)
+		{
+			Gizmo gm = p.getConvertGizmos().get(i);			
+			g.drawImage(gm.getImage(), convertBoundList.get(i).x, convertBoundList.get(i).y + i * 20, 143, 130, null);
+		}
+		for(i = 1; i < p.getFileGizmos().size(); i++)
+		{
+			Gizmo gm = p.getFileGizmos().get(i);			
+			g.drawImage(gm.getImage(), fileBoundList.get(i).x, fileBoundList.get(i).y + i * 20, 143, 130, null);
+		}
+		for(i = 0; i < p.getPickGizmos().size(); i++)
+		{
+			Gizmo gm = p.getPickGizmos().get(i);			
+			g.drawImage(gm.getImage(), pickBoundList.get(i).x, pickBoundList.get(i).y + i * 20, 143, 130, null);
+		}
+		for(i = 0; i < p.getUpgradeGizmos().size(); i++)
+		{
+			Gizmo gm = p.getUpgradeGizmos().get(i);			
+			g.drawImage(gm.getImage(), upgradeBoundList.get(i).x, upgradeBoundList.get(i).y + i * 20, 143, 130, null);
+		}
 	}
 
 		
@@ -309,47 +348,272 @@ public class BoardPanel extends JPanel implements MouseListener{
 			System.out.println(t1Gizmos.get(0).getType());
 			activeBound.setBounds(gizmoBound1_1);
 			Gizmo g = t1Gizmos.get(0);
-			ActOnGizmoClick(g);
+			ActOnGizmoClick(g, 0);
 		}
 					
-		else if(gizmoBound1_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 second card");
+		else if(gizmoBound1_2.contains(e.getPoint())){
+			
+			System.out.println(t1Gizmos.get(1).getType());
+			activeBound.setBounds(gizmoBound1_2);
+			Gizmo g = t1Gizmos.get(1);
+			ActOnGizmoClick(g, 1);
+		}
 		else if(gizmoBound1_3.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 third card");
+		{
+			System.out.println(t1Gizmos.get(2).getType());
+			activeBound.setBounds(gizmoBound1_3);
+			Gizmo g = t1Gizmos.get(2);
+			ActOnGizmoClick(g, 2);
+		}		
 		else if(gizmoBound1_4.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 4th card");
+		{
+			System.out.println(t1Gizmos.get(3).getType());
+			activeBound.setBounds(gizmoBound1_4);
+			Gizmo g = t1Gizmos.get(3);
+			ActOnGizmoClick(g, 3);
+		}
 		else if(gizmoBound2_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 first card");
+		{
+			activeBound.setBounds(gizmoBound2_1);
+			Gizmo g = t2Gizmos.get(0);
+			ActOnGizmoClick(g, 4);
+		}
 		else if(gizmoBound2_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 second card");
+		{
+			activeBound.setBounds(gizmoBound2_2);
+			Gizmo g = t2Gizmos.get(1);
+			ActOnGizmoClick(g, 5);
+		}
 		else if(gizmoBound2_3.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 2 third card");			
+		{
+			activeBound.setBounds(gizmoBound2_3);
+			Gizmo g = t2Gizmos.get(2);
+			ActOnGizmoClick(g, 6);
+		}
 		else if(gizmoBound3_1.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 3 first card");
+		{
+			activeBound.setBounds(gizmoBound3_1);
+			Gizmo g = t3Gizmos.get(0);
+			ActOnGizmoClick(g, 7);
+		}
 		else if(gizmoBound3_2.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Level 3 second card");
-		else if(fileBound.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of File");
+		{
+			activeBound.setBounds(gizmoBound3_2);
+			Gizmo g = t3Gizmos.get(1);
+			ActOnGizmoClick(g, 8);
+		}
+		else if(fileBound.contains(e.getPoint())){
+			activeBound.setBounds(fileBound);
+		}
 		else if(pickBound.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Pick");
+			activeBound.setBounds(pickBound);
 		else if(buildBound.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Build");
+			activeBound.setBounds(buildBound);
 		else if(researchBound.contains(e.getPoint()))
-			System.out.println(e.getX() + " , " + e.getY() + " in bound of Research");
+			activeBound.setBounds(researchBound);
 		else if(nextPlayerBound.contains(e.getPoint())) {	
 			NextPlayer();  
-			
 		}
-		else
-			System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
+		Player p = players.get(currentPlayer);
+		for(int i = 0; i < fileBoundList.size(); i++){
+			if(fileBoundList.get(i).contains(e.getPoint())){
+				activeBound.setBounds(fileBoundList.get(i));
+				Gizmo g = p.getFileGizmos().get(i);
+				if(selectedPrivateGizmo == null)
+					selectedPrivateGizmo = g;
+				else
+					selectedPrivateGizmo = null;
+				System.out.println("fileBoundList " + i + " clicked " + activeBound.y);
+			}
+		}
+		for(int i = 0; i < upgradeBoundList.size(); i++){
+			if(upgradeBoundList.get(i).contains(e.getPoint())){
+				activeBound.setBounds(upgradeBoundList.get(i));
+				Gizmo g = p.getUpgradeGizmos().get(i);
+				if(selectedPrivateGizmo == null)
+					selectedPrivateGizmo = g;
+				else
+					selectedPrivateGizmo = null;
+				System.out.println("upgradeBoundList " + i + " clicked " + activeBound.y);
+			}
+		}
+		for(int i = 0; i < convertBoundList.size(); i++){
+			if(convertBoundList.get(i).contains(e.getPoint())){
+				activeBound.setBounds(convertBoundList.get(i));
+				Gizmo g = p.getConvertGizmos().get(i);
+				if(selectedPrivateGizmo == null)
+					selectedPrivateGizmo = g;
+				else
+					selectedPrivateGizmo = null;				
+				System.out.println("convertBoundList " + i + " clicked " + activeBound.y);
+			}
+		}
+		for(int i = 0; i < pickBoundList.size(); i++){
+			if(pickBoundList.get(i).contains(e.getPoint())){
+				activeBound.setBounds(pickBoundList.get(i));
+				Gizmo g = p.getPickGizmos().get(i);
+
+				if(selectedPrivateGizmo == null)
+					selectedPrivateGizmo = g;
+				else
+					selectedPrivateGizmo = null;
+				System.out.println("pickBoundList " + i + " clicked " + activeBound.y);
+			}
+		}
+		for(int i = 0; i < buildBoundList.size(); i++){
+			if(buildBoundList.get(i).contains(e.getPoint())){
+				activeBound.setBounds(buildBoundList.get(i));
+				Gizmo g = p.getBuildGizmos().get(i);
+				if(selectedPrivateGizmo == null)
+					selectedPrivateGizmo = g;
+				else
+					selectedPrivateGizmo = null;
+				System.out.println("buildBoundList " + i + " clicked " + activeBound.y);
+			}
+		}
+		// else
+		// 	System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
 		if(researchBound.contains(e.getPoint())){
 			researched = true;
 		}
 		repaint();		
 	}
-	private void ActOnGizmoClick(Gizmo g){
+
+	private void ActOnPrivateGizmoClick(Gizmo g){
+
+	}
+	//position possible value: 0 - 8. 0-3 are for tier 1 gizmos, 4-6 for tier 2 gizmos, 7-8 for tier 3 gizmos
+	private void ActOnGizmoClick(Gizmo g, int position){
+		int takeThisGizmo = 0;
 		Player p = players.get(currentPlayer);
+		if(selectedPrivateGizmo != null){
+			System.out.println("There is a selected gizmo " + selectedPrivateGizmo.getColor() + "  " + selectedPrivateGizmo.getCost() + "  " + selectedPrivateGizmo.getEffect());
+		}
 		System.out.println("Check " + p.getName() + " with clicked Gizmo card " + g.getColor() + "  " + g.getCost());
+		redCount = yellowCount = blueCount = greyCount = 0;
+		for(int i = 0; i < p.getHeldMarbles().size(); i++)
+		{
+			Marble m = p.getHeldMarbles().get(i);
+			System.out.println("Player " + p.getName() + " marble " + m.getMarbleColor());
+			if(m.getMarbleColor() == "Red")
+				redCount++;
+			else if(m.getMarbleColor() == "Yellow")
+				yellowCount++;
+			else if(m.getMarbleColor() == "Blue")
+				blueCount++;
+			else
+				greyCount++;
+		}
+		switch(g.getColor()){
+			case "Red":
+				if(redCount >= g.getCost())
+					takeThisGizmo = 1;
+				break;
+			case "Blue":
+				if(blueCount >= g.getCost())
+					takeThisGizmo = 1;
+				break;
+			case "Yellow":
+				if(yellowCount >= g.getCost())
+					takeThisGizmo = 1;
+				break;				
+			default:
+				if(greyCount >= g.getCost())
+					takeThisGizmo = 1;
+				break;
+		}
+		if(takeThisGizmo == 1){
+			System.out.println("Player " + p.getName() + " can take this Gizmo card since he has enough to pay for it which cost " + g.getCost() + " " + g.getColor() + " marbles" );
+			switch(g.getType()){
+				case CONVERT:
+					System.out.println("convert add to convert list for player " + p.getName());
+					p.addConvertGizmo(g);
+					p.payMarble(g.getCost(), g.getColor());
+					//since you get more than 1 such gizmo, the top one is covered by a new one thus it has a smaller bound
+					//this applies to other gizmos as well
+					if(p.getConvertGizmos().size() > 1){
+						int prevTopCard = p.getConvertGizmos().size() - 2;
+						convertBoundList.get(prevTopCard).setBounds(convertBoundList.get(prevTopCard).x, convertBoundList.get(prevTopCard).y, 143, 20);
+						convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + 20 * (p.getConvertGizmos().size() - 1), 143, 130));
+					}
+					break;
+				case BUILD:
+					System.out.println("convert add to build list for player " + p.getName());
+					p.addBuildGizmo(g);
+					p.payMarble(g.getCost(), g.getColor());
+					if(p.getBuildGizmos().size() > 1){
+						int prevTopCard = p.getBuildGizmos().size() - 2;
+						buildBoundList.get(prevTopCard).setBounds(buildBoundList.get(prevTopCard).x, buildBoundList.get(prevTopCard).y, 143, 20);
+						buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + 20 * (p.getBuildGizmos().size() - 1), 143, 130));
+					}					
+					break;
+				case UPGRADE:
+					System.out.println("convert add to upgrade list for player " + p.getName());
+					p.addUpgradeGizmo(g);
+					p.payMarble(g.getCost(), g.getColor());
+					if(p.getUpgradeGizmos().size() > 1){
+						int prevTopCard = p.getUpgradeGizmos().size() - 2;
+						upgradeBoundList.get(prevTopCard).setBounds(upgradeBoundList.get(prevTopCard).x, upgradeBoundList.get(prevTopCard).y, 143, 20);
+						upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + 20 * (p.getUpgradeGizmos().size() - 1), 143, 130));
+					}					
+					break;
+				case FILE:
+					System.out.println("convert add to file list for player " + p.getName());
+					p.addFileGizmo(g);
+					p.payMarble(g.getCost(), g.getColor());
+					if(p.getFileGizmos().size() > 1){
+						int prevTopCard = p.getFileGizmos().size() - 2;
+						fileBoundList.get(prevTopCard).setBounds(fileBoundList.get(prevTopCard).x, fileBoundList.get(prevTopCard).y, 143, 20);
+						fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + 20 * (p.getFileGizmos().size() - 1), 143, 130));
+					}
+					break;
+				case PICK:
+					System.out.println("convert add to pick list for player " + p.getName());
+					p.addPickGizmo(g);
+					p.payMarble(g.getCost(), g.getColor());
+					if(p.getPickGizmos().size() > 1){
+						int prevTopCard = p.getPickGizmos().size() - 2;
+						pickBoundList.get(prevTopCard).setBounds(pickBoundList.get(prevTopCard).x, pickBoundList.get(prevTopCard).y, 143, 20);
+						pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + 20 * (p.getPickGizmos().size() - 1), 143, 130));
+					}
+					break;
+
+			}
+			switch(position){
+				case 0:
+				case 1:
+				case 2:
+				case 3:
+					t1Gizmos.remove(position);
+					Gizmo lastGizmo = t1Gizmos.get(t1Gizmos.size() - 1);
+					t1Gizmos.add(position, lastGizmo);
+					t1Gizmos.remove(t1Gizmos.size() - 1);
+
+					break;
+				case 4:
+				case 5:
+				case 6:
+					t2Gizmos.remove(position - 4);
+					lastGizmo = t2Gizmos.get(t2Gizmos.size() - 1);
+					t2Gizmos.add(position - 4, lastGizmo);
+					t2Gizmos.remove(t2Gizmos.size() - 1);
+					break;
+				case 7:
+				case 8:
+					t3Gizmos.remove(position - 7);
+					lastGizmo = t3Gizmos.get(t3Gizmos.size() - 1);
+					t3Gizmos.add(position - 7, lastGizmo);
+					t3Gizmos.remove(t3Gizmos.size() - 1);
+					break;
+				
+			}
+			activeBound.setBounds(0, 0, 0,0);		
+		}
+		else
+		{
+			System.out.println("Player " + p.getName() + " can NOT take this Gizmo card since he can NOT pay for it which cost " + g.getCost() + " " + g.getColor() + " marbles" );
+		}
+		repaint();
 	}
 	private void NextPlayer(){
 		Player p = players.get(currentPlayer);
@@ -372,12 +636,77 @@ public class BoardPanel extends JPanel implements MouseListener{
 			else
 				greyCount++;
 		}
-		System.out.println("Current player: " + p.getName() + " has " + p.getHeldMarbles().size() + " marbles");
-		System.out.println("Red: " + redCount + " Yellow: " + yellowCount + " Blue: " + blueCount + " Grey: " + greyCount);
-		activeBound.setBounds(0, 0, 0,0);
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
+
+	// 	System.out.println("Current player: " + p.getName() + " has " + p.getHeldMarbles().size() + " marbles");
+	// 	System.out.println("Red: " + redCount + " Yellow: " + yellowCount + " Blue: " + blueCount + " Grey: " + greyCount);
+
+	 	activeBound.setBounds(0, 0, 0,0);
+		buildBoundList.clear();
+		if(p.getBuildGizmos().size() > 1){
+			for(int i = 0; i < p.getBuildGizmos().size(); i++){
+				if(i < p.getBuildGizmos().size() - 1)
+					buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 20, 143, 20));			
+				else
+					buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 20, 143, 130));
+			}
+		}
+		else
+			buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height, 143, 130));
+
+
+		pickBoundList.clear();
+		if(p.getPickGizmos().size() > 1){
+			for(int i = 0; i < p.getPickGizmos().size(); i++){
+				if(i < p.getPickGizmos().size() - 1)
+					pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 20, 143, 20));			
+				else
+					pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 20, 143, 130));
+			}
+		}
+		else
+			pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height, 143, 130));
+		fileBoundList.clear();
+		if(p.getFileGizmos().size() > 1){
+			for(int i = 0; i < p.getFileGizmos().size(); i++){
+				if(i < p.getFileGizmos().size() - 1)
+					fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 20, 143, 20));			
+				else
+					fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 20, 143, 130));
+			}
+		}
+		else
+			fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height, 143, 130));
+		
+		upgradeBoundList.clear();
+		if(p.getUpgradeGizmos().size() > 1){
+			for(int i = 0; i < p.getUpgradeGizmos().size(); i++){
+				if(i < p.getUpgradeGizmos().size() - 1)
+					upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 20, 143, 20));			
+				else
+					upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 20, 143, 130));
+			}
+		}
+		else
+			upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height, 143, 130));
+		convertBoundList.clear();
+		if(p.getConvertGizmos().size() > 1){
+			for(int i = 0; i < p.getConvertGizmos().size(); i++){
+				if(i < p.getConvertGizmos().size() - 1)
+					convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + i * 20, 143, 20));			
+				else
+					convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + i * 20, 143, 130));
+			}
+		}
+		else
+			convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height, 143, 130));
+
+
+		System.out.println("Coverted list: " + convertBoundList.size());
+		System.out.println("Build list: " + buildBoundList.size());
+		System.out.println("File list: " + fileBoundList.size());
+		System.out.println("Upgrade list: " + upgradeBoundList.size());
+		System.out.println("Pick list: " + pickBoundList.size());
+		
 
 	}
 	@Override
@@ -390,6 +719,10 @@ public class BoardPanel extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
+
+	}
+	@Override
+	public void mousePressed(MouseEvent e){
 
 	}
 }

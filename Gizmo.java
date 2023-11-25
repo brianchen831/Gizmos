@@ -109,6 +109,7 @@ public class Gizmo {
 	    ID = IDNum;
 		tier = t;
 		this.gizmoImage = gizmoImage;
+		trigger = null;
 		color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
         // if (temp=="Gray") { color="Grey"; System.out.println("Grey");}
 		// else if (temp=="Red") { color="Red"; System.out.println("Red");}
@@ -147,7 +148,9 @@ public class Gizmo {
 		return ID;
 	}
 	
-
+	public int getTier(){
+		return tier;
+	}
 	private void AssignProperties(){
 		
 		// switch (ID) {

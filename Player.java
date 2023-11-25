@@ -13,7 +13,8 @@ public class Player {
     private ArrayList<Gizmo> pickGizmos;
     private ArrayList<Gizmo> buildGizmos;
 
-    private ArrayList<Gizmo> archive;
+
+    private ArrayList<Gizmo> archiveGizmos;
 
     private ArrayList<Marble> heldMarbles;
     private int victoryPoints;
@@ -32,15 +33,29 @@ public class Player {
         fileGizmos = new ArrayList();
         pickGizmos = new ArrayList();
         buildGizmos = new ArrayList();
+        archiveGizmos = new ArrayList<>();
         winning = false;
         this.name = name;
         heldMarbles = new ArrayList<>();
     }
  
     
-    public void fileGizmo(Gizmo g) {
+    public void addFileGizmo(Gizmo g) {
+        fileGizmos.add(g);
         //heldGizmos.computeIfAbsent("File", k -> new ArrayList<>()).add(g); 
         // the lambda lets you add to an arraylist thats in a treemap with 1000x less effort, if u wanna use ts replace the g with what u need to add and the "File" with a key
+    }
+    public void addUpgradeGizmo(Gizmo g){
+        upgradeGizmos.add(g);
+    }
+    public void addConvertGizmo(Gizmo g){
+        converterGizmos.add(g);
+    }
+    public void addPickGizmo(Gizmo g){
+        pickGizmos.add(g);
+    }
+    public void addBuildGizmo(Gizmo g){
+        buildGizmos.add(g);
     }
     public void addMarble(Marble m) {
         //System.out.println("Player " + name + " getting a " + m.getMarbleColor() + " marble");
@@ -48,29 +63,50 @@ public class Player {
         marbleCount++;
 
     }
-
-    public ArrayList<Marble> getHeldMarbles() {
-
-        return heldMarbles;
-
+    public void payMarble(int cost, String color){
+        int removedMarbles = 0;
+        for(int i = heldMarbles.size() - 1; i >= 0; i--){
+            if(removedMarbles == cost)
+                break;
+            Marble m = heldMarbles.get(i);
+            if(m.getMarbleColor() == color && removedMarbles < cost){
+                heldMarbles.remove(i);
+                removedMarbles++;
+            }
+        }
     }
-
+    public ArrayList<Marble> getHeldMarbles() {
+        return heldMarbles;
+    }
+        //    upgradeGizmos = new ArrayList();
+        // converterGizmos = new ArrayList();
+        // fileGizmos = new ArrayList();
+        // pickGizmos = new ArrayList();
+        // buildGizmos = new ArrayList();
+    public ArrayList<Gizmo> getUpgradeGizmos(){
+        return upgradeGizmos;
+    }
+    public ArrayList<Gizmo> getConvertGizmos(){
+        return converterGizmos;
+    }
+    public ArrayList<Gizmo> getFileGizmos(){
+        return fileGizmos;
+    }
+    public ArrayList<Gizmo> getPickGizmos(){
+        return pickGizmos;
+    }
+    public ArrayList<Gizmo> getBuildGizmos(){
+        return buildGizmos;
+    }
     public int getVictoryPoints() {
-
         return victoryPoints;
-
-
     }
     public String getName() {
-
         return name;
-
     }
 
     public int getMarbleCount() {
-
         return marbleCount;
-
     }
     //public Gizmo getFiledGizmos() {
     //}
