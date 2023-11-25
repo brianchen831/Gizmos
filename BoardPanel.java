@@ -27,6 +27,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private Rectangle upgBound, convertBound;
 	private Rectangle tier1bound, tier2bound, tier3bound;
 	private Rectangle fileBound, pickBound, buildBound, researchBound;
+	private Rectangle activeBound;
+
 	private ArrayList<Rectangle> upgradeBoundList, convertBoundList, fileBoundList, pickBoundList, buildBoundList, archiveBoundList;
 	private Rectangle nextPlayerBound; //temporary rectangle for player to click to give up the turn to the next player
 	private int totalPlayers; // 4 players for the game
@@ -76,6 +78,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 			temp+=25;
 		}
 		nextPlayerBound = new Rectangle(1800, 900, 100, 100);
+		activeBound = new Rectangle(0,0,0,0);
+		
 		tier3bound = new Rectangle(35, 80, 137, 124);
 		tier2bound = new Rectangle(35, 240, 137, 124);
 		tier1bound = new Rectangle(35, 400, 137, 124);
@@ -185,9 +189,10 @@ public class BoardPanel extends JPanel implements MouseListener{
 		// players.get(playerNum).addMarble(visibleMarbles.remove(index));
 		// visibleMarbles.add(0, newMarble); 
     	players.get(currentPlayer).addMarble(visibleMarbles.remove(index));
-		visibleMarbles.add(marbles.remove(0));
+		visibleMarbles.add(0, marbles.remove(0));
 		
 		System.out.println("Picking a " + color + " marble with " + marbles.size() + " marbles left in the dispenser");
+		NextPlayer();
     	repaint();
 	}
 	
@@ -263,6 +268,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		}
 
 		g.drawRect(nextPlayerBound.x, nextPlayerBound.y, nextPlayerBound.width, nextPlayerBound.height);
+		g.setColor(Color.GREEN);
+		if(activeBound.x > 0)
+			g.drawRect(activeBound.x, activeBound.y, activeBound.width, activeBound.height);
 		Player p = players.get(currentPlayer);
 		g.drawString(p.getName(), nextPlayerBound.x + 25, nextPlayerBound.y + 30);
 		g.drawString("Next", nextPlayerBound.x + 25, nextPlayerBound.y + 60);
@@ -299,6 +307,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		else if(gizmoBound1_1.contains(e.getPoint())){
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of tier 1 first card");
 			System.out.println(t1Gizmos.get(0).getType());
+			activeBound.setBounds(gizmoBound1_1);
+			Gizmo g = t1Gizmos.get(0);
+			ActOnGizmoClick(g);
 		}
 					
 		else if(gizmoBound1_2.contains(e.getPoint()))
@@ -325,29 +336,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Build");
 		else if(researchBound.contains(e.getPoint()))
 			System.out.println(e.getX() + " , " + e.getY() + " in bound of Research");
-		else if(nextPlayerBound.contains(e.getPoint())) {	  
-			Player p = players.get(currentPlayer);
+		else if(nextPlayerBound.contains(e.getPoint())) {	
+			NextPlayer();  
 			
-			currentPlayer++;
-			currentPlayer = currentPlayer % 4;
-			p = players.get(currentPlayer);
-			System.out.println("Next player: " + p.getName());
-			redCount = yellowCount = blueCount = greyCount = 0;
-			for(int i = 0; i < p.getHeldMarbles().size(); i++)
-			{
-				Marble m = p.getHeldMarbles().get(i);
-				System.out.println("Player " + p.getName() + " marble " + m.getMarbleColor());
-				if(m.getMarbleColor() == "Red")
-					redCount++;
-				else if(m.getMarbleColor() == "Yellow")
-					yellowCount++;
-				else if(m.getMarbleColor() == "Blue")
-					blueCount++;
-				else
-					greyCount++;
-			}
-			System.out.println("Current player: " + p.getName() + " has " + p.getHeldMarbles().size() + " marbles");
-			System.out.println("Red: " + redCount + " Yellow: " + yellowCount + " Blue: " + blueCount + " Grey: " + greyCount);
 		}
 		else
 			System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
@@ -356,7 +347,35 @@ public class BoardPanel extends JPanel implements MouseListener{
 		}
 		repaint();		
 	}
-
+	private void ActOnGizmoClick(Gizmo g){
+		Player p = players.get(currentPlayer);
+		System.out.println("Check " + p.getName() + " with clicked Gizmo card " + g.getColor() + "  " + g.getCost());
+	}
+	private void NextPlayer(){
+		Player p = players.get(currentPlayer);
+			
+		currentPlayer++;
+		currentPlayer = currentPlayer % 4;
+		p = players.get(currentPlayer);
+		System.out.println("Next player: " + p.getName());
+		redCount = yellowCount = blueCount = greyCount = 0;
+		for(int i = 0; i < p.getHeldMarbles().size(); i++)
+		{
+			Marble m = p.getHeldMarbles().get(i);
+			System.out.println("Player " + p.getName() + " marble " + m.getMarbleColor());
+			if(m.getMarbleColor() == "Red")
+				redCount++;
+			else if(m.getMarbleColor() == "Yellow")
+				yellowCount++;
+			else if(m.getMarbleColor() == "Blue")
+				blueCount++;
+			else
+				greyCount++;
+		}
+		System.out.println("Current player: " + p.getName() + " has " + p.getHeldMarbles().size() + " marbles");
+		System.out.println("Red: " + redCount + " Yellow: " + yellowCount + " Blue: " + blueCount + " Grey: " + greyCount);
+		activeBound.setBounds(0, 0, 0,0);
+	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 
