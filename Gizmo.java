@@ -27,8 +27,8 @@ public class Gizmo {
 		GreyAndGreyMarble,
 		YellowAndYellowMarble,
 		RedAndRedMarble,
-		RedAndGrey,
-		BlueAndYellow,
+		RedOrGrey,
+		BlueOrYellow,
 		AnyMarble,
 
 		PickGrey,
