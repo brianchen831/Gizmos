@@ -281,9 +281,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 		}
 
 		g.drawRect(nextPlayerBound.x, nextPlayerBound.y, nextPlayerBound.width, nextPlayerBound.height);
-		g.setColor(Color.GREEN);
-		if(activeBound.x > 0)
-			g.fillRect(activeBound.x, activeBound.y, activeBound.width, activeBound.height);
+
 		Player p = players.get(currentPlayer);
 		g.drawString(p.getName(), nextPlayerBound.x + 25, nextPlayerBound.y + 30);
 		g.drawString("Next", nextPlayerBound.x + 25, nextPlayerBound.y + 60);
@@ -292,28 +290,32 @@ public class BoardPanel extends JPanel implements MouseListener{
 		for(i = 0; i < p.getBuildGizmos().size(); i++)
 		{
 			Gizmo gm = p.getBuildGizmos().get(i);			
-			g.drawImage(gm.getImage(), buildBoundList.get(i).x, buildBoundList.get(i).y + i * 20, 143, 130, null);
+			g.drawImage(gm.getImage(), buildBoundList.get(i).x, buildBoundList.get(i).y, 143, 130, null);
 		}
 		for(i = 0; i < p.getConvertGizmos().size(); i++)
 		{
 			Gizmo gm = p.getConvertGizmos().get(i);			
-			g.drawImage(gm.getImage(), convertBoundList.get(i).x, convertBoundList.get(i).y + i * 20, 143, 130, null);
+			g.drawImage(gm.getImage(), convertBoundList.get(i).x, convertBoundList.get(i).y , 143, 130, null);
 		}
 		for(i = 1; i < p.getFileGizmos().size(); i++)
 		{
 			Gizmo gm = p.getFileGizmos().get(i);			
-			g.drawImage(gm.getImage(), fileBoundList.get(i).x, fileBoundList.get(i).y + i * 20, 143, 130, null);
+			g.drawImage(gm.getImage(), fileBoundList.get(i).x, fileBoundList.get(i).y , 143, 130, null);
 		}
 		for(i = 0; i < p.getPickGizmos().size(); i++)
 		{
 			Gizmo gm = p.getPickGizmos().get(i);			
-			g.drawImage(gm.getImage(), pickBoundList.get(i).x, pickBoundList.get(i).y + i * 20, 143, 130, null);
+			g.drawImage(gm.getImage(), pickBoundList.get(i).x, pickBoundList.get(i).y , 143, 130, null);
 		}
 		for(i = 0; i < p.getUpgradeGizmos().size(); i++)
 		{
 			Gizmo gm = p.getUpgradeGizmos().get(i);			
-			g.drawImage(gm.getImage(), upgradeBoundList.get(i).x, upgradeBoundList.get(i).y + i * 20, 143, 130, null);
+			g.drawImage(gm.getImage(), upgradeBoundList.get(i).x, upgradeBoundList.get(i).y , 143, 130, null);
 		}
+
+		g.setColor(Color.GREEN);
+		if(activeBound.x > 0)
+			g.drawRect(activeBound.x, activeBound.y, activeBound.width, activeBound.height);
 	}
 
 		
@@ -533,8 +535,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 					//this applies to other gizmos as well
 					if(p.getConvertGizmos().size() > 1){
 						int prevTopCard = p.getConvertGizmos().size() - 2;
-						convertBoundList.get(prevTopCard).setBounds(convertBoundList.get(prevTopCard).x, convertBoundList.get(prevTopCard).y, 143, 20);
-						convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + 20 * (p.getConvertGizmos().size() - 1), 143, 130));
+						convertBoundList.get(prevTopCard).setBounds(convertBoundList.get(prevTopCard).x, convertBoundList.get(prevTopCard).y, 143, 30);
+						convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + 30 * (p.getConvertGizmos().size() - 1), 143, 130));
 					}
 					break;
 				case BUILD:
@@ -543,8 +545,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 					p.payMarble(g.getCost(), g.getColor());
 					if(p.getBuildGizmos().size() > 1){
 						int prevTopCard = p.getBuildGizmos().size() - 2;
-						buildBoundList.get(prevTopCard).setBounds(buildBoundList.get(prevTopCard).x, buildBoundList.get(prevTopCard).y, 143, 20);
-						buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + 20 * (p.getBuildGizmos().size() - 1), 143, 130));
+						buildBoundList.get(prevTopCard).setBounds(buildBoundList.get(prevTopCard).x, buildBoundList.get(prevTopCard).y, 143, 30);
+						buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + 30 * (p.getBuildGizmos().size() - 1), 143, 130));
 					}					
 					break;
 				case UPGRADE:
@@ -553,8 +555,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 					p.payMarble(g.getCost(), g.getColor());
 					if(p.getUpgradeGizmos().size() > 1){
 						int prevTopCard = p.getUpgradeGizmos().size() - 2;
-						upgradeBoundList.get(prevTopCard).setBounds(upgradeBoundList.get(prevTopCard).x, upgradeBoundList.get(prevTopCard).y, 143, 20);
-						upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + 20 * (p.getUpgradeGizmos().size() - 1), 143, 130));
+						upgradeBoundList.get(prevTopCard).setBounds(upgradeBoundList.get(prevTopCard).x, upgradeBoundList.get(prevTopCard).y, 143, 30);
+						upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + 30 * (p.getUpgradeGizmos().size() - 1), 143, 130));
 					}					
 					break;
 				case FILE:
@@ -563,8 +565,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 					p.payMarble(g.getCost(), g.getColor());
 					if(p.getFileGizmos().size() > 1){
 						int prevTopCard = p.getFileGizmos().size() - 2;
-						fileBoundList.get(prevTopCard).setBounds(fileBoundList.get(prevTopCard).x, fileBoundList.get(prevTopCard).y, 143, 20);
-						fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + 20 * (p.getFileGizmos().size() - 1), 143, 130));
+						fileBoundList.get(prevTopCard).setBounds(fileBoundList.get(prevTopCard).x, fileBoundList.get(prevTopCard).y, 143, 30);
+						fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + 30 * (p.getFileGizmos().size() - 1), 143, 130));
 					}
 					break;
 				case PICK:
@@ -573,8 +575,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 					p.payMarble(g.getCost(), g.getColor());
 					if(p.getPickGizmos().size() > 1){
 						int prevTopCard = p.getPickGizmos().size() - 2;
-						pickBoundList.get(prevTopCard).setBounds(pickBoundList.get(prevTopCard).x, pickBoundList.get(prevTopCard).y, 143, 20);
-						pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + 20 * (p.getPickGizmos().size() - 1), 143, 130));
+						pickBoundList.get(prevTopCard).setBounds(pickBoundList.get(prevTopCard).x, pickBoundList.get(prevTopCard).y, 143, 30);
+						pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + 30 * (p.getPickGizmos().size() - 1), 143, 130));
 					}
 					break;
 
@@ -645,9 +647,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		if(p.getBuildGizmos().size() > 1){
 			for(int i = 0; i < p.getBuildGizmos().size(); i++){
 				if(i < p.getBuildGizmos().size() - 1)
-					buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 20, 143, 20));			
+					buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 30, 143, 30));			
 				else
-					buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 20, 143, 130));
+					buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 30, 143, 130));
 			}
 		}
 		else
@@ -658,9 +660,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		if(p.getPickGizmos().size() > 1){
 			for(int i = 0; i < p.getPickGizmos().size(); i++){
 				if(i < p.getPickGizmos().size() - 1)
-					pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 20, 143, 20));			
+					pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 30, 143, 30));			
 				else
-					pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 20, 143, 130));
+					pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 30, 143, 130));
 			}
 		}
 		else
@@ -669,9 +671,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		if(p.getFileGizmos().size() > 1){
 			for(int i = 0; i < p.getFileGizmos().size(); i++){
 				if(i < p.getFileGizmos().size() - 1)
-					fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 20, 143, 20));			
+					fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 30, 143, 30));			
 				else
-					fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 20, 143, 130));
+					fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 30, 143, 130));
 			}
 		}
 		else
@@ -681,9 +683,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		if(p.getUpgradeGizmos().size() > 1){
 			for(int i = 0; i < p.getUpgradeGizmos().size(); i++){
 				if(i < p.getUpgradeGizmos().size() - 1)
-					upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 20, 143, 20));			
+					upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 30, 143, 30));			
 				else
-					upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 20, 143, 130));
+					upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 30, 143, 130));
 			}
 		}
 		else
@@ -692,9 +694,9 @@ public class BoardPanel extends JPanel implements MouseListener{
 		if(p.getConvertGizmos().size() > 1){
 			for(int i = 0; i < p.getConvertGizmos().size(); i++){
 				if(i < p.getConvertGizmos().size() - 1)
-					convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + i * 20, 143, 20));			
+					convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + i * 30, 143, 30));			
 				else
-					convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + i * 20, 143, 130));
+					convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + i * 30, 143, 130));
 			}
 		}
 		else
