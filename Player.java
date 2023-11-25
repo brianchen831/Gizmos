@@ -1,5 +1,7 @@
 import java.util.*;
 
+import Gizmo.GizmoEffect;
+
 
 
 public class Player {
@@ -37,6 +39,9 @@ public class Player {
         winning = false;
         this.name = name;
         heldMarbles = new ArrayList<>();
+        marbleSpace = 5;
+        archiveSpace = 1;
+        researchPower = 3;
     }
  
     
@@ -47,6 +52,22 @@ public class Player {
     }
     public void addUpgradeGizmo(Gizmo g){
         upgradeGizmos.add(g);
+        Gizmo.GizmoEffect effect = g.getEffect();
+        if(effect == Gizmo.GizmoEffect.OneMarbleOneArchive){
+            marbleSpace++;
+            archiveSpace++;
+        }
+        else if(effect == Gizmo.GizmoEffect.OneMarbleOneResearch){
+            marbleSpace++;
+            researchPower++;
+        }
+        else if(effect == Gizmo.GizmoEffect.TwoMarbleOneFileTwoResearch)
+        {
+            marbleSpace += 2;
+            archiveSpace++;
+            researchPower += 2;
+        }
+
     }
     public void addConvertGizmo(Gizmo g){
         converterGizmos.add(g);
@@ -113,4 +134,5 @@ public class Player {
     public void researchMethod(int tear) {
 
     }
+
 }
