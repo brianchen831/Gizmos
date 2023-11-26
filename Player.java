@@ -1,6 +1,6 @@
 import java.util.*;
 
-import Gizmo.GizmoEffect;
+//import Gizmo.GizmoEffect;
 
 
 
@@ -134,5 +134,6 @@ public class Player {
     public void researchMethod(int tear) {
 
     }
+    
 
 }

@@ -127,7 +127,7 @@ public class Gizmo {
 	 	IDNum++;
 	    ID = IDNum;
 		tier = t;
-		this.gizmoImage = gizmoImage;
+		this.gizmoImage = RoundCorners.makeRoundedCorner(gizmoImage, 70);
 		trigger = null;
 		color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
         // if (temp=="Gray") { color="Grey"; System.out.println("Grey");}
@@ -835,6 +835,9 @@ public class Gizmo {
 				victoryPoint = 7;
 				break;
 			case 104:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				//effect = GizmoEffect.
 			case 105:
 			case 106:
 			case 107:
