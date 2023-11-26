@@ -22,7 +22,6 @@ public class Player {
     private int victoryPoints;
     private boolean winning;
     private String name;
-    private int marbleCount; //i think this is kinda redundant and adds an unnecessary step
     
     private int marbleSpace;
     private int archiveSpace;
@@ -44,7 +43,18 @@ public class Player {
         researchPower = 3;
     }
  
-    
+    public void addArchiveGizmo(Gizmo g){
+        archiveGizmos.add(g);
+    }
+    public void removeArchiveGizmo(Gizmo g)
+    {
+        for(int i = 0; i < archiveGizmos.size(); i++){
+            if(archiveGizmos.get(i) == g){
+                archiveGizmos.remove(i);
+                break;
+            }
+        }
+    }
     public void addFileGizmo(Gizmo g) {
         fileGizmos.add(g);
         //heldGizmos.computeIfAbsent("File", k -> new ArrayList<>()).add(g); 
@@ -78,11 +88,41 @@ public class Player {
     public void addBuildGizmo(Gizmo g){
         buildGizmos.add(g);
     }
+    public boolean spaceForMoreMarbles()
+    {
+        if(marbleSpace > heldMarbles.size())
+            return true;
+        else
+            return false;
+    }
+    public boolean spaceForMoreArchive()
+    {
+        if(archiveSpace > archiveGizmos.size())
+            return true;
+        else    
+            return false;
+    }
+    public boolean spaceForMoreMarble(){
+        if(marbleSpace > heldMarbles.size())
+            return true;
+        else
+            return false;
+    }
+    
+    public void noMoreResearch(){
+        researchPower = 0;
+    }
+    public void noMoreArchive(){
+        archiveSpace = 0;
+    }
     public void addMarble(Marble m) {
         //System.out.println("Player " + name + " getting a " + m.getMarbleColor() + " marble");
+        if(!spaceForMoreMarble())
+            return;
         heldMarbles.add(m);
-        marbleCount++;
-
+    }
+    public void addVictoryPoint(int v){
+        victoryPoints += v;
     }
     public void payMarble(int cost, String color){
         int removedMarbles = 0;
@@ -119,6 +159,9 @@ public class Player {
     public ArrayList<Gizmo> getBuildGizmos(){
         return buildGizmos;
     }
+    public ArrayList<Gizmo> getArchivedGizmos(){
+        return archiveGizmos;
+    }
     public int getVictoryPoints() {
         return victoryPoints;
     }
@@ -127,7 +170,7 @@ public class Player {
     }
 
     public int getMarbleCount() {
-        return marbleCount;
+        return heldMarbles.size();
     }
     //public Gizmo getFiledGizmos() {
     //}

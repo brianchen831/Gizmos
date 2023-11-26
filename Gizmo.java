@@ -66,7 +66,7 @@ public class Gizmo {
 
 	public enum GizmoEffect{
 		AnyMarble,
-		DrawMarble,
+		DrawOne,
 		AnyTwoMarble,
 		TwoYellowMarble,
 		TwoRedMarble,
@@ -81,10 +81,7 @@ public class Gizmo {
 		
 		PickAny,
 		PickAnyTwo,
-		PickTwoBlue,
-		PickTwoGrey,
-		PickTwo,
-		PickThree,
+		DrawThree,
 		FourMarble,
 		OneMarbleOneResearch,
 		OneMarbleOneArchive,
@@ -178,11 +175,17 @@ public class Gizmo {
 		// 	default: System.out.println(ID + " Strange ID unrecognized");
         //              break;
 		// }
-		System.out.println(ID + "  tier: " + tier);
+		// System.out.println(ID + "  tier: " + tier);
+
 		switch(ID)
 	    {
-			case 0:
+			case 109:
+			case 110:
+			case 111:
+			case 112:
 				//starting gizmo 
+				type = GizmoType.FILE;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 1:
 				type = GizmoType.CONVERT;
@@ -226,43 +229,43 @@ public class Gizmo {
 				break;								
 			case 9:
 				type = GizmoType.PICK;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				trigger = GizmoTgr.PickBlue;
 				break;
 			case 10:
 				trigger = GizmoTgr.PickRed;
 				type = GizmoType.PICK;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 11:
 				trigger = GizmoTgr.PickYellow;
 				type = GizmoType.PICK;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 12:
 				trigger = GizmoTgr.PickGrey;
 				type = GizmoType.PICK;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 13:
 				type = GizmoType.PICK;
 				trigger = GizmoTgr.YellowMarble;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 14:
 				type = GizmoType.PICK;
 				trigger = GizmoTgr.GreyMarble;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 15:
 				type = GizmoType.PICK;
 				trigger = GizmoTgr.BlueMarble;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 16:
 				type = GizmoType.PICK;
 				trigger = GizmoTgr.RedMarble;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				break;
 			case 17:
 				type = GizmoType.FILE;
@@ -424,28 +427,28 @@ public class Gizmo {
 			case 45:
 				trigger = GizmoTgr.PickYellowOrRed;
 				type = GizmoType.BUILD;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 46:
 				trigger = GizmoTgr.PickYellowOrGrey;
 				type = GizmoType.BUILD;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 47:
 				trigger = GizmoTgr.PickGreyOrBlue;
 				type = GizmoType.BUILD;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 48:
 				trigger = GizmoTgr.PickRedOrBlue;
 				type = GizmoType.BUILD;
-				effect = GizmoEffect.DrawMarble;
+				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
@@ -683,14 +686,14 @@ public class Gizmo {
 			case 82:
 				type = GizmoType.FILE;
 				trigger = GizmoTgr.File;
-				effect = GizmoEffect.PickThree;
+				effect = GizmoEffect.DrawThree;
 				cost = 4;
 				victoryPoint = 4;
 				break;
 			case 83:
 				type = GizmoType.FILE;
 				trigger = GizmoTgr.File;
-				effect = GizmoEffect.PickThree;
+				effect = GizmoEffect.DrawThree;
 				cost = 4;
 				victoryPoint = 4;
 				break;
@@ -842,7 +845,7 @@ public class Gizmo {
 				
 				break;
 			default:
-				System.out.println("Missed Something"); //for debugging
+				//System.out.println("Missed Something"); //for debugging
 				break;
 		}
 	}
