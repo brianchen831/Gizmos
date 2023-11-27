@@ -46,6 +46,8 @@ public class BoardPanel extends JPanel implements MouseListener{
 	private ArrayList<Marble> tempConvertedMarbleList;
 
 
+	private boolean turnFinishedAlert = false;	
+	
 	public BoardPanel() {
 		players = new ArrayList<>();
 		totalPlayers = 4;
@@ -204,36 +206,39 @@ public class BoardPanel extends JPanel implements MouseListener{
 	}
 	public void pickMarble(int index, String color) {
 		// Marble newMarble = new Marble(color);
-		System.out.println("In pickMarble there is anything in the convert temp marble list? " + tempConvertedMarbleList.size());
-		if(tempConvertedMarbleList.size()>0){
-			tempConvertedMarbleList.clear();
-			if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.CONVERT){
-				if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAny){
-					System.out.println("Player to pick from row once");
-				}
-				if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
-					System.out.println("Player to pick from row twice");
+		if(!turnFinishedAlert) {
+			System.out.println("In pickMarble there is anything in the convert temp marble list? " + tempConvertedMarbleList.size());
+			if(tempConvertedMarbleList.size()>0){
+				tempConvertedMarbleList.clear();
+				if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.CONVERT){
+					if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAny){
+						System.out.println("Player to pick from row once");
+					}
+					if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						System.out.println("Player to pick from row twice");
+					}
 				}
 			}
-		}
 
 
-		if(players.get(currentPlayer).spaceForMoreMarble()){
-		if (visibleMarbles.get(index).toString().equals("Red")) { redCount++; }
-		else if (visibleMarbles.get(index).toString().equals("Yellow")) { yellowCount++; }
-		else if (visibleMarbles.get(index).toString().equals("Grey")) { greyCount++; }
-		else { blueCount++; }
-		// players.get(playerNum).addMarble(visibleMarbles.remove(index));
-		// visibleMarbles.add(0, newMarble); 
-    	players.get(currentPlayer).addMarble(visibleMarbles.remove(index));
-		visibleMarbles.add(0, marbles.remove(0));
-		
-		System.out.println("Picking a " + color + " marble with " + marbles.size() + " marbles left in the dispenser");
+			if(players.get(currentPlayer).spaceForMoreMarble()){
+			if (visibleMarbles.get(index).toString().equals("Red")) { redCount++; }
+			else if (visibleMarbles.get(index).toString().equals("Yellow")) { yellowCount++; }
+			else if (visibleMarbles.get(index).toString().equals("Grey")) { greyCount++; }
+			else { blueCount++; }
+			// players.get(playerNum).addMarble(visibleMarbles.remove(index));
+			// visibleMarbles.add(0, newMarble); 
+			players.get(currentPlayer).addMarble(visibleMarbles.remove(index));
+			visibleMarbles.add(0, marbles.remove(0));
+			
+			System.out.println("Picking a " + color + " marble with " + marbles.size() + " marbles left in the dispenser");
+			}
+			else
+		 		System.out.println("no more space for marble");
+			//NextPlayer();
+			turnFinishedAlert = true;
+	    	repaint();
 		}
-		else
-		 	System.out.println("no more space for marble");
-		NextPlayer();
-    	repaint();
 	}
 	
 	public void resetMarbleDisp() {
@@ -255,18 +260,33 @@ public class BoardPanel extends JPanel implements MouseListener{
 		//g.drawString(": " + blueCount);
 		//g.drawString(": " + greyCount);
 		
+		//delete this if it doesnt work or breaks stuff
+		redCount = 0;
+		blueCount = 0;
+		yellowCount = 0;
+		greyCount = 0;
+		for(Marble m : players.get(currentPlayer).getHeldMarbles()) {
+			if(m.getMarbleColor().equals("Red")) {
+				redCount++;
+			} else if(m.getMarbleColor().equals("Blue")) {
+				blueCount++;
+			} else if(m.getMarbleColor().equals("Yellow")) {
+				yellowCount++;
+			} else {
+				greyCount++;
+			}
+		}
+		
 		g.drawImage(background, 0, 0, null);
 		g.drawImage(playergui, 0, -180, null);
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
-		g.setColor(Color.RED);
-		g.drawString(":" + redCount, 87, 828);
-		g.setColor(Color.GRAY);
-		g.drawString(":" + greyCount, 87, 872);
-		g.setColor(Color.BLUE);
-		g.drawString(":" + blueCount, 142, 828);
+		g.setColor(Color.BLACK);
+		g.drawString("" + redCount, 68, 651);
+		g.drawString("" + greyCount, 68, 693);
+		g.drawString("" + blueCount, 123, 649);
+		g.drawString("" + yellowCount, 123, 693);
 		g.setColor(Color.YELLOW);
-		g.drawString(":" + yellowCount, 142, 872);
 		int temp = 0;
 		for (int i = 0; i < 4; i++) {
 			g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
@@ -359,6 +379,10 @@ public class BoardPanel extends JPanel implements MouseListener{
 		{
 			g.setColor(Color.YELLOW);
 			g.drawRect(privateGizmoBound.x, privateGizmoBound.y, privateGizmoBound.width, privateGizmoBound.height);
+		}
+		g.setColor(Color.blue);
+		if(turnFinishedAlert) {
+			g.fillRect(0, 0, 100, 100);
 		}
 	}
 
@@ -524,6 +548,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 				ActOnGizmoClick(g, 9);
 			}
 		}		
+		
 		// else
 		// 	System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card in display area");
 		if(researchBound.contains(e.getPoint())){
@@ -653,80 +678,200 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 		if(takeThisGizmo == 1){
 			
-			System.out.println("Player " + p.getName() + " can take this Gizmo card since he has enough to pay for it which cost " + g.getCost() + " " + g.getColor() + " marbles" );
-			switch(g.getType()){
-				case CONVERT:
-					System.out.println("convert add to convert list for player " + p.getName());
-					p.addConvertGizmo(g);
-					p.payMarble(g.getCost(), g.getColor());
-					putbackMarble(g.getCost(), g.getColor());
-					//since you get more than 1 such gizmo, the top one is covered by a new one thus it has a smaller bound
-					//this applies to other gizmos as well
-					if(p.getConvertGizmos().size() > 1){
-						int prevTopCard = p.getConvertGizmos().size() - 2;
-						convertBoundList.get(prevTopCard).setBounds(convertBoundList.get(prevTopCard).x, convertBoundList.get(prevTopCard).y, 143, 30);
-						convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + 30 * (p.getConvertGizmos().size() - 1), 143, 130));
-					}
-					break;
-				case BUILD:
-					System.out.println("convert add to build list for player " + p.getName());
-					p.addBuildGizmo(g);
-					p.payMarble(g.getCost(), g.getColor());
-					putbackMarble(g.getCost(), g.getColor());
-					if(p.getBuildGizmos().size() > 1){
-						int prevTopCard = p.getBuildGizmos().size() - 2;
-						buildBoundList.get(prevTopCard).setBounds(buildBoundList.get(prevTopCard).x, buildBoundList.get(prevTopCard).y, 143, 30);
-						buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + 30 * (p.getBuildGizmos().size() - 1), 143, 130));
-					}					
-					break;
-				case UPGRADE:
-					System.out.println("convert add to upgrade list for player " + p.getName());
-					p.addUpgradeGizmo(g);
-					p.payMarble(g.getCost(), g.getColor());
-					putbackMarble(g.getCost(), g.getColor());
-					if(p.getUpgradeGizmos().size() > 1){
-						int prevTopCard = p.getUpgradeGizmos().size() - 2;
-						upgradeBoundList.get(prevTopCard).setBounds(upgradeBoundList.get(prevTopCard).x, upgradeBoundList.get(prevTopCard).y, 143, 30);
-						upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + 30 * (p.getUpgradeGizmos().size() - 1), 143, 130));
-					}					
-					break;
-				case FILE:
-					System.out.println("convert add to file list for player " + p.getName());
-					p.addFileGizmo(g);
-					p.payMarble(g.getCost(), g.getColor());
-					putbackMarble(g.getCost(), g.getColor());
-					if(p.getFileGizmos().size() > 1){
-						int prevTopCard = p.getFileGizmos().size() - 2;
-						fileBoundList.get(prevTopCard).setBounds(fileBoundList.get(prevTopCard).x, fileBoundList.get(prevTopCard).y, 143, 30);
-						fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + 30 * (p.getFileGizmos().size() - 1), 143, 130));
-					}
-					break;
-				case PICK:
-					System.out.println("convert add to pick list for player " + p.getName());
-					p.addPickGizmo(g);
-					p.payMarble(g.getCost(), g.getColor());
-					putbackMarble(g.getCost(), g.getColor());
-					if(p.getPickGizmos().size() > 1){
-						int prevTopCard = p.getPickGizmos().size() - 2;
-						pickBoundList.get(prevTopCard).setBounds(pickBoundList.get(prevTopCard).x, pickBoundList.get(prevTopCard).y, 143, 30);
-						pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + 30 * (p.getPickGizmos().size() - 1), 143, 130));
-					}
-					break;
-
+			System.out.println("###ActOnGizmoClick gizmo type " + g.getType());
+	
+			//int takeThisGizmo = 0;
+		
+			// if(selectedPrivateGizmo != null){
+			// 	System.out.println("There is a selected gizmo " + selectedPrivateGizmo.getColor() + "  " + selectedPrivateGizmo.getCost() + "  " + selectedPrivateGizmo.getEffect());
+			// }
+			System.out.println("Check " + p.getName() + " with clicked Gizmo card " + g.getColor() + "  " + g.getCost());
+			redCount = yellowCount = blueCount = greyCount = 0;
+			for(int i = 0; i < p.getHeldMarbles().size(); i++)
+			{
+				Marble m = p.getHeldMarbles().get(i);
+				System.out.println("Player " + p.getName() + " marble " + m.getMarbleColor());
+				if(m.getMarbleColor() == "Red")
+					redCount++;
+				else if(m.getMarbleColor() == "Yellow")
+					yellowCount++;
+				else if(m.getMarbleColor() == "Blue")
+					blueCount++;
+				else
+					greyCount++;
 			}
-			if(position == 9){
-				//should remove it from archive list of player dashboard area
-				for(int i = 0; i < p.getArchivedGizmos().size(); i++){
-					if(p.getArchivedGizmos().get(i) == g){
-						System.out.println("$$$$$$$$$$$$$$$$$$$ found matching gizmo from archive list to remove");
-						p.removeArchiveGizmo(g);
-						archiveBoundList.remove(i);
+			//specific code to handle File gizmo click
+			if(g.getType() == Gizmo.GizmoType.FILE && position == -1){
+				if(p.spaceForMoreArchive())
+				{
+					if(g.getEffect() == Gizmo.GizmoEffect.AnyMarble){
+						
+					}
+					else if(g.getEffect() == Gizmo.GizmoEffect.DrawOne){
+						System.out.println("There are currently " + marbles.size() + " in the dispenser");
+						Marble m = marbles.remove(marbles.size() - 1);
+						p.addMarble(m);
+						if(m.getMarbleColor() == "Red")
+							redCount++;
+						else if(m.getMarbleColor() == "Yellow")
+							yellowCount++;
+						else if(m.getMarbleColor() == "Grey")
+							greyCount++;
+						else
+							blueCount++;
+	
+						System.out.println("After darw there are currently " + marbles.size() + " in the dispenser");
+					}
+					else if(g.getEffect() == Gizmo.GizmoEffect.DrawThree){
+						
+					}	
+				}
+				repaint();	
+				return;
+			}
+			//if File is clicked and then another gizmo from level 1/2/3 is clicked, add that gizmo to archive section of player dashboard area
+			if(FileGizmoClicked){
+				if(p.spaceForMoreArchive()){
+					System.out.println("Should move this gizmo positioned " + position + " to the archive area of the player");
+					p.addArchiveGizmo(g);
+					
+					FillDisplayDeck(g, position);
+					if(p.getArchivedGizmos().size() > 1){
+							int prevTopCard = p.getArchivedGizmos().size() - 2;
+							archiveBoundList.get(prevTopCard).setBounds(archiveBoundList.get(prevTopCard).x, archiveBoundList.get(prevTopCard).y, 143, 30);
+							archiveBoundList.add(new Rectangle(archiveBound.x + 20, archiveBound.y + archiveBound.height + 30 * (p.getArchivedGizmos().size() - 1), 143, 130));
+					}			
+				}
+	
+				//FileGizmoClicked = false;
+				//NextPlayer();
+				turnFinishedAlert = true;
+				repaint();
+				return;
+			}
+			switch(g.getColor()){
+				case "Red":
+					if(redCount >= g.getCost())
+						takeThisGizmo = 1;
+					break;
+				case "Blue":
+					if(blueCount >= g.getCost())
+						takeThisGizmo = 1;
+					break;
+				case "Yellow":
+					if(yellowCount >= g.getCost())
+						takeThisGizmo = 1;
+					break;				
+				default:
+					if(greyCount >= g.getCost())
+						takeThisGizmo = 1;
+					break;
+			}
+			if(takeThisGizmo == 1){
+				
+				System.out.println("Player " + p.getName() + " can take this Gizmo card since he has enough to pay for it which cost " + g.getCost() + " " + g.getColor() + " marbles" );
+				switch(g.getType()){
+					
+					case CONVERT:
+						turnFinishedAlert = true; //when we implement triggering gizmos, we can just set this to false immediately so there wont be any problems with the turn
+						//finishing prematurely
+						System.out.println("convert add to convert list for player " + p.getName());
+						p.addConvertGizmo(g);
+						p.payMarble(g.getCost(), g.getColor());
+						putbackMarble(g.getCost(), g.getColor());
+						//since you get more than 1 such gizmo, the top one is covered by a new one thus it has a smaller bound
+						//this applies to other gizmos as well
+						if(p.getConvertGizmos().size() > 1){
+							int prevTopCard = p.getConvertGizmos().size() - 2;
+							convertBoundList.get(prevTopCard).setBounds(convertBoundList.get(prevTopCard).x, convertBoundList.get(prevTopCard).y, 143, 30);
+							convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + 30 * (p.getConvertGizmos().size() - 1), 143, 130));
+						}
+						repaint();
 						break;
+					case BUILD:
+						turnFinishedAlert = true;
+						System.out.println("convert add to build list for player " + p.getName());
+						p.addBuildGizmo(g);
+						p.payMarble(g.getCost(), g.getColor());
+						putbackMarble(g.getCost(), g.getColor());
+						if(p.getBuildGizmos().size() > 1){
+							int prevTopCard = p.getBuildGizmos().size() - 2;
+							buildBoundList.get(prevTopCard).setBounds(buildBoundList.get(prevTopCard).x, buildBoundList.get(prevTopCard).y, 143, 30);
+							buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + 30 * (p.getBuildGizmos().size() - 1), 143, 130));
+						}			
+						repaint();
+						
+						break;
+					case UPGRADE:
+						turnFinishedAlert = true;
+						System.out.println("convert add to upgrade list for player " + p.getName());
+						p.addUpgradeGizmo(g);
+						p.payMarble(g.getCost(), g.getColor());
+						putbackMarble(g.getCost(), g.getColor());
+						if(p.getUpgradeGizmos().size() > 1){
+							int prevTopCard = p.getUpgradeGizmos().size() - 2;
+							upgradeBoundList.get(prevTopCard).setBounds(upgradeBoundList.get(prevTopCard).x, upgradeBoundList.get(prevTopCard).y, 143, 30);
+							upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + 30 * (p.getUpgradeGizmos().size() - 1), 143, 130));
+						}	
+						repaint();
+						break;
+					case FILE:
+						turnFinishedAlert = true;
+						System.out.println("convert add to file list for player " + p.getName());
+						p.addFileGizmo(g);
+						p.payMarble(g.getCost(), g.getColor());
+						putbackMarble(g.getCost(), g.getColor());
+						if(p.getFileGizmos().size() > 1){
+							int prevTopCard = p.getFileGizmos().size() - 2;
+							fileBoundList.get(prevTopCard).setBounds(fileBoundList.get(prevTopCard).x, fileBoundList.get(prevTopCard).y, 143, 30);
+							fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + 30 * (p.getFileGizmos().size() - 1), 143, 130));
+						}
+						repaint();
+						break;
+					case PICK:
+						turnFinishedAlert = true;
+						System.out.println("convert add to pick list for player " + p.getName());
+						p.addPickGizmo(g);
+						p.payMarble(g.getCost(), g.getColor());
+						putbackMarble(g.getCost(), g.getColor());
+						if(p.getPickGizmos().size() > 1){
+							int prevTopCard = p.getPickGizmos().size() - 2;
+							pickBoundList.get(prevTopCard).setBounds(pickBoundList.get(prevTopCard).x, pickBoundList.get(prevTopCard).y, 143, 30);
+							pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + 30 * (p.getPickGizmos().size() - 1), 143, 130));
+						}
+						repaint();
+						break;
+	
+				}
+				if(position == 100){
+					//should remove it from archive list of player dashboard area
+					for(int i = 0; i < p.getArchivedGizmos().size(); i++){
+						if(p.getArchivedGizmos().get(i) == g){
+							System.out.println("$$$$$$$$$$$$$$$$$$$ found matching gizmo from archive list to remove");
+							p.removeArchiveGizmo(g);
+							archiveBoundList.remove(i);
+							break;
+						}
 					}
 				}
+				else{
+					FillDisplayDeck(g, position);
+				}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+				activeBound.setBounds(0, 0, 0,0);		
 			}
-			else{
-				FillDisplayDeck(g, position);
+			else
+			{
+				System.out.println("Player " + p.getName() + " can NOT take this Gizmo card since he can NOT pay for it which cost " + g.getCost() + " " + g.getColor() + " marbles" );
 			}
 
 
@@ -740,12 +885,10 @@ public class BoardPanel extends JPanel implements MouseListener{
 
 			activeBound.setBounds(0, 0, 0,0);		
 			privateGizmoBound.setBounds(0,0,0,0);
+			
+			repaint();
+			
 		}
-		else
-		{
-			System.out.println("Player " + p.getName() + " can NOT take this Gizmo card since he can NOT pay for it which cost " + g.getCost() + " " + g.getColor() + " marbles" );
-		}
-		repaint();
 	}
 
 	private void FillDisplayDeck(Gizmo g, int position){
@@ -779,6 +922,7 @@ public class BoardPanel extends JPanel implements MouseListener{
 			}
 	}
 	private void NextPlayer(){
+		turnFinishedAlert = false;
 		Player p = players.get(currentPlayer);
 		gizmoBeingBuilt = null;	
 		gizmoPrivateSelected = null;
