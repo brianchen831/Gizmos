@@ -1,5 +1,5 @@
 import java.awt.Color;
-//ignore this class yall it just makes our lives hella easy
+//ignore this class yall it just makes our lives easy
 public class ClosestColorFinder {
 
     public static String findClosestBasicColor(Color targetColor) {
@@ -33,7 +33,7 @@ public class ClosestColorFinder {
         int red = color.getRed();
         int green = color.getGreen();
         int blue = color.getBlue();
-        System.out.println(color);
+        //System.out.println(color);
         if (isBlue(red, green, blue)) return "Blue";
         if (isGray(red, green, blue)) return "Grey";
         if (isYellow(red, green, blue)) return "Yellow";

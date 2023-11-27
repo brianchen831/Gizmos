@@ -234,14 +234,12 @@ public class BoardPanel extends JPanel implements MouseListener{
 		g.drawImage(playergui, 0, -180, null);
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
-		g.setColor(Color.RED);
-		g.drawString(":" + redCount, 87, 828);
-		g.setColor(Color.GRAY);
-		g.drawString(":" + greyCount, 87, 872);
-		g.setColor(Color.BLUE);
-		g.drawString(":" + blueCount, 142, 828);
+		g.setColor(Color.BLACK);
+		g.drawString("" + redCount, 68, 651);
+		g.drawString("" + greyCount, 68, 693);
+		g.drawString("" + blueCount, 123, 649);
+		g.drawString("" + yellowCount, 123, 693);
 		g.setColor(Color.YELLOW);
-		g.drawString(":" + yellowCount, 142, 872);
 		int temp = 0;
 		for (int i = 0; i < 4; i++) {
 			g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
