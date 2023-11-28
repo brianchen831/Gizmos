@@ -144,7 +144,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		upgBound = new Rectangle(240, 580, 165, 75);
 		convertBound = new Rectangle(405, 580, 180, 75);
 		archiveBound = new Rectangle(1215, 580, 180, 75);
-		fileBound = new Rectangle(585, 580, 180, 75);
+		fileBound = new Rectangle(585, 580, 180, 75); 
 		pickBound = new Rectangle(765, 580, 180, 75);
 		buildBound = new Rectangle(930, 580, 180, 75);
 		researchBound = new Rectangle(1095, 580, 120, 75);
@@ -343,7 +343,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.drawImage(m.getMarbleImage(), m.getMarbleX(), m.getMarbleY() + i, null);
 			i += 25;
 		}
-
+		
+		
+		
 		g.drawImage(firstCard.get(currentPlayer).getImage(), fileBound.x + 20, fileBound.y + fileBound.height, 143, 130,
 				null);
 		if (researched == true) {
@@ -429,7 +431,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		System.out.println(x + ", " + y);
+		
 
 		if (marbleBound1.contains(e.getPoint())) {
 			pickMarble(0, visibleMarbles.get(0).getMarbleColor());
@@ -497,7 +499,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 			gizmoBeingBuilt = g;
 			ActOnGizmoClick(g, 8);
 		} else if (fileBound.contains(e.getPoint())) {
-			activeBound.setBounds(fileBound);
+			privateGizmoBound.setBounds(fileBound);
+			//activeBound.setBounds(fileBound);
 		} else if (pickBound.contains(e.getPoint()))
 			privateGizmoBound.setBounds(pickBound);
 		else if (buildBound.contains(e.getPoint()))
@@ -509,7 +512,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		Player p = players.get(currentPlayer);
 		for (int i = 0; i < fileBoundList.size(); i++) {
-			if (fileBoundList.get(i).contains(e.getPoint())) {
+			//if (fileBoundList.get(i).contains(e.getPoint())) { //add this back if something breaks 
+			if (fileBound.contains(e.getPoint())) {
 				FileGizmoClicked = true;
 				privateGizmoBound.setBounds(fileBoundList.get(i));
 				Gizmo g = p.getFileGizmos().get(i);
@@ -590,6 +594,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		if (researchBound.contains(e.getPoint())) {
 			researched = true;
 		}
+		System.out.println(x + ", " + y);
 		repaint();
 	}
 
@@ -677,7 +682,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			// if File is clicked and then another gizmo from level 1/2/3 is clicked, add
 			// that gizmo to archive section of player dashboard area
-			if (FileGizmoClicked) {
+			if (FileGizmoClicked) { //i want to make it so they click the toolbar thing instead of the file gizmo thing
 				if (p.spaceForMoreArchive()) {
 					System.out.println(
 							"Should move this gizmo positioned " + position + " to the archive area of the player");
