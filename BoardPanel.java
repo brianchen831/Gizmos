@@ -530,11 +530,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 				System.out.println(tempConvertedMarbleList.get(i).getMarbleColor() + " in temp convert list clickerd");
 		}
 		for(int i = 0; i < 4; i++){
+			//silly code to add since marbles use different coordinates origin, compensate it
 			Point pt = new Point(e.getPoint().x - 940, e.getPoint().y - 250);
-			System.out.println(e.getPoint().x + ", " + e.getPoint().y + " pt: " + pt.x + ", " + pt.y);
-			System.out.println("actual bound: " + fourMarbleBoundList.get(i).x + " - " + fourMarbleBoundList.get(i).y);
+
 			if(fourMarbleBoundList.get(i).contains(pt))
 				System.out.println(fourMarbleList.get(i).getMarbleColor() + " in 4 free to pick marble list clickerd");
+		}
+		for(int i = 0; i < tempConvertedMarbleBoundList.size(); i++){
+			Point pt = new Point(e.getPoint().x - 940, e.getPoint().y - 250);
+			if(tempConvertedMarbleBoundList.get(i).contains(pt))
+				System.out.println(tempConvertedMarbleList.get(i).getMarbleColor() + " in temporary converted marble list clickerd");
 		}
 		for (int i = 0; i < convertBoundList.size(); i++) {
 			if (convertBoundList.get(i).contains(e.getPoint())) {
