@@ -139,6 +139,9 @@ public class Player {
     public ArrayList<Marble> getHeldMarbles() {
         return heldMarbles;
     }
+    public void ClearHeldMarbles(){
+        heldMarbles.clear();
+    }
         //    upgradeGizmos = new ArrayList();
         // converterGizmos = new ArrayList();
         // fileGizmos = new ArrayList();
