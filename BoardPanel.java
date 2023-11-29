@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage background, playergui, gizmoSheet1, gizmoSheet2;
+	private BufferedImage background, playergui, player1gui, gizmoSheet1, gizmoSheet2;
 	private int yellowCount, redCount, greyCount, blueCount;
 	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; // temporary
 																											// hardcode
@@ -165,6 +165,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
 			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
 			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet2.jpg"));
+			player1gui = ImageIO.read(BoardFrame.class.getResource("/images/player1gui.png"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -311,7 +312,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 
 		g.drawImage(background, 0, 0, null);
-		g.drawImage(playergui, 0, -180, null);
+		if (currentPlayer == 0) { g.drawImage(player1gui, 0, -180, null); }
+		else { g.drawImage(playergui, 0, -180, null); }
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
 		g.setColor(Color.BLACK);
