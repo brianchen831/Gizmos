@@ -124,6 +124,7 @@ public class Player {
     public void addVictoryPoint(int v){
         victoryPoints += v;
     }
+ 
     public void payMarble(int cost, String color){
         int removedMarbles = 0;
         for(int i = heldMarbles.size() - 1; i >= 0; i--){

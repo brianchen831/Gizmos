@@ -735,11 +735,25 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 						System.out.println("After draw there are currently " + marbles.size() + " in the dispenser");
 					} else if (g.getEffect() == Gizmo.GizmoEffect.DrawThree) {
-
+						
 					}
 				}
 				repaint();
 				return;
+			} else if (g.getType() == Gizmo.GizmoType.BUILD) {
+				
+				if (g.getEffect() == Gizmo.GizmoEffect.OneVictoryPoint) {
+					
+					out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$VICTORYPOINTGOT");
+					players.get(currentPlayer).addVictoryPoint(1);
+					
+					out.println(players.get(currentPlayer).getVictoryPoints());
+					
+					
+				}
+				
+				
+				
 			}
 			// if File is clicked and then another gizmo from level 1/2/3 is clicked, add
 			// that gizmo to archive section of player dashboard area
@@ -912,6 +926,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 									convertBound.y + convertBound.height + 30 * (p.getConvertGizmos().size() - 1), 143,
 									130));
 						}
+						
+						players.get(currentPlayer).addVictoryPoint(g.getVictoryPoints());
+						
 						repaint();
 						break;
 					case BUILD:
@@ -927,8 +944,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 							buildBoundList.add(new Rectangle(buildBound.x + 20,
 									buildBound.y + buildBound.height + 30 * (p.getBuildGizmos().size() - 1), 143, 130));
 						}
+						
+						players.get(currentPlayer).addVictoryPoint(g.getVictoryPoints());
+						
 						repaint();
-
 						break;
 					case UPGRADE:
 						turnFinishedAlert = true;
@@ -943,6 +962,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							upgradeBoundList.add(new Rectangle(upgBound.x + 20,
 									upgBound.y + upgBound.height + 30 * (p.getUpgradeGizmos().size() - 1), 143, 130));
 						}
+						
+						players.get(currentPlayer).addVictoryPoint(g.getVictoryPoints());
+						
 						repaint();
 						break;
 					case FILE:
@@ -958,6 +980,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							fileBoundList.add(new Rectangle(fileBound.x + 20,
 									fileBound.y + fileBound.height + 30 * (p.getFileGizmos().size() - 1), 143, 130));
 						}
+						
+						players.get(currentPlayer).addVictoryPoint(g.getVictoryPoints());
+						
 						repaint();
 						break;
 					case PICK:
@@ -973,6 +998,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							pickBoundList.add(new Rectangle(pickBound.x + 20,
 									pickBound.y + pickBound.height + 30 * (p.getPickGizmos().size() - 1), 143, 130));
 						}
+						
+						players.get(currentPlayer).addVictoryPoint(g.getVictoryPoints());
+						
 						repaint();
 						break;
 
