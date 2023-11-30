@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage background, playergui, player1gui, gizmoSheet1, gizmoSheet2;
+	private BufferedImage background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5;
 	private int yellowCount, redCount, greyCount, blueCount;
 	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; // temporary
 																											// hardcode
@@ -163,12 +163,15 @@ public class BoardPanel extends JPanel implements MouseListener {
 				
 		try {
 			// Load images
+			
 			marbleDispenser = ImageIO.read(BoardFrame.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
 			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
 			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet2.jpg"));
 			player1gui = ImageIO.read(BoardFrame.class.getResource("/images/player1gui.png"));
+			victoryPoint1 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint1.png"));
+			victoryPoint5 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint5.png"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -313,10 +316,21 @@ public class BoardPanel extends JPanel implements MouseListener {
 				greyCount++;
 			}
 		}
+		
 
 		g.drawImage(background, 0, 0, null);
 		if (currentPlayer == 0) { g.drawImage(player1gui, 0, -180, null); }
 		else { g.drawImage(playergui, 0, -180, null); }
+		int v = 0;
+		int increment1Pos = 0;
+		int increment5Pos = 0;
+		while (v < players.get(currentPlayer).getVictoryPoints()) {
+			if (players.get(currentPlayer).getVictoryPoints() == 5) { g.drawImage(victoryPoint5, 88 + increment5Pos, 841, 63, 91, null); increment5Pos+=40; }
+			else { g.drawImage(victoryPoint1, 88 + increment1Pos, 841, 63, 91, null); increment1Pos+=40; }
+			v++;
+			
+			
+		}
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
 		g.setColor(Color.BLACK);
