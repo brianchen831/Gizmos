@@ -119,6 +119,8 @@ public class Gizmo {
 	private static int IDNum;
 	private int ID;
 
+	private boolean triggered = false;
+
 	public Gizmo(BufferedImage gizmoImage, int t){ //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
 
 	 	IDNum++;
@@ -135,6 +137,16 @@ public class Gizmo {
 		cost = 1; //default to 1 unless not
 		AssignProperties();
 	} 
+
+	public void triggered(){
+		triggered = true;
+	}
+	public void untriggered(){
+		triggered = false;
+	}
+	public boolean isTriggered(){
+		return triggered;
+	}
 
 	public BufferedImage getImage() {
 
@@ -426,28 +438,28 @@ public class Gizmo {
 				break;
 			case 45:
 				trigger = GizmoTgr.PickYellowOrRed;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 46:
 				trigger = GizmoTgr.PickYellowOrGrey;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 47:
 				trigger = GizmoTgr.PickGreyOrBlue;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 48:
 				trigger = GizmoTgr.PickRedOrBlue;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;

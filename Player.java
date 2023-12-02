@@ -95,6 +95,12 @@ public class Player {
         else
             return false;
     }
+    public int getArchiveSpace(){
+        return archiveSpace;
+    }
+    public int getArchiveSpaceUsed(){
+        return archiveGizmos.size();
+    }
     public boolean spaceForMoreArchive()
     {
         if(archiveSpace > archiveGizmos.size())
