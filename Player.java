@@ -14,7 +14,7 @@ public class Player {
     private ArrayList<Gizmo> fileGizmos;
     private ArrayList<Gizmo> pickGizmos;
     private ArrayList<Gizmo> buildGizmos;
-
+    private Gizmo clickedFileGizmo;
 
     private ArrayList<Gizmo> archiveGizmos;
 
@@ -35,6 +35,7 @@ public class Player {
         pickGizmos = new ArrayList();
         buildGizmos = new ArrayList();
         archiveGizmos = new ArrayList<>();
+        clickedFileGizmo = null;
         winning = false;
         this.name = name;
         heldMarbles = new ArrayList<>();
@@ -172,6 +173,15 @@ public class Player {
     }
     public ArrayList<Gizmo> getArchivedGizmos(){
         return archiveGizmos;
+    }
+    public Gizmo getClickedFileGizmo () {
+        return clickedFileGizmo;
+    }
+    public void setClickedFileGizmo (Gizmo g) {
+        clickedFileGizmo = g;
+    }
+    public void removeClickedFileGizmo () {
+        clickedFileGizmo = null;
     }
     public int getVictoryPoints() {
         return victoryPoints;
