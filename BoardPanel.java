@@ -65,8 +65,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 
 	private boolean turnFinishedAlert = false;
-	private boolean turnFinishedAlertPickReaction = true; //name isnt really accurate, it basically checks if they can activate a pick reaction
-	//bruh ts gonna be aids to do
+	
 	public BoardPanel() {
 		players = new ArrayList<>();
 		totalPlayers = 4;
@@ -438,14 +437,28 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.setColor(Color.YELLOW);
 			g.drawRect(privateGizmoBound.x, privateGizmoBound.y, privateGizmoBound.width, privateGizmoBound.height);
 		}
+
+		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
+		ArrayList<Gizmo> buildGizmos = players.get(currentPlayer).getBuildGizmos();
+		ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos();
+		boolean reactionAvailable = false;;
+		for(Gizmo gizmo : fileGizmos){
+			if(gizmo.isTriggered())
+				reactionAvailable = true;
+		}
+		for(Gizmo gizmo : buildGizmos){
+			if(gizmo.isTriggered())
+				reactionAvailable = true;
+		}
+		for(Gizmo gizmo : pickGizmos){
+			if(gizmo.isTriggered())
+				reactionAvailable = true;
+		}
 		g.setColor(Color.blue);
-		if (turnFinishedAlert && turnFinishedAlertPickReaction) {
+		if (turnFinishedAlert && !reactionAvailable) {
 			g.fillRect(0, 0, 100, 100);
 		}
-		g.setColor(Color.red);
-		if(turnFinishedAlert){
-			g.fillRect(100, 0, 100, 100);
-		}
+		
 	}
 
 	@Override
