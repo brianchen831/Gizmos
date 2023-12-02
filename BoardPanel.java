@@ -731,28 +731,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			// specific code to handle File gizmo click
 			if (g.getType() == Gizmo.GizmoType.FILE && position == -1) {
-				if (p.spaceForMoreArchive()) {
-					if (g.getEffect() == Gizmo.GizmoEffect.AnyMarble) {
+				p.setClickedFileGizmo(g);
 
-					} else if (g.getEffect() == Gizmo.GizmoEffect.DrawOne) {
-						System.out.println("There are currently " + marbles.size() + " in the dispenser");
-						Marble m = marbles.remove(marbles.size() - 1);
-						p.addMarble(m);
-						if (m.getMarbleColor() == "Red")
-							redCount++;
-						else if (m.getMarbleColor() == "Yellow")
-							yellowCount++;
-						else if (m.getMarbleColor() == "Grey")
-							greyCount++;
-						else
-							blueCount++;
-
-						System.out.println("After draw there are currently " + marbles.size() + " in the dispenser");
-					} else if (g.getEffect() == Gizmo.GizmoEffect.DrawThree) {
-						
-					}
-				}
-				repaint();
 				return;
 			} else if (g.getType() == Gizmo.GizmoType.BUILD) {
 				
@@ -790,6 +770,30 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 				// FileGizmoClicked = false;
 				// NextPlayer();
+								
+				if (p.getClickedFileGizmo() != null) {
+					if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.AnyMarble) {
+
+					} else if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.DrawOne) {
+						System.out.println("There are currently " + marbles.size() + " in the dispenser");
+						Marble m = marbles.remove(marbles.size() - 1);
+						p.addMarble(m);
+						if (m.getMarbleColor() == "Red")
+							redCount++;
+						else if (m.getMarbleColor() == "Yellow")
+							yellowCount++;
+						else if (m.getMarbleColor() == "Grey")
+							greyCount++;
+						else
+							blueCount++;
+
+						System.out.println("After draw there are currently " + marbles.size() + " in the dispenser");
+					} else if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.DrawThree) {
+						
+					}
+					p.removeClickedFileGizmo();
+				}
+				
 				turnFinishedAlert = true;
 				repaint();
 				return;
