@@ -704,6 +704,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		System.out.println("There are " + marbles.size() + " in the dispenser and energy row");
 	}
 
+	//change this to be like gizmo triggered pick
 	private void gizmoTriggered(ArrayList<Gizmo> pickGizmos){
 		System.out.println("reached gizmo triggered");
 		Player p = players.get(currentPlayer);
