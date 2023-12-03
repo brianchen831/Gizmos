@@ -219,12 +219,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6 * 490, 0 * 490, 490, 490), 3));
 		t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6 * 490, 1 * 490, 490, 490), 3));
+		 
 		for (int i = 0; i < 4; i++)
 			firstCard.add(new Gizmo(gizmoSheet2.getSubimage(2 * 490, 6 * 490, 490, 490), 0));
-
+		System.out.println(t3Gizmos.get(3).getEffect());
+		System.out.println(t3Gizmos.get(3).getTrigger());
+		System.out.println(t3Gizmos.get(3).getColor());
 		Collections.shuffle(t1Gizmos);
 		Collections.shuffle(t2Gizmos);
 		Collections.shuffle(t3Gizmos);
+
 		Player p1 = new Player("A");
 		p1.addFileGizmo(firstCard.get(0));
 		players.add(p1);
@@ -328,8 +332,6 @@ public class BoardPanel extends JPanel implements MouseListener {
 			if (players.get(currentPlayer).getVictoryPoints() == 5) { g.drawImage(victoryPoint5, 88 + increment5Pos, 841, 63, 91, null); increment5Pos+=40; }
 			else { g.drawImage(victoryPoint1, 88 + increment1Pos, 841, 63, 91, null); increment1Pos+=40; }
 			v++;
-			
-			
 		}
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
@@ -444,6 +446,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		if (turnFinishedAlert) {
 			g.fillRect(0, 0, 100, 100);
 		}
+		
 	}
 
 	@Override
@@ -1193,6 +1196,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		System.out.println("Pick list: " + pickBoundList.size());
 		System.out.println("Archive list: " + archiveBoundList.size());
 		FileGizmoClicked = false;
+
 
 	}
 
