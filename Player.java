@@ -116,7 +116,9 @@ public class Player {
         else
             return false;
     }
-    
+    public int getResearchPower(){
+        return researchPower;
+    }
     public void noMoreResearch(){
         researchPower = 0;
     }

@@ -62,6 +62,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private String colorTempMarbleClicked = "";
 	private boolean pickEffectActive = false;
 	
+	private int researchMode = 0;
+	private ArrayList<Rectangle> researchGizmoBoundList;
+	private ArrayList<Gizmo> researchGizmoList;
+	private int selectedResearchGizmoIndex;
+
 	public BoardPanel() {
 		players = new ArrayList<>();
 		totalPlayers = 4;
@@ -89,6 +94,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 		showFourMarbleList = false;
 		int temp = 0;
 		String marbleColor = "";
+		researchGizmoBoundList = new ArrayList<>();
+		researchGizmoList = new ArrayList<>();
+		selectedResearchGizmoIndex = -1;
+
 		for (int i = 0; i < 4; i++) {
 			if (i == 0)
 				marbleColor = "Red";
@@ -149,9 +158,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 		convertBound = new Rectangle(405, 580, 180, 75);
 		archiveBound = new Rectangle(1215, 580, 180, 75);
 		fileBound = new Rectangle(585, 580, 180, 75); 
-		pickBound = new Rectangle(765, 580, 180, 75);
-		buildBound = new Rectangle(930, 580, 180, 75);
-		researchBound = new Rectangle(1095, 580, 120, 75);
+		pickBound = new Rectangle(765, 580, 163, 75);
+		buildBound = new Rectangle(930, 580, 163, 75);
+		//researchBound = new Rectangle(1095, 580, 120, 75);
 
 		upgradeBoundList.add(new Rectangle(upgBound.x + 10, upgBound.y + upgBound.height, 143, 130));
 		convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height, 143, 130));
@@ -385,6 +394,13 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.fillRect(175, 395, 2, 132);
 		}
 
+		if(researchMode == 1)
+			g.drawRect(tier1bound.x, tier1bound.y, tier1bound.width, tier1bound.height);
+		if(researchMode == 2)
+			g.drawRect(tier2bound.x, tier2bound.y, tier2bound.width, tier2bound.height);
+		if(researchMode == 3)
+			g.drawRect(tier3bound.x, tier3bound.y, tier3bound.width, tier3bound.height);
+
 		g.drawRect(nextPlayerBound.x, nextPlayerBound.y, nextPlayerBound.width, nextPlayerBound.height);
 
 		Player p = players.get(currentPlayer);
@@ -418,6 +434,18 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.drawImage(gm.getImage(), archiveBoundList.get(i).x, archiveBoundList.get(i).y, 143, 130, null);
 		}
 
+		if(researchMode > 0){
+            for(i = 0; i < researchGizmoList.size(); i++){
+                Gizmo gm = researchGizmoList.get(i);
+                g.drawImage(gm.getImage(), researchGizmoBoundList.get(i).x, researchGizmoBoundList.get(i).y, 143, 130, null);
+            }
+            if(selectedResearchGizmoIndex >= 0)
+                g.drawRect(researchGizmoBoundList.get(selectedResearchGizmoIndex).x, researchGizmoBoundList.get(selectedResearchGizmoIndex).y, 
+                researchGizmoBoundList.get(selectedResearchGizmoIndex).width, researchGizmoBoundList.get(selectedResearchGizmoIndex).height);
+            g.drawRect(fileBound.x, fileBound.y, fileBound.width, fileBound.height);
+            g.drawRect(buildBound.x, buildBound.y, buildBound.width, buildBound.height);
+        }
+
 		if (tempConvertedMarbleList.size() > 0) {
 			for (i = 0; i < tempConvertedMarbleList.size(); i++) {
 				g.drawImage(tempConvertedMarbleList.get(i).getMarbleImage(), tempConvertedMarbleBoundList.get(i).x, 
@@ -436,6 +464,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 
 		g.setColor(Color.GREEN);
+		out.println("what is active bound" + " " + activeBound.x);
+
 		if (activeBound.x > 0)
 			g.drawRect(activeBound.x, activeBound.y, activeBound.width, activeBound.height);
 
@@ -494,6 +524,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 		int x = e.getX();
 		int y = e.getY();
 		
+		if (nextPlayerBound.contains(e.getPoint())) {
+            NextPlayer();
+        }
+        if(turnFinishedAlert)
+            return;
 
 		if (marbleBound1.contains(e.getPoint())) {
 			pickMarble(0, visibleMarbles.get(0).getMarbleColor());
@@ -576,11 +611,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 			privateGizmoBound.setBounds(pickBound);
 		else if (buildBound.contains(e.getPoint()))
 			privateGizmoBound.setBounds(buildBound);
-		else if (researchBound.contains(e.getPoint()))
-			privateGizmoBound.setBounds(researchBound);
-		else if (nextPlayerBound.contains(e.getPoint())) {
-			NextPlayer();
-		}
+		// else if (researchBound.contains(e.getPoint()))
+		// 	privateGizmoBound.setBounds(researchBound);
+		// else if (nextPlayerBound.contains(e.getPoint())) {
+		// 	NextPlayer();
+		// }
 		Player p = players.get(currentPlayer);
 		for (int i = 0; i < fileBoundList.size(); i++) {
 			//if (fileBoundList.get(i).contains(e.getPoint())) { //add this back if something breaks 
@@ -805,15 +840,74 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// else
 		// System.out.println(e.getX() + " , " + e.getY() + " out of bound of any card
 		// in display area");
-		if (researchBound.contains(e.getPoint())) {
-			researched = true;
+
+		if(researchMode == 0){
+			if(tier1bound.contains(e.getPoint()))
+				researchMode = 1;
+			if(tier2bound.contains(e.getPoint()))
+				researchMode = 2;
+			if(tier3bound.contains(e.getPoint()))
+				researchMode = 3;
+			if(researchMode > 0)
+				AddResearchCards();
 		}
+		else{
+			boolean clearResearchList = true;
+			for(int i = 0; i < researchGizmoBoundList.size(); i++){
+				if(researchGizmoBoundList.get(i).contains(e.getPoint())){
+					gizmoBeingBuilt = researchGizmoList.get(i);
+					selectedResearchGizmoIndex = i;
+					clearResearchList = false;
+					System.out.println("Gizmo to be build selected from research list " + gizmoBeingBuilt.getColor() + " - " + gizmoBeingBuilt.getCost());
+				}
+			}
+			if(fileBound.contains(e.getPoint())){
+				System.out.println("might want to file this selected gizmo");
+				clearResearchList = false;
+				//try to file this gizmo from research list
+				ActOnGizmoClick(gizmoBeingBuilt, -1);
+			}
+			if(buildBound.contains(e.getPoint())){
+				System.out.println("might want to build this selected gizmo");
+				clearResearchList = false;
+				//try to build this gizmo from research list but don't want the function to put the gizmo back to deck
+				ActOnGizmoClick(gizmoBeingBuilt, 100);
+			}
+			if(turnFinishedAlert)
+				clearResearchList = true;
+			if(clearResearchList == true){
+				System.out.println("Clicked on unrelevant place, clear research gizmos");
+				for(int i = researchGizmoList.size() - 1; i >= 0; i--){
+					if(researchMode == 1)
+						t1Gizmos.add(researchGizmoList.remove(i));
+					if(researchMode == 2)
+						t2Gizmos.add(researchGizmoList.remove(i));
+					if(researchMode == 3)
+						t3Gizmos.add(researchGizmoList.remove(i));				
+				}
+				researchGizmoBoundList.clear();
+				researchMode = 0;
+			}
+		}		
+		
 		System.out.println(x + ", " + y);
 		repaint();
 	}
-
-	private void AddPotentialEffects() {
-
+    private void AddResearchCards(){
+		researchGizmoList.clear();
+		researchGizmoBoundList.clear();
+		Player p = players.get(currentPlayer);
+		int power = p.getResearchPower();
+		for(int i = 0; i < power; i++){
+			if(researchMode == 1)
+				researchGizmoList.add(t1Gizmos.remove(t1Gizmos.size() - 1));
+			if(researchMode == 2)
+				researchGizmoList.add(t2Gizmos.remove(t2Gizmos.size() - 1));
+			if(researchMode == 3)
+				researchGizmoList.add(t3Gizmos.remove(t3Gizmos.size() - 1));	
+			researchGizmoBoundList.add(new Rectangle(1000 + i * 170, 390, 140, 130));			
+		}
+		System.out.println("adding " + power + " tier " + researchMode + " gizmos to research list for player " + currentPlayer);
 	}
 	private void setExpandedConvertMarbleBoundList(){
 		tempConvertedMarbleBoundList.clear();
@@ -821,6 +915,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			tempConvertedMarbleBoundList.add(new Rectangle(-800 + i * 25, 600, 25,25));
 		}
 	}
+
 	private void tryConvertGizmosForQualification() {
 		if (gizmoBeingBuilt == null)
 			return;
@@ -1271,9 +1366,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 						+ " can NOT take this Gizmo card since he can NOT pay for it which cost " + g.getCost() + " "
 						+ g.getColor() + " marbles");
 			}
+			if(turnFinishedAlert){
+				activeBound.setBounds(0, 0, 0, 0);
+				privateGizmoBound.setBounds(0, 0, 0, 0);
+			}
 
-			activeBound.setBounds(0, 0, 0, 0);
-			privateGizmoBound.setBounds(0, 0, 0, 0);
 
 			repaint();
 		}
@@ -1307,7 +1404,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 				t3Gizmos.add(position - 7, lastGizmo);
 				t3Gizmos.remove(t3Gizmos.size() - 1);
 				break;
-
+			case 100:
+				researchGizmoList.remove(selectedResearchGizmoIndex);
+				break;
 		}
 	}
 
@@ -1325,6 +1424,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			gizmo.untriggered();
 		}
 		turnFinishedAlert = false;
+		selectedResearchGizmoIndex = -1;
 		Player p = players.get(currentPlayer);
 		gizmoBeingBuilt = null;
 		gizmoPrivateSelected = null;
