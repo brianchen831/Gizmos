@@ -1019,6 +1019,11 @@ private void DisplayTempConvertedMarbles(){
 					greyCount++;
 			}
 			//need to re-add filing part, i deleted the commented out part because they were annoying
+			if (g.getType() == Gizmo.GizmoType.FILE && position == -1) {
+				p.setClickedFileGizmo(g);
+
+				return;
+			}
 
 			// if File is clicked and then another gizmo from level 1/2/3 is clicked, add
 			// that gizmo to archive section of player dashboard area
@@ -1041,6 +1046,28 @@ private void DisplayTempConvertedMarbles(){
 
 				// FileGizmoClicked = false;
 				// NextPlayer();
+				if (p.getClickedFileGizmo() != null) {
+					if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.AnyMarble) {
+
+					} else if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.DrawOne) {
+						System.out.println("There are currently " + marbles.size() + " in the dispenser");
+						Marble m = marbles.remove(marbles.size() - 1);
+						p.addMarble(m);
+						if (m.getMarbleColor() == "Red")
+							redCount++;
+						else if (m.getMarbleColor() == "Yellow")
+							yellowCount++;
+						else if (m.getMarbleColor() == "Grey")
+							greyCount++;
+						else
+							blueCount++;
+
+						System.out.println("After draw there are currently " + marbles.size() + " in the dispenser");
+					} else if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.DrawThree) {
+						
+					}
+					p.removeClickedFileGizmo();
+				}
 				turnFinishedAlert = true; out.println("File Gizmo Clicked Turn Finished True");
 				repaint();
 				return;
