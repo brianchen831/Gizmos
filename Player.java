@@ -39,7 +39,8 @@ public class Player {
         winning = false;
         this.name = name;
         heldMarbles = new ArrayList<>();
-        marbleSpace = 5;
+        //temporary changing marble space
+        marbleSpace = 100;
         archiveSpace = 1;
         researchPower = 3;
     }

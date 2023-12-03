@@ -65,6 +65,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 
 	private boolean turnFinishedAlert = false;
+	private String colorTempMarbleClicked = "";
 	
 	public BoardPanel() {
 		players = new ArrayList<>();
@@ -227,9 +228,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for (int i = 0; i < 4; i++)
 			firstCard.add(new Gizmo(gizmoSheet2.getSubimage(2 * 490, 6 * 490, 490, 490), 0));
 
-		Collections.shuffle(t1Gizmos);
-		Collections.shuffle(t2Gizmos);
-		Collections.shuffle(t3Gizmos);
+		// Collections.shuffle(t1Gizmos);
+		// Collections.shuffle(t2Gizmos);
+		// Collections.shuffle(t3Gizmos);
+		//Collections.rotate(t1Gizmos, 44+17);
+Collections.rotate(t3Gizmos, -3);
 		Player p1 = new Player("A");
 		p1.addFileGizmo(firstCard.get(0));
 		players.add(p1);
@@ -244,25 +247,36 @@ public class BoardPanel extends JPanel implements MouseListener {
 		players.add(p4);
 		addMouseListener(this);
 		firstDraw = true;
+
+		//temporary code for convenience, to be removed
+		for(int j = 0; j < 5; j++){
+			p1.addMarble(new Marble("Grey"));
+		}
+		p1.addMarble(new Marble("Blue"));
+		p1.addMarble(new Marble("Blue"));
 	}
 
 	public void pickMarble(int index, String color) {
 		
 		if (!turnFinishedAlert) {
-
+			ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos(); 
 			if (players.get(currentPlayer).spaceForMoreMarble()) {
 				if (visibleMarbles.get(index).toString().equals("Red")) {
 					redCount++;
-					redPicked = true;
+					//redPicked = true;
+					pickGizmoTriggered(pickGizmos, "Red");
 				} else if (visibleMarbles.get(index).toString().equals("Yellow")) {
 					yellowCount++;
-					yellowPicked = true;
+					//yellowPicked = true;
+					pickGizmoTriggered(pickGizmos, "Yellow");
 				} else if (visibleMarbles.get(index).toString().equals("Grey")) {
 					greyCount++;
-					greyPicked = true;
+					//greyPicked = true;
+					pickGizmoTriggered(pickGizmos, "Grey");
 				} else {
 					blueCount++;
-					bluePicked = true;
+					//bluePicked = true;
+					pickGizmoTriggered(pickGizmos, "Blue");
 				}
 				// players.get(playerNum).addMarble(visibleMarbles.remove(index));
 				// visibleMarbles.add(0, newMarble);
@@ -276,8 +290,6 @@ public class BoardPanel extends JPanel implements MouseListener {
 			// NextPlayer();
 			
 			turnFinishedAlert = true;  out.println("Picked Marble Turn Finished True");
-			ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos(); 
-			gizmoTriggered(pickGizmos);
 			repaint();
 		}
 	}
@@ -576,9 +588,68 @@ private void DisplayTempConvertedMarbles(){
 		// System.out.println("upgradeBoundList " + i + " clicked " + activeBound.y);
 		// }
 		// }
+		// for(int i = 0; i < tempConvertedMarbleBoundList.size(); i++){
+		// 	if(tempConvertedMarbleBoundList.get(i).contains(e.getPoint()))
+		// 		System.out.println(tempConvertedMarbleList.get(i).getMarbleColor() + " in temp convert list clickerd");
+		// }
 		for(int i = 0; i < tempConvertedMarbleBoundList.size(); i++){
-			if(tempConvertedMarbleBoundList.get(i).contains(e.getPoint()))
-				System.out.println(tempConvertedMarbleList.get(i).getMarbleColor() + " in temp convert list clickerd");
+			Point pt = new Point(e.getPoint().x - 940, e.getPoint().y - 250);
+			if(tempConvertedMarbleBoundList.get(i).contains(pt)){
+				colorTempMarbleClicked = tempConvertedMarbleList.get(i).getMarbleColor();
+				System.out.println(tempConvertedMarbleList.get(i).getMarbleColor() + " in temporary converted marble list clickerd");
+			}
+		}
+		if(gizmoPrivateSelected != null){
+			if(gizmoPrivateSelected.getTrigger() == Gizmo.GizmoTgr.BlueOrYellow){
+				System.out.println("BlueOrYellow case, should add " + colorTempMarbleClicked + " marble");
+				for(int k = 0; k < tempConvertedMarbleList.size(); k++){
+					if(tempConvertedMarbleList.get(k).getMarbleColor() == colorTempMarbleClicked){
+						tempConvertedMarbleList.add(new Marble(colorTempMarbleClicked));
+						break;
+					}
+					else if(tempConvertedMarbleList.get(k).getMarbleColor() == "Blue"){
+						tempConvertedMarbleList.add(new Marble("Blue"));
+						break;
+					}
+					else if(tempConvertedMarbleList.get(k).getMarbleColor() == "Yellow"){
+						tempConvertedMarbleList.add(new Marble("Blue"));		
+						break;
+					}	
+				}
+			}
+			if(gizmoPrivateSelected.getTrigger() == Gizmo.GizmoTgr.RedOrGrey){
+				for(int k = 0; k < tempConvertedMarbleList.size(); k++){
+					if(tempConvertedMarbleList.get(k).getMarbleColor() == colorTempMarbleClicked){
+						tempConvertedMarbleList.add(new Marble(colorTempMarbleClicked));
+						break;
+					}
+					else if(tempConvertedMarbleList.get(k).getMarbleColor() == "Red"){
+						tempConvertedMarbleList.add(new Marble("Red"));
+						break;
+					}
+					else if(tempConvertedMarbleList.get(k).getMarbleColor() == "Grey"){
+						tempConvertedMarbleList.add(new Marble("Grey"));		
+						break;
+					}	
+				}
+			}
+			setExpandedConvertMarbleBoundList();
+			repaint();
+			DisplayTempConvertedMarbles();
+			int matchedMarble = 0;
+			for(int j = 0; j < tempConvertedMarbleBoundList.size(); j++){
+				if(tempConvertedMarbleList.get(j).getMarbleColor() == gizmoBeingBuilt.getColor())
+					matchedMarble++;
+				if(matchedMarble == gizmoBeingBuilt.getCost()){
+					showFourMarbleList = false;
+					System.out.println("dispenser has total of " + marbles.size() + " before switching player's marbles");
+					SwitchPlayerMarbles();
+					tempConvertedMarbleList.clear();
+					tempConvertedMarbleBoundList.clear();
+					System.out.println("dispenser has total of " + marbles.size() + " after switching player's marbles");
+					ActOnGizmoClick(gizmoBeingBuilt, gizmoBeingBuiltPosition);
+				}	
+			}
 		}
 		for(int i = 0; i < 4; i++){
 			//silly code to add since marbles use different coordinates origin, compensate it
@@ -623,9 +694,24 @@ private void DisplayTempConvertedMarbles(){
 							tempConvertedMarbleList.add(new Marble(color));
 							System.out.println("temp Convert Marble replaced with Yellow marble");
 							break;
-						}	
+						}
+						//handle any marble to any marble conversion case
+						if((gizmoPrivateSelected.getTrigger() == Gizmo.GizmoTgr.AnyMarble)){
+							if(colorTempMarbleClicked != "")
+							{
+								for(int k = 0; k < tempConvertedMarbleList.size(); k++){
+									if(tempConvertedMarbleList.get(k).getMarbleColor() == colorTempMarbleClicked){
+										tempConvertedMarbleList.remove(k);
+										tempConvertedMarbleList.add(new Marble(fourMarbleList.get(i).getMarbleColor()));
+										System.out.println("temp Convert Marble replaced with " + fourMarbleList.get(i).getMarbleColor() + " marble");
+										break;
+									}
+								}
+							}
+						}
 					}	
 				}
+
 				repaint();
 				DisplayTempConvertedMarbles();
 				int matchedMarble = 0;
@@ -645,11 +731,7 @@ private void DisplayTempConvertedMarbles(){
 			}
 			//System.out.println(fourMarbleList.get(i).getMarbleColor() + " in 4 free to pick marble list clickerd");
 		}
-		for(int i = 0; i < tempConvertedMarbleBoundList.size(); i++){
-			Point pt = new Point(e.getPoint().x - 940, e.getPoint().y - 250);
-			if(tempConvertedMarbleBoundList.get(i).contains(pt))
-				System.out.println(tempConvertedMarbleList.get(i).getMarbleColor() + " in temporary converted marble list clickerd");
-		}
+
 		for (int i = 0; i < convertBoundList.size(); i++) {
 			if (convertBoundList.get(i).contains(e.getPoint())) {
 				privateGizmoBound.setBounds(convertBoundList.get(i));
@@ -711,7 +793,12 @@ private void DisplayTempConvertedMarbles(){
 	private void AddPotentialEffects() {
 
 	}
-
+	private void setExpandedConvertMarbleBoundList(){
+		tempConvertedMarbleBoundList.clear();
+		for(int i = 0; i < tempConvertedMarbleList.size(); i++){
+			tempConvertedMarbleBoundList.add(new Rectangle(-800 + i * 25, 600, 25,25));
+		}
+	}
 	private void tryConvertGizmosForQualification() {
 		if (gizmoBeingBuilt == null)
 			return;
@@ -738,7 +825,7 @@ private void DisplayTempConvertedMarbles(){
 	}
 
 	//change this to be like gizmo triggered pick
-	private void gizmoTriggered(ArrayList<Gizmo> pickGizmos){
+	private void pickGizmoTriggered(ArrayList<Gizmo> pickGizmos, String color){
 		System.out.println("reached gizmo triggered");
 		Player p = players.get(currentPlayer);
 		pickGizmos = p.getPickGizmos();
@@ -746,31 +833,35 @@ private void DisplayTempConvertedMarbles(){
 		for(Gizmo g : pickGizmos){
 			if(g.getTrigger() == Gizmo.GizmoTgr.PickRed){
 				
-				if(redPicked){
+				if(color.equals("Red")){
 					g.triggered();
 					//turnFinishedAlertPickReaction = false; 
 					System.out.println("lil baby"); repaint();
+					redPicked = false;
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickBlue){
-				if(bluePicked){
+				if(color.equals("Blue")){
 					g.triggered();
 					//turnFinishedAlertPickReaction = false;
 					System.out.println("lil baby2"); repaint();
+					bluePicked = false;
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickYellow){
-				if(yellowPicked){
+				if(color.equals("Yellow")){
 					g.triggered();
 					//turnFinishedAlertPickReaction = false;
 					System.out.println("lil baby3"); repaint();
+					yellowPicked = false;
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickGrey){
-				if(greyPicked){
+				if(color.equals("Grey")){
 					g.triggered();
 					//turnFinishedAlertPickReaction = false;
 					System.out.println("lil baby4"); repaint();
+					greyPicked = false;
 				} 
 			}
 			
@@ -786,24 +877,28 @@ private void DisplayTempConvertedMarbles(){
 			if(gizmoPrivateSelected.isTriggered()){
 				System.out.println("reached initial chain reaction pick");
 				if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.PICK){
-					//if(g.getEffect() == Gizmo.GizmoEffect.DrawOne){} this is literally the only pick effect lol
+					//if(g.getEffect() == Gizmo.GizmoEffect.DrawOne){}
 					Marble m = marbles.remove(marbles.size() - 1);
 					p.addMarble(m);
 					if (m.getMarbleColor() == "Red"){
 						redCount++;
 						gizmoPrivateSelected.untriggered();
+						//redPicked = false;
 					}
 					else if (m.getMarbleColor() == "Yellow"){
 						yellowCount++;
 						gizmoPrivateSelected.untriggered();
+						//yellowPicked = false;
 					}
 					else if (m.getMarbleColor() == "Grey"){
 						greyCount++;
 						gizmoPrivateSelected.untriggered();
+						//greyPicked = false;
 					}
-					else{
+					else if (m.getMarbleColor() == "Blue"){
 						blueCount++;
 						gizmoPrivateSelected.untriggered();
+						//bluePicked = false;
 					}
 				}
 				turnFinishedAlert = true;

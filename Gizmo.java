@@ -261,22 +261,22 @@ public class Gizmo {
 				break;
 			case 13:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.YellowMarble;
+				trigger = GizmoTgr.PickYellow;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 14:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.GreyMarble;
+				trigger = GizmoTgr.PickGrey;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 15:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.BlueMarble;
+				trigger = GizmoTgr.PickBlue;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 16:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.RedMarble;
+				trigger = GizmoTgr.PickRed;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 17:
@@ -576,7 +576,7 @@ public class Gizmo {
 				cost = 2;
 				victoryPoint = 2;
 				break;
-				case 65:
+			case 65:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildYellowOrRed;
 				effect = GizmoEffect.AnyMarble;
