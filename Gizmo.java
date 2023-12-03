@@ -601,7 +601,7 @@ public class Gizmo {
 			case 66:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildYellowOrRed;
-				effect = GizmoEffect.AnyMarble;
+				effect = GizmoEffect.PickAny;
 				cost = 2;
 				victoryPoint = 2;
 			case 67:
@@ -614,7 +614,7 @@ public class Gizmo {
 			case 68:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrGrey;
-				effect = GizmoEffect.AnyMarble;
+				effect = GizmoEffect.PickAny;
 				cost = 2;
 				victoryPoint = 2;
 				break;
