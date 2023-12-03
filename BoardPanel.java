@@ -227,6 +227,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// Collections.shuffle(t3Gizmos);
 
 		Collections.rotate(t3Gizmos, -2);
+		Collections.rotate(t2Gizmos, -9);
 		Collections.rotate(t1Gizmos, 44);
 
 		Player p1 = new Player("A");
@@ -435,21 +436,38 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.drawRect(privateGizmoBound.x, privateGizmoBound.y, privateGizmoBound.width, privateGizmoBound.height);
 		}
 
+		g.setColor(Color.red);
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
 		ArrayList<Gizmo> buildGizmos = players.get(currentPlayer).getBuildGizmos();
 		ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos();
 		boolean reactionAvailable = false;;
 		for(Gizmo gizmo : fileGizmos){
-			if(gizmo.isTriggered())
+			if(gizmo.isTriggered()){
 				reactionAvailable = true;
+				g.drawRect(privateGizmoBound.x, privateGizmoBound.y, privateGizmoBound.width, privateGizmoBound.height);
+			}
 		}
 		for(Gizmo gizmo : buildGizmos){
-			if(gizmo.isTriggered())
+			if(gizmo.isTriggered()){
 				reactionAvailable = true;
+				g.drawRect(privateGizmoBound.x, privateGizmoBound.y, privateGizmoBound.width, privateGizmoBound.height);
+			}
 		}
 		for(Gizmo gizmo : pickGizmos){
-			if(gizmo.isTriggered())
+			if(gizmo.isTriggered()){
 				reactionAvailable = true;
+				System.out.println("highlighting triggered pick gizmos");
+			
+				
+					if(gizmo.getY() < pickBoundList.get(pickBoundList.size() - 1).getY()){
+						g.drawRect(gizmo.getX(), gizmo.getY(), 143, 30);
+					}
+					else if(gizmo.getY() == pickBoundList.get(pickBoundList.size() - 1).getY()){
+						g.drawRect(gizmo.getX(), gizmo.getY(), 143, 130);
+					}
+				
+				
+			}
 		}
 		g.setColor(Color.blue);
 		if (turnFinishedAlert && !reactionAvailable && !pickEffectActive) {
@@ -767,7 +785,6 @@ public class BoardPanel extends JPanel implements MouseListener {
 		//doing pick first cause its the easiest i think
 		for(Gizmo g : pickGizmos){
 			if(g.getTrigger() == Gizmo.GizmoTgr.PickRed){
-				
 				if(color.equals("Red")){
 					g.triggered(); 
 					System.out.println("lil baby"); repaint();
@@ -791,6 +808,47 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil baby4"); repaint();
 				} 
 			}
+			else if(g.getTrigger() == Gizmo.GizmoTgr.PickYellowOrRed){
+				if(color.equals("Yellow")){
+					g.triggered();
+					System.out.println("lil baby5.1"); repaint();
+				} 
+				else if(color.equals("Red")){
+					g.triggered();
+					System.out.println("lil baby5.2"); repaint();
+				}
+			}
+			else if(g.getTrigger() == Gizmo.GizmoTgr.PickYellowOrGrey){
+				if(color.equals("Yellow")){
+					g.triggered();
+					System.out.println("lil baby6.1"); repaint();
+				} 
+				else if(color.equals("Grey")){
+					g.triggered();
+					System.out.println("lil baby6.2"); repaint();
+				}
+			}	
+			else if(g.getTrigger() == Gizmo.GizmoTgr.PickGreyOrBlue){
+				if(color.equals("Grey")){
+					g.triggered();
+					System.out.println("lil baby7.1"); repaint();
+				} 
+				else if(color.equals("Blue")){
+					g.triggered();
+					System.out.println("lil baby7.2"); repaint();
+				}
+			}
+			else if(g.getTrigger() == Gizmo.GizmoTgr.PickRedOrBlue){
+				if(color.equals("Red")){
+					g.triggered();
+					System.out.println("lil baby8.1"); repaint();
+				} 
+				else if(color.equals("Blue")){
+					g.triggered();
+					System.out.println("lil baby8.2"); repaint();
+				}
+			}
+
 			
 		}
 		repaint();
@@ -1004,6 +1062,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 						
 						players.get(currentPlayer).addVictoryPoint(g.getVictoryPoints());
 						
+						g.setX(pickBound.x + 20);
+						g.setY(pickBound.y + pickBound.height + 30 * (p.getPickGizmos().size() - 1));
+
 						repaint();
 						break;
 

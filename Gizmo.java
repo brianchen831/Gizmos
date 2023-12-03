@@ -119,6 +119,9 @@ public class Gizmo {
 	private static int IDNum;
 	private int ID;
 
+	private int x;
+	private int y;
+
 	private boolean triggered = false;
 
 	public Gizmo(BufferedImage gizmoImage, int t){ //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
@@ -138,6 +141,18 @@ public class Gizmo {
 		AssignProperties();
 	} 
 
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+	public void setX(int posX){
+		x = posX;
+	}
+	public void setY(int posY){
+		y = posY;
+	}
 	public void triggered(){
 		triggered = true;
 	}
