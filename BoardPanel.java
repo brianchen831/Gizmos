@@ -521,14 +521,15 @@ public class BoardPanel extends JPanel implements MouseListener {
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("clicked his mouse");
 		int x = e.getX();
 		int y = e.getY();
 		
 		if (nextPlayerBound.contains(e.getPoint())) {
-            NextPlayer();
+        	NextPlayer();
         }
-        if(turnFinishedAlert)
-            return;
+        // if(turnFinishedAlert)
+        //     return;
 
 		if (marbleBound1.contains(e.getPoint())) {
 			pickMarble(0, visibleMarbles.get(0).getMarbleColor());
