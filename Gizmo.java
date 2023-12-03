@@ -119,6 +119,11 @@ public class Gizmo {
 	private static int IDNum;
 	private int ID;
 
+	private int x;
+	private int y;
+
+	private boolean triggered = false;
+
 	public Gizmo(BufferedImage gizmoImage, int t){ //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
 
 	 	IDNum++;
@@ -135,6 +140,28 @@ public class Gizmo {
 		cost = 1; //default to 1 unless not
 		AssignProperties();
 	} 
+
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+	public void setX(int posX){
+		x = posX;
+	}
+	public void setY(int posY){
+		y = posY;
+	}
+	public void triggered(){
+		triggered = true;
+	}
+	public void untriggered(){
+		triggered = false;
+	}
+	public boolean isTriggered(){
+		return triggered;
+	}
 
 	public BufferedImage getImage() {
 
@@ -249,22 +276,22 @@ public class Gizmo {
 				break;
 			case 13:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.YellowMarble;
+				trigger = GizmoTgr.PickYellow;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 14:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.GreyMarble;
+				trigger = GizmoTgr.PickGrey;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 15:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.BlueMarble;
+				trigger = GizmoTgr.PickBlue;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 16:
 				type = GizmoType.PICK;
-				trigger = GizmoTgr.RedMarble;
+				trigger = GizmoTgr.PickRed;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 17:
@@ -426,28 +453,28 @@ public class Gizmo {
 				break;
 			case 45:
 				trigger = GizmoTgr.PickYellowOrRed;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 46:
 				trigger = GizmoTgr.PickYellowOrGrey;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 47:
 				trigger = GizmoTgr.PickGreyOrBlue;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
 				break;
 			case 48:
 				trigger = GizmoTgr.PickRedOrBlue;
-				type = GizmoType.BUILD;
+				type = GizmoType.PICK;
 				effect = GizmoEffect.DrawOne;
 				cost = 2;
 				victoryPoint = 2;
@@ -577,7 +604,6 @@ public class Gizmo {
 				effect = GizmoEffect.AnyMarble;
 				cost = 2;
 				victoryPoint = 2;
-				break;
 			case 67:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrGrey;
