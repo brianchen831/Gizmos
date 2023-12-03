@@ -206,7 +206,7 @@ public class Gizmo {
 
 		switch(ID)
 	    {
-			case 109:
+			
 			case 110:
 			case 111:
 			case 112:
@@ -600,11 +600,10 @@ public class Gizmo {
 				break;
 			case 66:
 				type = GizmoType.BUILD;
-				trigger = GizmoTgr.BuildBlueOrGrey;
-				effect = GizmoEffect.PickAny;
+				trigger = GizmoTgr.BuildYellowOrRed;
+				effect = GizmoEffect.AnyMarble;
 				cost = 2;
 				victoryPoint = 2;
-				break;
 			case 67:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrGrey;
@@ -614,38 +613,38 @@ public class Gizmo {
 				break;
 			case 68:
 				type = GizmoType.BUILD;
-				trigger = GizmoTgr.BuildBlueOrYellow;
-				effect = GizmoEffect.OneVictoryPoint;
-				cost = 3;
-				victoryPoint = 3;
+				trigger = GizmoTgr.BuildBlueOrGrey;
+				effect = GizmoEffect.AnyMarble;
+				cost = 2;
+				victoryPoint = 2;
 				break;
 			case 69:
 				type = GizmoType.BUILD;
-				trigger = GizmoTgr.BuildGreyOrRed;
+				trigger = GizmoTgr.BuildBlueOrYellow;
 				effect = GizmoEffect.OneVictoryPoint;
 				cost = 3;
 				victoryPoint = 3;
 				break;
 			case 70:
 				type = GizmoType.BUILD;
-				trigger = GizmoTgr.BuildYellowOrGrey;
+				trigger = GizmoTgr.BuildGreyOrRed;
 				effect = GizmoEffect.OneVictoryPoint;
 				cost = 3;
 				victoryPoint = 3;
 				break;
 			case 71:
 				type = GizmoType.BUILD;
-				trigger = GizmoTgr.BuildBlueOrRed;
+				trigger = GizmoTgr.BuildYellowOrGrey;
 				effect = GizmoEffect.OneVictoryPoint;
 				cost = 3;
 				victoryPoint = 3;
 				break;
 			case 72:
-				type = GizmoType.UPGRADE;
-				trigger = GizmoTgr.none;
-				effect = GizmoEffect.FourMarble;
-				cost = 4;
-				victoryPoint = 4;
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildBlueOrRed;
+				effect = GizmoEffect.OneVictoryPoint;
+				cost = 3;
+				victoryPoint = 3;
 				break;
 			case 73:
 				type = GizmoType.UPGRADE;
@@ -655,9 +654,9 @@ public class Gizmo {
 				victoryPoint = 4;
 				break;
 			case 74:
-				type = GizmoType.CONVERT;
-				trigger = GizmoTgr.AnyMarble;
-				effect = GizmoEffect.AnyMarble;
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.FourMarble;
 				cost = 4;
 				victoryPoint = 4;
 				break;
@@ -670,22 +669,22 @@ public class Gizmo {
 				break;
 			case 76:
 				type = GizmoType.CONVERT;
+				trigger = GizmoTgr.AnyMarble;
+				effect = GizmoEffect.AnyMarble;
+				cost = 4;
+				victoryPoint = 4;
+				break;
+			case 77:
+				type = GizmoType.CONVERT;
 				trigger = GizmoTgr.BlueOrYellow;
 				effect = GizmoEffect.TwoYellowOrBlue;
 				cost = 5;
 				victoryPoint = 5;
 				break;
-			case 77:
+			case 78:
 				type = GizmoType.CONVERT;
 				trigger = GizmoTgr.RedOrGrey;
 				effect = GizmoEffect.TwoRedOrGrey;
-				cost = 5;
-				victoryPoint = 5;
-				break;
-			case 78:
-				type = GizmoType.BUILD;
-				trigger = GizmoTgr.BuildFromFile;
-				effect = GizmoEffect.TwoVictoryPoints;
 				cost = 5;
 				victoryPoint = 5;
 				break;
@@ -697,11 +696,11 @@ public class Gizmo {
 				victoryPoint = 5;
 				break;
 			case 80:
-				type = GizmoType.FILE;
-				trigger = GizmoTgr.File;
-				effect = GizmoEffect.OneVictoryPoint;
-				cost = 4;
-				victoryPoint = 4;
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildFromFile;
+				effect = GizmoEffect.TwoVictoryPoints;
+				cost = 5;
+				victoryPoint = 5;
 				break;
 			case 81:
 				type = GizmoType.FILE;
@@ -713,7 +712,7 @@ public class Gizmo {
 			case 82:
 				type = GizmoType.FILE;
 				trigger = GizmoTgr.File;
-				effect = GizmoEffect.DrawThree;
+				effect = GizmoEffect.OneVictoryPoint;
 				cost = 4;
 				victoryPoint = 4;
 				break;
@@ -725,11 +724,11 @@ public class Gizmo {
 				victoryPoint = 4;
 				break;
 			case 84:
-				type = GizmoType.BUILD;
-				trigger = GizmoTgr.BuildT2;
-				effect = GizmoEffect.PickAnyTwo;
-				cost = 6;
-				victoryPoint = 6;
+				type = GizmoType.FILE;
+				trigger = GizmoTgr.File;
+				effect = GizmoEffect.DrawThree;
+				cost = 4;
+				victoryPoint = 4;
 				break;
 			case 85:
 				type = GizmoType.BUILD;
@@ -739,11 +738,11 @@ public class Gizmo {
 				victoryPoint = 6;
 				break;
 			case 86:
-				type = GizmoType.UPGRADE;
-				trigger = GizmoTgr.none;
-				effect = GizmoEffect.DiscountMarbleWhenT2Built;
-				cost = 5;
-				victoryPoint = 5;
+				type = GizmoType.BUILD;
+				trigger = GizmoTgr.BuildT2;
+				effect = GizmoEffect.PickAnyTwo;
+				cost = 6;
+				victoryPoint = 6;
 				break;
 			case 87:
 				type = GizmoType.UPGRADE;
@@ -753,39 +752,39 @@ public class Gizmo {
 				victoryPoint = 5;
 				break;
 			case 88:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenT2Built;
+				cost = 5;
+				victoryPoint = 5;
+				break;
+			case 89:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrRed;
 				effect = GizmoEffect.TwoVictoryPoints;
 				cost = 5;
 				victoryPoint = 5;
 				break;
-			case 89:
+			case 90:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildGreyOrYellow;
 				effect = GizmoEffect.TwoVictoryPoints;
 				cost = 5;
 				victoryPoint = 5;
 				break;
-			case 90:
+			case 91:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildYellowOrRed;
 				effect = GizmoEffect.FreeT1Build;
 				cost = 6;
 				victoryPoint = 6;
 				break;
-			case 91:
+			case 92:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrGrey;
 				effect = GizmoEffect.FreeT1Build;
 				cost = 6;
 				victoryPoint = 6;
-				break;
-			case 92:
-				type = GizmoType.UPGRADE;
-				trigger = GizmoTgr.none;
-				effect = GizmoEffect.RestrictResearch;
-				cost = 4;
-				victoryPoint = 8;
 				break;
 			case 93:
 				type = GizmoType.UPGRADE;
@@ -797,9 +796,9 @@ public class Gizmo {
 			case 94:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
-				effect = GizmoEffect.RestrictFile;
+				effect = GizmoEffect.RestrictResearch;
 				cost = 4;
-				victoryPoint = 7;
+				victoryPoint = 8;
 				break;
 			case 95:
 				type = GizmoType.UPGRADE;
@@ -809,23 +808,23 @@ public class Gizmo {
 				victoryPoint = 7;
 				break;
 			case 96:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.RestrictFile;
+				cost = 4;
+				victoryPoint = 7;
+				break;
+			case 97:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrYellow;
 				effect = GizmoEffect.File;
 				cost = 5;
 				victoryPoint = 5;
 				break;
-			case 97:
+			case 98:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildGreyOrRed;
 				effect = GizmoEffect.File;
-				cost = 5;
-				victoryPoint = 5;
-				break;
-			case 98:
-				type = GizmoType.UPGRADE;
-				trigger = GizmoTgr.none;
-				effect = GizmoEffect.DiscountMarbleWhenFileBuilt;
 				cost = 5;
 				victoryPoint = 5;
 				break;
@@ -839,9 +838,9 @@ public class Gizmo {
 			case 100:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
-				effect = GizmoEffect.DiscountMarbleWhenResearchBuilt;
-				cost = 6;
-				victoryPoint = 6;
+				effect = GizmoEffect.DiscountMarbleWhenFileBuilt;
+				cost = 5;
+				victoryPoint = 5;
 				break;
 			case 101:
 				type = GizmoType.UPGRADE;
@@ -851,28 +850,34 @@ public class Gizmo {
 				victoryPoint = 6;
 				break;
 			case 102:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.DiscountMarbleWhenResearchBuilt;
+				cost = 6;
+				victoryPoint = 6;
+				break;
+			case 103:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildYellowOrRed;
 				effect = GizmoEffect.Research;
 				cost = 7;
 				victoryPoint = 7;
 				break;
-			case 103:
+			case 104:
 				type = GizmoType.BUILD;
 				trigger = GizmoTgr.BuildBlueOrGrey;
 				effect = GizmoEffect.Research;
 				cost = 7;
 				victoryPoint = 7;
 				break;
-			case 104:
+			case 105:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
 				//effect = GizmoEffect.
-			case 105:
 			case 106:
 			case 107:
 			case 108:
-				
+			case 109:
 				break;
 			default:
 				//System.out.println("Missed Something"); //for debugging
