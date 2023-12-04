@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5;
+	private BufferedImage background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd;
 	private int yellowCount, redCount, greyCount, blueCount;
 	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; // temporary
 																											// hardcode
@@ -182,6 +182,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 			player1gui = ImageIO.read(BoardFrame.class.getResource("/images/player1gui.png"));
 			victoryPoint1 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint1.png"));
 			victoryPoint5 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint5.png"));
+			displayWhen2nd = ImageIO.read(BoardFrame.class.getResource("/images/case1display.png"));
+			displayWhen1st = ImageIO.read(BoardFrame.class.getResource("/images/case2display.png"));
+			victoryPoint5 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint5.png"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -232,9 +235,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for (int i = 0; i < 4; i++)
 			firstCard.add(new Gizmo(gizmoSheet2.getSubimage(2 * 490, 6 * 490, 490, 490), 0));
 
-		// Collections.shuffle(t1Gizmos);
-		// Collections.shuffle(t2Gizmos);
-		// Collections.shuffle(t3Gizmos);
+		Collections.shuffle(t1Gizmos);
+		Collections.shuffle(t2Gizmos);
+		Collections.shuffle(t3Gizmos);
 		//Collections.rotate(t1Gizmos, 44+17);
 		Collections.rotate(t3Gizmos, -3);
 		Collections.rotate(t2Gizmos, -24);
@@ -319,7 +322,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 		blueCount = 0;
 		yellowCount = 0;
 		greyCount = 0;
+		
 		for (Marble m : players.get(currentPlayer).getHeldMarbles()) {
+			
 			if (m.getMarbleColor().equals("Red")) {
 				redCount++;
 			} else if (m.getMarbleColor().equals("Blue")) {
@@ -331,8 +336,339 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 		}
 		
-
 		g.drawImage(background, 0, 0, null);
+		switch (currentPlayer) {
+			case 0:
+				out.println("--------------------drake--------------------");
+				g.drawImage(displayWhen1st, 0, 0, null);
+				for (Player p : players) {
+					switch(p.getName()) {
+						case "B":
+						    int u = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							break;
+						case "C":
+							int u1 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							break;
+							
+						case "D":
+							int u2 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							break;
+						default:
+							out.println("DEFAULT TRIGGERED");
+							break;
+					}
+					
+				}
+				break;
+			case 1:
+				g.drawImage(displayWhen2nd, 0, 0, null);
+				for (Player p : players) {
+					switch(p.getName()) {
+						case "A":
+						    int u = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							break;
+						case "C":
+							int u1 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							break;
+							
+						case "D":
+							int u2 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							break;
+						default:
+							out.println("DEFAULT TRIGGERED");
+							break;
+					}
+					
+				}
+				break;
+			case 2:
+				g.drawImage(displayWhen2nd, 0, 0, null);
+				for (Player p : players) {
+					switch(p.getName()) {
+						case "A":
+						    int u = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							break;
+						case "C":
+							int u1 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							break;
+							
+						case "B":
+							int u2 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							break;
+						default:
+							out.println("DEFAULT TRIGGERED");
+							break;
+					}
+					
+				}
+				break;
+			case 3:
+				g.drawImage(displayWhen2nd, 0, 0, null);
+				for (Player p : players) {
+					switch(p.getName()) {
+						case "A":
+						    int u = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
+								u+=10;
+							}
+							break;
+						case "B":
+							int u1 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
+								u1+=10;
+							}
+							break;
+							
+						case "D":
+							int u2 = 0;
+							for (Gizmo c : p.getUpgradeGizmos()) {
+								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getConvertGizmos()) {
+								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getFileGizmos()) {
+								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getPickGizmos()) {
+								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							for (Gizmo c : p.getBuildGizmos()) {
+								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
+								u2+=10;
+							}
+							break;
+						default:
+							out.println("DEFAULT TRIGGERED");
+							break;
+					}
+					
+				}
+				break;
+			default:
+				System.out.println("--------------------default");
+
+
+		}
+		
 		if (currentPlayer == 0) { g.drawImage(player1gui, 0, -180, null); }
 		else { g.drawImage(playergui, 0, -180, null); }
 		int v = 0;
@@ -1540,6 +1876,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		FileGizmoClicked = false;
 
 	}
+	
 
 	private void SwitchPlayerMarbles(){
 		Player p = players.get(currentPlayer);
