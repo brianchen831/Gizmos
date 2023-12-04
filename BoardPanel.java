@@ -1124,8 +1124,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			//System.out.println(fourMarbleList.get(i).getMarbleColor() + " in 4 free to pick marble list clickerd");
 		}
-
-		for (int i = 0; i < convertBoundList.size(); i++) {
+		if(!pickEffectActive){
+			for (int i = 0; i < convertBoundList.size(); i++) {
 			if (convertBoundList.get(i).contains(e.getPoint())) {
 				privateGizmoBound.setBounds(convertBoundList.get(i));
 				System.out.println("convertBoundList " + i + " clicked " + privateGizmoBound.y);
@@ -1157,6 +1157,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				gizmoReaction();
 				System.out.println("buildBoundList " + i + " clicked " + privateGizmoBound.y);
 			}
+		}
 		}
 
 		for (int i = 0; i < archiveBoundList.size(); i++) {
@@ -1442,7 +1443,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump5.2"); repaint();
 				}
 			}
-			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildYellowOrGrey){
+			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildGreyOrYellow){
 				if(color.equals("Yellow")){
 					g.triggered();
 					System.out.println("lil pump6.1"); repaint();
@@ -1505,52 +1506,14 @@ public class BoardPanel extends JPanel implements MouseListener {
 			tempConvertedMarbleList.clear();
 			tempConvertedMarbleBoundList.clear();
 
+			
 			Player p = players.get(currentPlayer);
 			System.out.println("###ActOnGizmoClick gizmo type " + g.getType());
 
 			int takeThisGizmo = 0;
 
-			System.out.println("Check " + p.getName() + " with clicked Gizmo card " + g.getColor() + "  " + g.getCost());
-			redCount = yellowCount = blueCount = greyCount = 0;
-			for (int i = 0; i < p.getHeldMarbles().size(); i++) {
-				Marble m = p.getHeldMarbles().get(i);
-				System.out.println("Player " + p.getName() + " marble " + m.getMarbleColor());
-				if (m.getMarbleColor() == "Red")
-					redCount++;
-				else if (m.getMarbleColor() == "Yellow")
-					yellowCount++;
-				else if (m.getMarbleColor() == "Blue")
-					blueCount++;
-				else
-					greyCount++;
-			}
-			//need to re-add filing part, i deleted the commented out part because they were annoying
-
-			// if File is clicked and then another gizmo from level 1/2/3 is clicked, add
-			// that gizmo to archive section of player dashboard area
-			if (FileGizmoClicked) { //i want to make it so they click the toolbar thing instead of the file gizmo thing
-				if (p.spaceForMoreArchive()) {
-					System.out.println(
-							"Should move this gizmo positioned " + position + " to the archive area of the player");
-					p.addArchiveGizmo(g);
-
-					FillDisplayDeck(g, position);
-					if (p.getArchivedGizmos().size() > 1) {
-						int prevTopCard = p.getArchivedGizmos().size() - 2;
-						archiveBoundList.get(prevTopCard).setBounds(archiveBoundList.get(prevTopCard).x,
-								archiveBoundList.get(prevTopCard).y, 143, 30);
-						archiveBoundList.add(new Rectangle(archiveBound.x + 20,
-								archiveBound.y + archiveBound.height + 30 * (p.getArchivedGizmos().size() - 1), 143,
-								130));
-					}
-				}
-
-				// FileGizmoClicked = false;
-				// NextPlayer();
-				turnFinishedAlert = true; out.println("File Gizmo Clicked Turn Finished True");
-				repaint();
-				return;
-			}
+			// specific code to handle File gizmo click
+			
 			switch (g.getColor()) {
 				case "Red":
 					if (redCount >= g.getCost())
