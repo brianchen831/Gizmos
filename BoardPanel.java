@@ -981,6 +981,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 					out.println(p.getVictoryPoints());
 					gizmoPrivateSelected.untriggered();
 				}
+				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.TwoVictoryPoints){
+					out.println(p.getVictoryPoints());
+					p.addVictoryPoint(2);
+					out.println(p.getVictoryPoints());
+					gizmoPrivateSelected.untriggered();
+				}
 			}
 			turnFinishedAlert = true;
 			repaint();
@@ -1176,6 +1182,61 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 			int takeThisGizmo = 0;
 
+			if (g.getType() == Gizmo.GizmoType.FILE && position == -1) {
+				p.setClickedFileGizmo(g);
+
+				return;
+			}
+			// if File is clicked and then another gizmo from level 1/2/3 is clicked, add
+			// that gizmo to archive section of player dashboard area
+			if (FileGizmoClicked) { //i want to make it so they click the toolbar thing instead of the file gizmo thing
+				if (p.spaceForMoreArchive()) {
+					System.out.println(
+							"Should move this gizmo positioned " + position + " to the archive area of the player");
+					p.addArchiveGizmo(g);
+
+					FillDisplayDeck(g, position);
+					if (p.getArchivedGizmos().size() > 1) {
+						int prevTopCard = p.getArchivedGizmos().size() - 2;
+						archiveBoundList.get(prevTopCard).setBounds(archiveBoundList.get(prevTopCard).x,
+								archiveBoundList.get(prevTopCard).y, 143, 30);
+						archiveBoundList.add(new Rectangle(archiveBound.x + 20,
+								archiveBound.y + archiveBound.height + 30 * (p.getArchivedGizmos().size() - 1), 143,
+								130));
+					}
+				}
+
+				// FileGizmoClicked = false;
+				// NextPlayer();
+								
+				// if (p.getClickedFileGizmo() != null) {
+				// 	if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.AnyMarble) {
+
+				// 	} else if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.DrawOne) {
+				// 		System.out.println("There are currently " + marbles.size() + " in the dispenser");
+				// 		Marble m = marbles.remove(marbles.size() - 1);
+				// 		p.addMarble(m);
+				// 		if (m.getMarbleColor() == "Red")
+				// 			redCount++;
+				// 		else if (m.getMarbleColor() == "Yellow")
+				// 			yellowCount++;
+				// 		else if (m.getMarbleColor() == "Grey")
+				// 			greyCount++;
+				// 		else
+				// 			blueCount++;
+
+				// 		System.out.println("After draw there are currently " + marbles.size() + " in the dispenser");
+				// 	} else if (p.getClickedFileGizmo().getEffect() == Gizmo.GizmoEffect.DrawThree) {
+						
+				// 	}
+				// 	p.removeClickedFileGizmo();
+				// }
+				
+				turnFinishedAlert = true;
+				repaint();
+				return;
+			}
+
 			// specific code to handle File gizmo click
 			
 			switch (g.getColor()) {
@@ -1265,6 +1326,19 @@ public class BoardPanel extends JPanel implements MouseListener {
 						
 						players.get(currentPlayer).addVictoryPoint(g.getVictoryPoints());
 						
+						//simple ones
+						if(g.getEffect() == Gizmo.GizmoEffect.OneMarbleOneResearch){
+							players.get(currentPlayer).addMarbleSpace(1);
+							players.get(currentPlayer).addResearchPower(1);
+						}
+						else if(g.getEffect() == Gizmo.GizmoEffect.OneMarbleOneArchive){
+							players.get(currentPlayer).addMarbleSpace(1);
+							players.get(currentPlayer).addArchiveSpace(1);
+						}
+						else if(g.getEffect() == Gizmo.GizmoEffect.TwoMarbleOneFileTwoResearch){
+							players.get(currentPlayer).addMarbleSpace(4);
+						}
+
 						repaint();
 						break;
 					case FILE:

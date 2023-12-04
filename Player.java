@@ -200,6 +200,17 @@ public class Player {
     public void researchMethod(int tear) {
 
     }
+
+
+    public void addMarbleSpace(int num){
+        marbleSpace += num;
+    }
+    public void addArchiveSpace(int num){
+        archiveSpace += num;
+    }
+    public void addResearchPower(int num){
+        researchPower += num;
+    }
     
 
 }

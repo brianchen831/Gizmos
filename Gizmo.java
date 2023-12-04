@@ -206,7 +206,7 @@ public class Gizmo {
 
 		switch(ID)
 	    {
-			
+			case 109:
 			case 110:
 			case 111:
 			case 112:
@@ -877,7 +877,7 @@ public class Gizmo {
 			case 106:
 			case 107:
 			case 108:
-			case 109:
+			// case 109:
 				break;
 			default:
 				//System.out.println("Missed Something"); //for debugging
