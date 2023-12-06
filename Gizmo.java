@@ -212,6 +212,7 @@ public class Gizmo {
 			case 112:
 				//starting gizmo 
 				type = GizmoType.FILE;
+				trigger = GizmoTgr.File;
 				effect = GizmoEffect.DrawOne;
 				break;
 			case 1:
