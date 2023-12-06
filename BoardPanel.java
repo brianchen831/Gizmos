@@ -584,7 +584,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 								u+=10;
 							}
 							break;
-						case "C":
+						case "D":
 							int u1 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
@@ -1410,6 +1410,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 
 				}
+
 			}
 			else if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.FILE){
 
@@ -1537,7 +1538,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		repaint();
 	}
-
+	
 	private void buildGizmoTriggered(String color){
 		Player p = players.get(currentPlayer);
 		ArrayList<Gizmo> buildGizmos = p.getBuildGizmos();
@@ -1628,6 +1629,15 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump10.2"); repaint();
 				}
 			}
+			//from file
+			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildFromFile) {
+				if(color.equals("from file")) {
+					g.triggered();
+					System.out.println("pop smoke 1"); repaint();
+				}
+			}
+			//build t2
+
 		}
 	}
 
@@ -1829,6 +1839,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					for (int i = 0; i < p.getArchivedGizmos().size(); i++) {
 						if (p.getArchivedGizmos().get(i) == g) {
 							System.out.println("$$$$$$$$$$$$$$$$$$$ found matching gizmo from archive list to remove");
+							buildGizmoTriggered("from file");
 							p.removeArchiveGizmo(g);
 							archiveBoundList.remove(i);
 							break;
