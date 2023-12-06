@@ -1892,17 +1892,36 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for(int i = 0; i < players.size(); i++){
 			Player p = players.get(i);
 			int totalGizmos = 0;
-			totalGizmos = p.getArchivedGizmos().size() + p.getBuildGizmos().size() + p.getConvertGizmos().size() + p.getFileGizmos().size() + p.getPickGizmos().size() + p.getUpgradeGizmos().size();
+			totalGizmos = p.getBuildGizmos().size() + p.getConvertGizmos().size() + p.getFileGizmos().size() + p.getPickGizmos().size() + p.getUpgradeGizmos().size();
 			System.out.println(p.getName() + " has gizmos of " + totalGizmos);// + " and " + nLevel3Gizmos + " level III gizmos");
 			if(totalGizmos >= 16)
 				return true;
 			int nLevel3Gizmos = 0;
-			for(int j = 0; j < p.getArchivedGizmos().size(); j++){
-				if(p.getArchivedGizmos().get(j).getCost() > 3)
+			for(int j = 0; j < p.getUpgradeGizmos().size(); j++){
+				if(p.getUpgradeGizmos().get(j).getCost() > 3)
 					nLevel3Gizmos++;
 				if(nLevel3Gizmos >= 4)
 					return true;
 			}
+			for(int j = 0; j < p.getConvertGizmos().size(); j++){
+				if(p.getConvertGizmos().get(j).getCost() > 3)
+					nLevel3Gizmos++;
+				if(nLevel3Gizmos >= 4)
+					return true;
+			}
+			for(int j = 0; j < p.getFileGizmos().size(); j++){
+				if(p.getFileGizmos().get(j).getCost() > 3)
+					nLevel3Gizmos++;
+				if(nLevel3Gizmos >= 4)
+					return true;
+			}
+			for(int j = 0; j < p.getBuildGizmos().size(); j++){
+				if(p.getBuildGizmos().get(j).getCost() > 3)
+					nLevel3Gizmos++;
+				if(nLevel3Gizmos >= 4)
+					return true;
+			}
+			
 		}
 		return false;
 	}
