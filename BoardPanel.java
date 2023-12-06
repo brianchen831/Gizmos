@@ -68,6 +68,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private int selectedResearchGizmoIndex;
 
 	private boolean filing;
+	private int currentRound = 0;
+	private boolean bGameOver = false;
+	
 
 	public BoardPanel() {
 		players = new ArrayList<>();
@@ -186,7 +189,6 @@ public class BoardPanel extends JPanel implements MouseListener {
 			victoryPoint5 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint5.png"));
 			displayWhen2nd = ImageIO.read(BoardFrame.class.getResource("/images/case1display.png"));
 			displayWhen1st = ImageIO.read(BoardFrame.class.getResource("/images/case2display.png"));
-			victoryPoint5 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint5.png"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -247,15 +249,19 @@ public class BoardPanel extends JPanel implements MouseListener {
 		Collections.rotate(t1Gizmos, -16);
 
 		Player p1 = new Player("A");
+		p1.setPosition(0);
 		p1.addFileGizmo(firstCard.get(0));
 		players.add(p1);
 		Player p2 = new Player("B");
+		p2.setPosition(1);
 		p2.addFileGizmo(firstCard.get(1));
 		players.add(p2);
 		Player p3 = new Player("C");
+		p3.setPosition(2);
 		p3.addFileGizmo(firstCard.get(2));
 		players.add(p3);
 		Player p4 = new Player("D");
+		p4.setPosition(3);
 		p4.addFileGizmo(firstCard.get(3));
 		p1.getFileGizmos().get(0).setX(fileBound.x + 20);
 		p1.getFileGizmos().get(0).setY(fileBound.y + fileBound.height + 30 * (p1.getFileGizmos().size() - 1));
@@ -291,9 +297,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 				}
 				// players.get(playerNum).addMarble(visibleMarbles.remove(index));
 				// visibleMarbles.add(0, newMarble);
+
 				players.get(currentPlayer).addMarble(visibleMarbles.remove(index));
 				visibleMarbles.add(0, marbles.remove(0));
-
+				
 				System.out.println(
 						"Picking a " + color + " marble with " + marbles.size() + " marbles left in the dispenser");
 			} 
@@ -330,6 +337,42 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// g.drawString(": " + greyCount);
 
 		// delete this if it doesnt work or breaks stuff
+		if(bGameOver){
+			g.drawImage(background, 0, 0, null);
+			g.setColor(Color.YELLOW);
+			g.setFont(new Font("Proxima Nova", Font.PLAIN, 20));
+			ArrayList<Integer> rankedPlayerList = new ArrayList<>(); 
+			int left = 580;
+			int top = 150;
+			int height = 75;
+			int width = 600;
+			for(int i = 0; i < players.size(); i++){
+				players.get(i).CalculateWeightedPts();
+				rankedPlayerList.add(players.get(i).getWeightedPts());
+				System.out.println("**************************" + players.get(i).getName() + " " + players.get(i).getWeightedPts());
+				g.drawRect(left, top + (i + 1) * height, width, height);
+			}
+			String sWinner = "";
+			Collections.sort(rankedPlayerList);
+			for(int i = rankedPlayerList.size() - 1; i >= 0; i--){
+				for(int j = 0; j < players.size(); j++){
+					if(rankedPlayerList.get(i) == players.get(j).getWeightedPts()){
+						if(i == rankedPlayerList.size() - 1){
+							sWinner = players.get(j).getName();
+						}
+						String sInfo = "Rank " + (players.size() - i) + ". Player " + players.get(j).getName() + "   Victory Points: " + players.get(j).getVictoryPoints();
+						sInfo += "    Marbles: " + players.get(j).getHeldMarbles().size();
+						
+						g.drawString(sInfo, left, top + 52 + (players.size() - i) * height);
+						break;
+					}
+				}
+			}
+			g.setColor(Color.RED);
+			g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
+			g.drawString("Winner is Player " + sWinner + "!!!!!!!!!!!!", left, top + height * (players.size() + 2));
+			return;
+		}
 		redCount = 0;
 		blueCount = 0;
 		yellowCount = 0;
@@ -684,13 +727,28 @@ public class BoardPanel extends JPanel implements MouseListener {
 		if (currentPlayer == 0) { g.drawImage(player1gui, 0, -180, null); }
 		else { g.drawImage(playergui, 0, -180, null); }
 		int v = 0;
-		int increment1Pos = 0;
-		int increment5Pos = 0;
-		while (v < players.get(currentPlayer).getVictoryPoints()) {
-			if (players.get(currentPlayer).getVictoryPoints() == 5) { g.drawImage(victoryPoint5, 88 + increment5Pos, 891, 63, 91, null); increment5Pos+=40; }
-			else { g.drawImage(victoryPoint1, 88 + increment1Pos, 891, 63, 91, null); increment1Pos+=40; }
-			v++;
+		int incrementPos = 0;
+		//int increment5Pos = 0;
+		// while (v < players.get(currentPlayer).getVictoryPoints()) {
+		// 	if (players.get(currentPlayer).getVictoryPoints() == 5) { 
+		// 		g.drawImage(victoryPoint5, 88 + increment5Pos, 891, 63, 91, null); increment5Pos+=40;
+		// 	 }
+		// 	else { 
+		// 		g.drawImage(victoryPoint1, 88 + increment1Pos, 891, 63, 91, null); increment1Pos+=40; 
+		// 	}
+		// 	v++;
+		// }
+		int vp = players.get(currentPlayer).getVictoryPoints();
+		System.out.println(players.get(currentPlayer).getName() + " has " + vp + " victory points");
+		int fiveVp = vp / 5;
+		int oneVp = vp % 5;
+		for(int k = 0; k < fiveVp; k++){
+			g.drawImage(victoryPoint5, 88 + incrementPos, 891, 63, 91, null); incrementPos+=40;
 		}
+		for(int k = 0; k < oneVp; k++){
+			g.drawImage(victoryPoint1, 88 + incrementPos, 891, 63, 91, null); incrementPos+=40; 
+		}
+
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
 		g.setColor(Color.BLACK);
@@ -1309,22 +1367,24 @@ public class BoardPanel extends JPanel implements MouseListener {
 			if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.PICK){
 				//if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.DrawOne){} it only got 1 effect lol
 				Marble m = marbles.remove(marbles.size() - 1);
-				p.addMarble(m);
-				if (m.getMarbleColor() == "Red"){
-					redCount++;
-					gizmoPrivateSelected.untriggered();
-				}
-				else if (m.getMarbleColor() == "Yellow"){
-					yellowCount++;
-					gizmoPrivateSelected.untriggered();
-				}
-				else if (m.getMarbleColor() == "Grey"){
-					greyCount++;
-					gizmoPrivateSelected.untriggered();
-				}
-				else if (m.getMarbleColor() == "Blue"){
-					blueCount++;
-					gizmoPrivateSelected.untriggered();
+				if(p.spaceForMoreMarble()){
+					p.addMarble(m);
+					if (m.getMarbleColor() == "Red"){
+						redCount++;
+						gizmoPrivateSelected.untriggered();
+					}
+					else if (m.getMarbleColor() == "Yellow"){
+						yellowCount++;
+						gizmoPrivateSelected.untriggered();
+					}
+					else if (m.getMarbleColor() == "Grey"){
+						greyCount++;
+						gizmoPrivateSelected.untriggered();
+					}
+					else if (m.getMarbleColor() == "Blue"){
+						blueCount++;
+						gizmoPrivateSelected.untriggered();
+					}
 				}
 			}
 			else if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.BUILD){
@@ -1352,23 +1412,26 @@ public class BoardPanel extends JPanel implements MouseListener {
 			else if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.FILE){
 
 				if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.DrawOne){
-					Marble m = marbles.remove(marbles.size() - 1);
-					p.addMarble(m);
-					if (m.getMarbleColor() == "Red"){
-						redCount++;
-						gizmoPrivateSelected.untriggered();
-					}
-					else if (m.getMarbleColor() == "Yellow"){
-						yellowCount++;
-						gizmoPrivateSelected.untriggered();
-					}
-					else if (m.getMarbleColor() == "Grey"){
-						greyCount++;
-						gizmoPrivateSelected.untriggered();
-					}
-					else if (m.getMarbleColor() == "Blue"){
-						blueCount++;
-						gizmoPrivateSelected.untriggered();
+					
+					if(p.spaceForMoreMarbles()){
+						Marble m = marbles.remove(marbles.size() - 1);
+						p.addMarble(m);
+						if (m.getMarbleColor() == "Red"){
+							redCount++;
+							gizmoPrivateSelected.untriggered();
+						}
+						else if (m.getMarbleColor() == "Yellow"){
+							yellowCount++;
+							gizmoPrivateSelected.untriggered();
+						}
+						else if (m.getMarbleColor() == "Grey"){
+							greyCount++;
+							gizmoPrivateSelected.untriggered();
+						}
+						else if (m.getMarbleColor() == "Blue"){
+							blueCount++;
+							gizmoPrivateSelected.untriggered();
+						}
 					}
 				}
 				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAny){
@@ -1825,6 +1888,24 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 	}
 
+	private boolean GameOver(){
+		for(int i = 0; i < players.size(); i++){
+			Player p = players.get(i);
+			int totalGizmos = 0;
+			totalGizmos = p.getArchivedGizmos().size() + p.getBuildGizmos().size() + p.getConvertGizmos().size() + p.getFileGizmos().size() + p.getPickGizmos().size() + p.getUpgradeGizmos().size();
+			System.out.println(p.getName() + " has gizmos of " + totalGizmos);// + " and " + nLevel3Gizmos + " level III gizmos");
+			if(totalGizmos >= 16)
+				return true;
+			int nLevel3Gizmos = 0;
+			for(int j = 0; j < p.getArchivedGizmos().size(); j++){
+				if(p.getArchivedGizmos().get(j).getCost() > 3)
+					nLevel3Gizmos++;
+				if(nLevel3Gizmos >= 4)
+					return true;
+			}
+		}
+		return false;
+	}
 	private void NextPlayer() {
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
 		ArrayList<Gizmo> buildGizmos = players.get(currentPlayer).getBuildGizmos();
@@ -1848,6 +1929,15 @@ public class BoardPanel extends JPanel implements MouseListener {
 		tempConvertedMarbleList.clear();
 		currentPlayer++;
 		currentPlayer = currentPlayer % 4;
+		if(currentPlayer == 0){
+			currentRound++;
+			System.out.println("Round " + currentRound + " we can check if there is a winner");
+			if(GameOver()){
+				System.out.println("Game Over");
+				bGameOver = true;
+				repaint();
+			}
+		}
 		p = players.get(currentPlayer);
 		System.out.println("Next player: " + p.getName());
 		redCount = yellowCount = blueCount = greyCount = 0;
@@ -1946,12 +2036,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 		} else
 			archiveBoundList.add(new Rectangle(archiveBound.x + 20, archiveBound.y + archiveBound.height, 143, 130));
-		System.out.println("Coverted list: " + convertBoundList.size());
-		System.out.println("Build list: " + buildBoundList.size());
-		System.out.println("File list: " + fileBoundList.size());
-		System.out.println("Upgrade list: " + upgradeBoundList.size());
-		System.out.println("Pick list: " + pickBoundList.size());
-		System.out.println("Archive list: " + archiveBoundList.size());
+		// System.out.println("Coverted list: " + convertBoundList.size());
+		// System.out.println("Build list: " + buildBoundList.size());
+		// System.out.println("File list: " + fileBoundList.size());
+		// System.out.println("Upgrade list: " + upgradeBoundList.size());
+		// System.out.println("Pick list: " + pickBoundList.size());
+		// System.out.println("Archive list: " + archiveBoundList.size());
 		FileBoundClicked = false;
 
 	}

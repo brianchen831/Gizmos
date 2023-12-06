@@ -26,6 +26,9 @@ public class Player {
     private int marbleSpace;
     private int archiveSpace;
     private int researchPower;
+
+    private int weightedPts;
+    private int position;
     
     public Player(String name) {
         //heldGizmos = new TreeMap<>();
@@ -40,11 +43,21 @@ public class Player {
         this.name = name;
         heldMarbles = new ArrayList<>();
         //temporary changing marble space
-        marbleSpace = 100;
+        marbleSpace = 5;
         archiveSpace = 1;
         researchPower = 3;
+        weightedPts = 0;
+        position = 0;
     }
- 
+    public void setPosition(int pos){
+        position = pos;
+    }
+    public void CalculateWeightedPts(){
+        weightedPts = victoryPoints * 100 + heldMarbles.size() * 10 + position;
+    }
+    public int getWeightedPts(){
+        return weightedPts;
+    }
     public void addArchiveGizmo(Gizmo g){
         archiveGizmos.add(g);
     }
