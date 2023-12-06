@@ -238,9 +238,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 			firstCard.add(new Gizmo(gizmoSheet2.getSubimage(2 * 490, 6 * 490, 490, 490), 0));
 		}
 
-		// Collections.shuffle(t1Gizmos);
-		// Collections.shuffle(t2Gizmos);
-		// Collections.shuffle(t3Gizmos);
+		Collections.shuffle(t1Gizmos);
+		Collections.shuffle(t2Gizmos);
+		Collections.shuffle(t3Gizmos);
 
 		Collections.rotate(t3Gizmos, -8);
 		Collections.rotate(t2Gizmos, -24);
