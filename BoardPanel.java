@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd;
+	private BufferedImage turnText, background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd;
 	private int yellowCount, redCount, greyCount, blueCount;
 	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; // temporary
 																											// hardcode
@@ -182,6 +182,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			marbleDispenser = ImageIO.read(BoardFrame.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
+			turnText = ImageIO.read(BoardFrame.class.getResource("/images/turnPlayedAlert.png"));
 			gizmoSheet1 = ImageIO.read(BoardFrame.class.getResource("/images/sheet1.jpg"));
 			gizmoSheet2 = ImageIO.read(BoardFrame.class.getResource("/images/sheet2.jpg"));
 			player1gui = ImageIO.read(BoardFrame.class.getResource("/images/player1gui.png"));
@@ -919,9 +920,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 				}
 			}
 		}
-		g.setColor(Color.blue);
+		//g.setColor(Color.blue);
 		if (turnFinishedAlert && !reactionAvailable && !pickEffectActive) {
-			g.fillRect(0, 0, 100, 100);
+			//g.drawImage(turnText,A1800, 900, null);
+			g.drawImage(turnText, 1080, 900, null);
 		}
 		
 	}
