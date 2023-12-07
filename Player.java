@@ -204,7 +204,34 @@ public class Player {
     public String getName() {
         return name;
     }
-
+    public int getRedMarbles() {
+        int cnt = 0;
+        for (Marble m : heldMarbles) {   
+            if (m.getMarbleColor().equals("Red")) {cnt ++;}
+        }
+        return cnt;
+    }
+    public int getBlueMarbles() {
+        int cnt = 0;
+        for (Marble m : heldMarbles) {   
+            if (m.getMarbleColor().equals("Blue")) {cnt ++;}
+        }
+        return cnt;
+    }
+    public int getGrayMarbles() {
+        int cnt = 0;
+        for (Marble m : heldMarbles) {   
+            if (m.getMarbleColor().equals("Gray")) {cnt ++;}
+        }
+        return cnt;
+    }
+    public int getYellowMarbles() {
+        int cnt = 0;
+        for (Marble m : heldMarbles) {   
+            if (m.getMarbleColor().equals("Yellow")) {cnt ++;}
+        }
+        return cnt;
+    }
     public int getMarbleCount() {
         return heldMarbles.size();
     }

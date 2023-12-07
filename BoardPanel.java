@@ -503,6 +503,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
 								u+=10;
 							}
+							g.setColor(Color.black);
+
+							g.drawString("" + p.getRedMarbles(), 1245, 83);
+							g.drawString("" + p.getBlueMarbles(), 1278, 83);
+							g.drawString("" + p.getGrayMarbles(), 1245, 108);
+							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							break;
 						case "C":
 							int u1 = 0;
@@ -550,6 +556,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
+							g.setColor(Color.black);
+
+				
 							break;
 						default:
 							out.println("DEFAULT TRIGGERED");
@@ -584,6 +593,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
 								u+=10;
 							}
+							g.setColor(Color.black);
+							g.drawString("" + p.getRedMarbles(), 1245, 83);
+							g.drawString("" + p.getBlueMarbles(), 1278, 83);
+							g.drawString("" + p.getGrayMarbles(), 1245, 108);
+							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							break;
 						case "D":
 							int u1 = 0;
@@ -607,6 +621,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
+							g.setColor(Color.black);
+							g.drawString("" + p.getRedMarbles(), 1245, 233);
+							g.drawString("" + p.getBlueMarbles(), 1278, 233);
+							g.drawString("" + p.getGrayMarbles(), 1245, 258);
+							g.drawString("" + p.getYellowMarbles(), 1278, 258);
 							break;
 							
 						case "B":
@@ -631,6 +650,14 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
+							g.setColor(Color.black);
+							g.drawString("" + p.getRedMarbles(), 1245, 397);
+							g.drawString("" + p.getBlueMarbles(), 1278, 397);
+							g.drawString("" + p.getGrayMarbles(), 1245, 423);
+							g.drawString("" + p.getYellowMarbles(), 1278, 423);
+							
+
+							
 							break;
 						default:
 							out.println("DEFAULT TRIGGERED");
@@ -665,6 +692,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
 								u+=10;
 							}
+							g.setColor(Color.black);
+
+							g.drawString("" + p.getRedMarbles(), 1245, 83);
+							g.drawString("" + p.getBlueMarbles(), 1278, 83);
+							g.drawString("" + p.getGrayMarbles(), 1245, 108);
+							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							break;
 						case "B":
 							int u1 = 0;
@@ -688,9 +721,15 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
+							g.setColor(Color.black);
+							g.drawString("" + p.getRedMarbles(), 1245, 233);
+							g.drawString("" + p.getBlueMarbles(), 1278, 233);
+							g.drawString("" + p.getGrayMarbles(), 1245, 258);
+							g.drawString("" + p.getYellowMarbles(), 1278, 258);
 							break;
 							
-						case "D":
+							
+						case "C":
 							int u2 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
@@ -1643,6 +1682,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				}
 			}
 			//from file
+			
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildFromFile) {
 				if(color.equals("from file")) {
 					g.triggered();
