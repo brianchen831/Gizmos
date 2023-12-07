@@ -123,6 +123,7 @@ public class Gizmo {
 	private int y;
 
 	private boolean triggered = false;
+	private boolean justBuilt = false;
 
 	public Gizmo(BufferedImage gizmoImage, int t){ //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
 
@@ -140,7 +141,13 @@ public class Gizmo {
 		cost = 1; //default to 1 unless not
 		AssignProperties();
 	} 
-
+	public void setJustBuilt(boolean b){
+		justBuilt = b;
+	}
+	public boolean getJustBuilt()
+	{
+		return justBuilt;
+	}
 	public int getX(){
 		return x;
 	}
