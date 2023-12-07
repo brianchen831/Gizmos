@@ -933,6 +933,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.drawRect(privateGizmoBound.x, privateGizmoBound.y, privateGizmoBound.width, privateGizmoBound.height);
 		}
 
+		g.setColor(Color.white);
+		if(FileBoundClicked){
+			g.drawString("Filing...", (int)fileBound.getX(), (int)fileBound.getY() - 10);
+		}
+
 		g.setColor(Color.red);
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
 		ArrayList<Gizmo> buildGizmos = players.get(currentPlayer).getBuildGizmos();
