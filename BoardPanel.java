@@ -278,6 +278,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 		firstDraw = true;
 
 		System.out.println(p1.getFileGizmos().size());
+
+		for(int i = 0; i < 5; i++){
+			Marble em = new Marble("Red");
+			players.get(currentPlayer).addMarble(em);
+		}
 		
 	}
 
@@ -286,16 +291,20 @@ public class BoardPanel extends JPanel implements MouseListener {
 			if (!turnFinishedAlert || pickEffectActive) {
 				if (visibleMarbles.get(index).toString().equals("Red")) {
 					redCount++;
-					pickGizmoTriggered("Red");
+					if(players.get(currentPlayer).spaceForMoreMarble())
+						pickGizmoTriggered("Red");
 				} else if (visibleMarbles.get(index).toString().equals("Yellow")) {
 					yellowCount++;
-					pickGizmoTriggered("Yellow");
+					if(players.get(currentPlayer).spaceForMoreMarble())
+						pickGizmoTriggered("Yellow");
 				} else if (visibleMarbles.get(index).toString().equals("Grey")) {
 					greyCount++;
-					pickGizmoTriggered("Grey");
+					if(players.get(currentPlayer).spaceForMoreMarble())
+						pickGizmoTriggered("Grey");
 				} else {
 					blueCount++;
-					pickGizmoTriggered("Blue");
+					if(players.get(currentPlayer).spaceForMoreMarble())
+						pickGizmoTriggered("Blue");
 				}
 				// players.get(playerNum).addMarble(visibleMarbles.remove(index));
 				// visibleMarbles.add(0, newMarble);
@@ -1095,6 +1104,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 				
 				System.out.println("fileBoundList " + i + " clicked " + privateGizmoBound.y);
 			}
+			else{
+				FileBoundClicked = false;
+			}
 		}
 		// for(int i = 0; i < upgradeBoundList.size(); i++){
 		// if(upgradeBoundList.get(i).contains(e.getPoint())){
@@ -1429,23 +1441,22 @@ public class BoardPanel extends JPanel implements MouseListener {
 			if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.PICK){
 				//if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.DrawOne){} it only got 1 effect lol
 				Marble m = marbles.remove(marbles.size() - 1);
+
+				gizmoPrivateSelected.untriggered();
+				
 				if(p.spaceForMoreMarble()){
 					p.addMarble(m);
 					if (m.getMarbleColor() == "Red"){
 						redCount++;
-						gizmoPrivateSelected.untriggered();
 					}
 					else if (m.getMarbleColor() == "Yellow"){
 						yellowCount++;
-						gizmoPrivateSelected.untriggered();
 					}
 					else if (m.getMarbleColor() == "Grey"){
 						greyCount++;
-						gizmoPrivateSelected.untriggered();
 					}
 					else if (m.getMarbleColor() == "Blue"){
 						blueCount++;
-						gizmoPrivateSelected.untriggered();
 					}
 				}
 			}
@@ -1607,24 +1618,52 @@ public class BoardPanel extends JPanel implements MouseListener {
 				
 				if(color.equals("Red")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("nle 1"); repaint();
 				}
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlue){
 				if(color.equals("Blue")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("nle2"); repaint();
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildYellow){
 				if(color.equals("Yellow")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("nle3"); repaint();
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildGrey){
 				if(color.equals("Grey")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("nle4"); repaint();
 				} 
 			}
@@ -1632,60 +1671,144 @@ public class BoardPanel extends JPanel implements MouseListener {
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlueOrRed){
 				if(color.equals("Blue")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump5.1"); repaint();
 				} 
 				else if(color.equals("Red")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump5.2"); repaint();
 				}
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildGreyOrYellow){
 				if(color.equals("Yellow")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump6.1"); repaint();
 				} 
 				else if(color.equals("Grey")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump6.2"); repaint();
 				}
 			}	
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlueOrYellow){
 				if(color.equals("Blue")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump7.1"); repaint();
 				} 
 				else if(color.equals("Yellow")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump7.2"); repaint();
 				}
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildGreyOrRed){
 				if(color.equals("Red")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump8.1"); repaint();
 				} 
 				else if(color.equals("Grey")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump8.2"); repaint();
 				}
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildYellowOrRed){
 				if(color.equals("Yellow")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump9.1"); repaint();
 				} 
 				else if(color.equals("Red")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump9.2"); repaint();
 				}
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlueOrGrey){
 				if(color.equals("Blue")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump10.1"); repaint();
 				} 
 				else if(color.equals("Grey")){
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("lil pump10.2"); repaint();
 				}
 			}
@@ -1694,6 +1817,13 @@ public class BoardPanel extends JPanel implements MouseListener {
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildFromFile) {
 				if(color.equals("from file")) {
 					g.triggered();
+					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+						if(!p.spaceForMoreMarble()){
+							g.untriggered();
+							turnFinishedAlert = true;
+						}
+					}
 					System.out.println("pop smoke 1"); repaint();
 				}
 			}
@@ -1710,6 +1840,13 @@ public class BoardPanel extends JPanel implements MouseListener {
 			out.println("erm what the flip");
 			if(g.getTrigger() == Gizmo.GizmoTgr.File){
 				g.triggered();
+				if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+				g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+					if(!p.spaceForMoreMarble()){
+						turnFinishedAlert = true;
+						g.untriggered();
+					}
+				}
 				out.println("yea uh yeah uh");
 			}
 		}
@@ -1746,6 +1883,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 								archiveBound.y + archiveBound.height + 30 * (p.getArchivedGizmos().size() - 1), 143,
 								130));
 					}
+					
 					fileGizmoTriggered();
 				}
 				else{
@@ -1901,6 +2039,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					for (int i = 0; i < p.getArchivedGizmos().size(); i++) {
 						if (p.getArchivedGizmos().get(i) == g) {
 							System.out.println("$$$$$$$$$$$$$$$$$$$ found matching gizmo from archive list to remove");
+							
 							buildGizmoTriggered("from file");
 							p.removeArchiveGizmo(g);
 							archiveBoundList.remove(i);
@@ -1913,6 +2052,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 				activeBound.setBounds(0, 0, 0, 0);
 
+				if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
+				g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
+					if(!p.spaceForMoreMarble()){
+						return;
+					}
+				}
 				buildGizmoTriggered(g.getColor());
 			} else {
 				System.out.println("Player " + p.getName()
@@ -2021,20 +2166,43 @@ public class BoardPanel extends JPanel implements MouseListener {
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
 		ArrayList<Gizmo> buildGizmos = players.get(currentPlayer).getBuildGizmos();
 		ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos();
+		if(!turnFinishedAlert || pickEffectActive){
+			JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn."); 
+			return;
+		}
 		for(Gizmo gizmo : fileGizmos){
+			if(gizmo.isTriggered()){
+				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+				return;
+			}
 			gizmo.untriggered();
 			gizmo.setJustBuilt(false);
 		}
 		for(Gizmo gizmo : buildGizmos){
+			if(gizmo.isTriggered()){
+				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+				return;
+			}
 			gizmo.untriggered();
 			gizmo.setJustBuilt(false);
 		}
 		for(Gizmo gizmo : pickGizmos){
+			if(gizmo.isTriggered()){
+				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+				return;
+			}
 			gizmo.untriggered();
 			gizmo.setJustBuilt(false);
 		}
-		for(Gizmo gizmo : pickGizmos)
+		for(Gizmo gizmo : pickGizmos){
+			if(gizmo.isTriggered()){
+				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+				return;
+			}
+			gizmo.untriggered();
 			gizmo.setJustBuilt(false);
+		}
+		
 		turnFinishedAlert = false;
 		pickEffectActive = false;
 		tryConvertGizmos = false;
