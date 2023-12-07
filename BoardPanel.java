@@ -986,7 +986,15 @@ public class BoardPanel extends JPanel implements MouseListener {
 		int y = e.getY();
 		
 		if (nextPlayerBound.contains(e.getPoint())) {
-        	NextPlayer();
+			if (turnFinishedAlert) {
+
+				NextPlayer();
+
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+
+			}
         }
         // if(turnFinishedAlert)
         //     return;
