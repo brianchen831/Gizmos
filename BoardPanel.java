@@ -269,16 +269,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		
 		
-//		Collections.shuffle(t1Gizmos);
-//		Collections.shuffle(t2Gizmos);
-//		Collections.shuffle(t3Gizmos);
+		Collections.shuffle(t1Gizmos);
+		Collections.shuffle(t2Gizmos);
+		Collections.shuffle(t3Gizmos);
 		for (int i = 0 ; i < t3Gizmos.size() ; i++) {
 			if (!(i < 16)) {
 				t3Gizmos.remove(i-=1);
 			}
 		}
 		out.println(t3Gizmos.size());
-		Collections.rotate(t3Gizmos, 2);
+		// Collections.rotate(t3Gizmos, 2);
 		// Collections.rotate(t2Gizmos, -4);
 		// Collections.rotate(t1Gizmos, -16);
 
@@ -456,10 +456,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			
 		}
-		redCount-=spentRed;
-		blueCount-=spentBlue;
-		yellowCount-=spentYellow;
-		greyCount-=spentGray;
+		// redCount-=spentRed;
+		// blueCount-=spentBlue;
+		// yellowCount-=spentYellow;
+		// greyCount-=spentGray;
 		
 		
 		g.drawImage(background, 0, 0, null);
@@ -2269,6 +2269,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					break;
 				case "Generic":
 					if (redCount + blueCount + greyCount + yellowCount >= 7) {
+						//UIManager.put("OptionPane.minimumSize",new Dimension(500,500)); 
 						int result = JOptionPane.showConfirmDialog(null, inputs, "Enter the amount of each marble you would like to use to build the generic gizmo.", JOptionPane.PLAIN_MESSAGE);
 						spentRed = Integer.parseInt(redMarbleInput.getText());
 						spentBlue = Integer.parseInt(blueMarbleInput.getText());

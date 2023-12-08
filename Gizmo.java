@@ -136,7 +136,7 @@ public class Gizmo {
 		tier = t;
 		this.gizmoImage = RoundCorners.makeRoundedCorner(gizmoImage, 70);
 		trigger = null;
-		if (!(ID >= 105) && (ID <= 108)) {
+		if (!((ID >= 105) && (ID <= 108))) {
 			
 			color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
 			

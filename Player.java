@@ -162,32 +162,44 @@ public class Player {
         }
     }
     public void payMarble(int reds, int blues, int yellows, int grays) {
-    	
+        
     	for (int i = 0 ; i < reds ; i++) {
-    		
-    		heldMarbles.remove("Red");
-           
-    		
+    		System.out.println("Reds removed");
+    		for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Red")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
     	}
-    	
     	for (int i = 0 ; i < blues ; i++) {
-    		
-    		heldMarbles.remove("Blue");
-     
-    		
+            System.out.println("Blues removed");
+    		for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Blue")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
     	}
     	for (int i = 0 ; i < yellows ; i++) {
-    		
-    		heldMarbles.remove("Yellow");
-        
-    		
+    		System.out.println("Yellows removed");
+    		for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Yellow")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
     	}
 		for (int i = 0 ; i < grays ; i++) {
-	
-			heldMarbles.remove("Grey");
- 
-	
+	        System.out.println("Grays removed");
+			for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Grey")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
 		}
+        System.out.println(heldMarbles);
     	
     	
     }
