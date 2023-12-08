@@ -87,6 +87,8 @@ public class Gizmo {
 		OneMarbleOneArchive,
 		OneVictoryPoint,
 		TwoVictoryPoints,
+		VictoryPointsFromMarbleCount,
+		VictoryPointsFromTokenCount,
 		TwoMarbleOneFileTwoResearch,
 
 		DiscountMarbleWhenResearchBuilt,
@@ -889,11 +891,31 @@ public class Gizmo {
 			case 105:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
-				//effect = GizmoEffect.
+				effect = GizmoEffect.VictoryPointsFromMarbleCount;
+				cost = 7;
+				victoryPoint = 7;
+				color = "generic";
 			case 106:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.VictoryPointsFromMarbleCount;
+				cost = 7;
+				victoryPoint = 7;
+				color = "generic";
 			case 107:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.VictoryPointsFromTokenCount;
+				cost = 7;
+				victoryPoint = 7;
+				color = "Generic";
 			case 108:
-			// case 109:
+				type = GizmoType.UPGRADE;
+				trigger = GizmoTgr.none;
+				effect = GizmoEffect.VictoryPointsFromTokenCount;
+				cost = 7;
+				victoryPoint = 7;
+				color = "Generic";
 				break;
 			default:
 				//System.out.println("Missed Something"); //for debugging
