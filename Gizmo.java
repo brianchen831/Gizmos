@@ -125,6 +125,8 @@ public class Gizmo {
 	private boolean triggered = false;
 	private boolean justBuilt = false;
 
+	private boolean triggeredThisRound = false;
+
 	public Gizmo(BufferedImage gizmoImage, int t){ //index will be used to uniquely distinguish each Gizmo card per sheet 1 and sheet 2
 
 	 	IDNum++;
@@ -159,6 +161,12 @@ public class Gizmo {
 	}
 	public void setY(int posY){
 		y = posY;
+	}
+	public void triggeredThisRound(boolean bool){
+		triggeredThisRound = bool;
+	}
+	public boolean isTriggeredThisRound(){
+		return triggeredThisRound;
 	}
 	public void triggered(){
 		triggered = true;
