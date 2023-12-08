@@ -221,7 +221,7 @@ public class Player {
     public int getGrayMarbles() {
         int cnt = 0;
         for (Marble m : heldMarbles) {   
-            if (m.getMarbleColor().equals("Gray")) {cnt ++;}
+            if (m.getMarbleColor().equals("Grey")) {cnt ++;}
         }
         return cnt;
     }
