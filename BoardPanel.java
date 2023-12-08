@@ -284,23 +284,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 		System.out.println(p1.getFileGizmos().size());
 
-		players.get(currentPlayer).addMarbleSpace(100);
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Red");
-			players.get(currentPlayer).addMarble(em);
-		}
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Yellow");
-			players.get(currentPlayer).addMarble(em);
-		}
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Blue");
-			players.get(currentPlayer).addMarble(em);
-		}
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Grey");
-			players.get(currentPlayer).addMarble(em);
-		}
+		// players.get(currentPlayer).addMarbleSpace(100);
+		// for(int i = 0; i < 6; i++){
+		// 	Marble em = new Marble("Red");
+		// 	players.get(currentPlayer).addMarble(em);
+		// }
+		// for(int i = 0; i < 6; i++){
+		// 	Marble em = new Marble("Yellow");
+		// 	players.get(currentPlayer).addMarble(em);
+		// }
+		// for(int i = 0; i < 6; i++){
+		// 	Marble em = new Marble("Blue");
+		// 	players.get(currentPlayer).addMarble(em);
+		// }
+		// for(int i = 0; i < 6; i++){
+		// 	Marble em = new Marble("Grey");
+		// 	players.get(currentPlayer).addMarble(em);
+		// }
 	}
 
 	public void pickMarble(int index, String color) {
