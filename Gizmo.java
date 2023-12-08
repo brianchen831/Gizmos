@@ -894,14 +894,14 @@ public class Gizmo {
 				effect = GizmoEffect.VictoryPointsFromMarbleCount;
 				cost = 7;
 				victoryPoint = 7;
-				color = "generic";
+				color = "Generic";
 			case 106:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
 				effect = GizmoEffect.VictoryPointsFromMarbleCount;
 				cost = 7;
 				victoryPoint = 7;
-				color = "generic";
+				color = "Generic";
 			case 107:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;

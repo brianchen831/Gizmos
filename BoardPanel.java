@@ -67,7 +67,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private boolean pickEffectActive2 = false;
 	private boolean buildEffectActive = false;
 	// private boolean fileEffectActive = false;
-	
+	JTextField redMarbleInput = new JTextField();
+	JTextField grayMarbleInput = new JTextField();
+	JTextField yellowMarbleInput = new JTextField();
+	JTextField blueMarbleInput = new JTextField();
 	private int researchMode = 0;
 	private ArrayList<Rectangle> researchGizmoBoundList;
 	private ArrayList<Gizmo> researchGizmoList;
@@ -77,6 +80,17 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private int currentRound = 0;
 	private boolean tryConvertGizmos = false;
 	private boolean bGameOver = false;
+	private JComponent[] inputs = new JComponent[] {
+						new JLabel("Red"),
+						redMarbleInput,
+						new JLabel("Gray"),
+						grayMarbleInput,
+						new JLabel("Blue"),
+						blueMarbleInput,
+						new JLabel("Yellow"),
+						yellowMarbleInput,
+						
+		};
 	
 	private boolean researching = false;;
 
@@ -294,7 +308,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		players.add(p4);
 		addMouseListener(this);
 		firstDraw = true;
-
+		
 		System.out.println(p1.getFileGizmos().size());
 
 		// players.get(currentPlayer).addMarbleSpace(100);
@@ -2243,11 +2257,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 					if (yellowCount >= g.getCost())
 						takeThisGizmo = 1;
 					break;
-				default:
-					
+				case "Grey":
 					if (greyCount >= g.getCost())
 						takeThisGizmo = 1;
 					break;
+				case "Generic":
+					if (redCount + blueCount + greyCount + yellowCount >= 7) {
+						int result = JOptionPane.showConfirmDialog(null, inputs, "Enter the amount of each marble you would like to use to build the generic gizmo.", JOptionPane.PLAIN_MESSAGE);
+						int spentRed = Integer.parseInt(redMarbleInput.getText());
+						int spentBlue = Integer.parseInt(redMarbleInput.getText());
+						int spentGray = Integer.parseInt(redMarbleInput.getText());
+						int spentYellow = Integer.parseInt(redMarbleInput.getText());
+						
+						//these ints hold the amount the user chooses to use of each marble in order to build a generic
+					}
+					
+					break;
+				
 				// case "Generic":
 				// 	String genericBuildAmounts;
 				// 	JTextField xField = new JTextField(5);
