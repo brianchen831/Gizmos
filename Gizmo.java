@@ -136,7 +136,16 @@ public class Gizmo {
 		tier = t;
 		this.gizmoImage = RoundCorners.makeRoundedCorner(gizmoImage, 70);
 		trigger = null;
-		color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
+		if (!(ID >= 105) && (ID <= 108)) {
+			
+			color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
+			
+		} else {
+			
+			color = "Generic";
+			
+		}
+		
         // if (temp=="Gray") { color="Grey"; System.out.println("Grey");}
 		// else if (temp=="Red") { color="Red"; System.out.println("Red");}
 		// else if (temp=="Yellow") { color="Yellow"; System.out.println("Yellow");}

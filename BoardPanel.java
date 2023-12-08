@@ -10,7 +10,6 @@ import javax.swing.border.LineBorder;
 
 import org.w3c.dom.css.Rect;
 
-import com.formdev.flatlaf.ui.FlatSliderUI;
 
 public class BoardPanel extends JPanel implements MouseListener {
 
@@ -29,6 +28,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 																											// more
 																											// difficult
 																											// part
+	private int spentRed, spentBlue, spentGray, spentYellow;
 	private Rectangle gizmoBound1_1, gizmoBound1_2, gizmoBound1_3, gizmoBound1_4;
 	private Rectangle gizmoBound2_1, gizmoBound2_2, gizmoBound2_3;
 	private Rectangle gizmoBound3_1, gizmoBound3_2;
@@ -269,16 +269,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		
 		
-		Collections.shuffle(t1Gizmos);
-		Collections.shuffle(t2Gizmos);
-		Collections.shuffle(t3Gizmos);
+//		Collections.shuffle(t1Gizmos);
+//		Collections.shuffle(t2Gizmos);
+//		Collections.shuffle(t3Gizmos);
 		for (int i = 0 ; i < t3Gizmos.size() ; i++) {
 			if (!(i < 16)) {
 				t3Gizmos.remove(i-=1);
 			}
 		}
 		out.println(t3Gizmos.size());
-		// Collections.rotate(t3Gizmos, 2);
+		Collections.rotate(t3Gizmos, 2);
 		// Collections.rotate(t2Gizmos, -4);
 		// Collections.rotate(t1Gizmos, -16);
 
@@ -311,23 +311,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 		
 		System.out.println(p1.getFileGizmos().size());
 
-		// players.get(currentPlayer).addMarbleSpace(100);
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Red");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Yellow");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Blue");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Grey");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
+		 players.get(currentPlayer).addMarbleSpace(100);
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Red");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Yellow");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Blue");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Grey");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
 	}
 
 	public void pickMarble(int index, String color) {
@@ -455,6 +455,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 				greyCount++;
 			}
 		}
+		redCount -= spentRed;
+		blueCount -= spentBlue;
+		yellowCount -= spentYellow;
+		greyCount -= spentGray;
 		
 		g.drawImage(background, 0, 0, null);
 		switch (currentPlayer) {
@@ -2264,12 +2268,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 				case "Generic":
 					if (redCount + blueCount + greyCount + yellowCount >= 7) {
 						int result = JOptionPane.showConfirmDialog(null, inputs, "Enter the amount of each marble you would like to use to build the generic gizmo.", JOptionPane.PLAIN_MESSAGE);
-						int spentRed = Integer.parseInt(redMarbleInput.getText());
-						int spentBlue = Integer.parseInt(redMarbleInput.getText());
-						int spentGray = Integer.parseInt(redMarbleInput.getText());
-						int spentYellow = Integer.parseInt(redMarbleInput.getText());
-						
-						//these ints hold the amount the user chooses to use of each marble in order to build a generic
+						spentRed = Integer.parseInt(redMarbleInput.getText());
+						spentBlue = Integer.parseInt(blueMarbleInput.getText());
+						spentGray = Integer.parseInt(grayMarbleInput.getText());
+						spentYellow = Integer.parseInt(yellowMarbleInput.getText());
+						redCount -= spentRed;
+						blueCount -= spentBlue;
+						greyCount -= spentGray;
+						yellowCount -= spentYellow;
+						repaint();
+						takeThisGizmo=1;
 					}
 					
 					break;
@@ -2348,9 +2356,22 @@ public class BoardPanel extends JPanel implements MouseListener {
 					case UPGRADE:
 						turnFinishedAlert = true; out.println("Built Gizmo Turn Finished True");
 						System.out.println("convert add to upgrade list for player " + p.getName());
+						System.out.println(g.getColor());
 						p.addUpgradeGizmo(g);
-						p.payMarble(g.getCost(), g.getColor());
-						putbackMarble(g.getCost(), g.getColor());
+						
+						if (g.getColor().equals("Generic")) {
+							out.println("Red" + spentRed + " Blue" + spentBlue + " Yellow" + spentYellow + " Gray" + spentGray);
+							p.payMarble(spentRed, spentBlue, spentYellow, spentGray);
+							putbackMarble(spentRed, "Red");
+							putbackMarble(spentYellow, "Yellow");
+							putbackMarble(spentGray, "Grey");
+							putbackMarble(spentBlue, "Blue");
+						} else {
+							
+							p.payMarble(g.getCost(), g.getColor());
+							putbackMarble(g.getCost(), g.getColor());
+							
+						}
 						if (p.getUpgradeGizmos().size() > 1) {
 							int prevTopCard = p.getUpgradeGizmos().size() - 2;
 							upgradeBoundList.get(prevTopCard).setBounds(upgradeBoundList.get(prevTopCard).x,
