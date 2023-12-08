@@ -454,11 +454,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 			} else {
 				greyCount++;
 			}
-			redCount-=spentRed;
-			blueCount-=spentBlue;
-			yellowCount-=spentYellow;
-			greyCount-=spentGray;
+			
 		}
+		redCount-=spentRed;
+		blueCount-=spentBlue;
+		yellowCount-=spentYellow;
+		greyCount-=spentGray;
 		
 		
 		g.drawImage(background, 0, 0, null);
@@ -531,7 +532,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 								u1+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 100 + u1, 75, 75, null);
+								g.drawImage(c.getImage(), 1840, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
 							g.setColor(Color.black);
@@ -569,7 +570,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 								u2+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 100 + u2, 75, 75, null);
+								g.drawImage(c.getImage(), 1840, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
 							g.setColor(Color.black);
@@ -657,7 +658,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 								u1+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 100 + u1, 75, 75, null);
+								g.drawImage(c.getImage(), 1840, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
 							g.setColor(Color.black);
@@ -695,7 +696,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 								u2+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 100 + u2, 75, 75, null);
+								g.drawImage(c.getImage(), 1840, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
 							g.setColor(Color.black);
