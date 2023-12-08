@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage turnText, background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd;
+	private BufferedImage turnText, background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd, howtopla;
 	private int yellowCount, redCount, greyCount, blueCount;
 	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; // temporary
 																											// hardcode
@@ -61,12 +61,13 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private boolean turnFinishedAlert = false;
 	private String colorTempMarbleClicked = "";
 	private boolean pickEffectActive = false;
+	private boolean pickEffectActive2 = false;
 	
 	private int researchMode = 0;
 	private ArrayList<Rectangle> researchGizmoBoundList;
 	private ArrayList<Gizmo> researchGizmoList;
 	private int selectedResearchGizmoIndex;
-
+	private boolean howtoplay = false;
 	private boolean filing;
 	private int currentRound = 0;
 	private boolean tryConvertGizmos = false;
@@ -193,6 +194,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			victoryPoint5 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint5.png"));
 			displayWhen2nd = ImageIO.read(BoardFrame.class.getResource("/images/case1display.png"));
 			displayWhen1st = ImageIO.read(BoardFrame.class.getResource("/images/case2display.png"));
+			howtopla = ImageIO.read(BoardFrame.class.getResource("/images/DIRECTIONDIRECTIONSDIRECTIONS.png"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -250,7 +252,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		Collections.shuffle(t3Gizmos);
 
 		Collections.rotate(t3Gizmos, -8);
-		Collections.rotate(t2Gizmos, -24);
+		Collections.rotate(t2Gizmos, -4);
 		Collections.rotate(t1Gizmos, -16);
 
 		Player p1 = new Player("A");
@@ -282,16 +284,28 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 		System.out.println(p1.getFileGizmos().size());
 
-		for(int i = 0; i < 5; i++){
+		players.get(currentPlayer).addMarbleSpace(100);
+		for(int i = 0; i < 6; i++){
 			Marble em = new Marble("Red");
 			players.get(currentPlayer).addMarble(em);
 		}
-		
+		for(int i = 0; i < 6; i++){
+			Marble em = new Marble("Yellow");
+			players.get(currentPlayer).addMarble(em);
+		}
+		for(int i = 0; i < 6; i++){
+			Marble em = new Marble("Blue");
+			players.get(currentPlayer).addMarble(em);
+		}
+		for(int i = 0; i < 6; i++){
+			Marble em = new Marble("Grey");
+			players.get(currentPlayer).addMarble(em);
+		}
 	}
 
 	public void pickMarble(int index, String color) {
 		if (players.get(currentPlayer).spaceForMoreMarble()) {
-			if (!turnFinishedAlert || pickEffectActive) {
+			if (!turnFinishedAlert || pickEffectActive || pickEffectActive2) {
 				if (visibleMarbles.get(index).toString().equals("Red")) {
 					redCount++;
 					if(players.get(currentPlayer).spaceForMoreMarble())
@@ -322,15 +336,24 @@ public class BoardPanel extends JPanel implements MouseListener {
 			// NextPlayer();
 			
 			turnFinishedAlert = true;
-			pickEffectActive = false;
+			if(pickEffectActive && pickEffectActive2){
+				pickEffectActive = false;
+			}
+			else if(pickEffectActive2){
+				pickEffectActive2 = false;
+			}
+			else if(pickEffectActive){
+				pickEffectActive = false;
+			}
 			repaint();
 
 		}
-		else{
-			if(pickEffectActive){
-				pickEffectActive = false;
-			}
-		}
+		// else{
+		// 	if(pickEffectActive && ){
+		// 		pickEffectActive = false;
+		// 		pickEffectActive2 = false;
+		// 	}
+		// }
 	}
 
 	public void resetMarbleDisp() {
@@ -351,6 +374,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// g.drawString(": " + greyCount);
 
 		// delete this if it doesnt work or breaks stuff
+		
 		if(bGameOver){
 			g.drawImage(background, 0, 0, null);
 			g.setColor(Color.YELLOW);
@@ -969,7 +993,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 
 		g.setColor(Color.red);
-		if(pickEffectActive){
+		if(pickEffectActive || pickEffectActive2){
 			g.drawRect((int)pickBound.x, (int)pickBound.y, (int)pickBound.getWidth(), (int)pickBound.getHeight());
 		}
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
@@ -977,7 +1001,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos();
 		boolean reactionAvailable = false;;
 		for(Gizmo gizmo : fileGizmos){
-			if(gizmo.isTriggered()){
+			if(gizmo.isTriggered() && !gizmo.getJustBuilt()){
 				reactionAvailable = true;
 				if(gizmo.getY() < fileBoundList.get(fileBoundList.size() - 1).getY()){
 					g.drawRect(gizmo.getX(), gizmo.getY(), 143, 30);
@@ -988,7 +1012,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 		}
 		for(Gizmo gizmo : buildGizmos){
-			if(gizmo.isTriggered()){
+			if(gizmo.isTriggered() && !gizmo.getJustBuilt()){
 				reactionAvailable = true;
 				if(gizmo.getY() < buildBoundList.get(buildBoundList.size() - 1).getY()){
 					g.drawRect(gizmo.getX(), gizmo.getY(), 143, 30);
@@ -999,7 +1023,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 		}
 		for(Gizmo gizmo : pickGizmos){
-			if(gizmo.isTriggered()){
+			if(gizmo.isTriggered() && !gizmo.getJustBuilt()){
 				reactionAvailable = true;
 				System.out.println("highlighting triggered pick gizmos");		
 				if(gizmo.getY() < pickBoundList.get(pickBoundList.size() - 1).getY()){
@@ -1011,7 +1035,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 		}
 		//g.setColor(Color.blue);
-		if (turnFinishedAlert && !reactionAvailable && !pickEffectActive) {
+		if (turnFinishedAlert && !reactionAvailable && !pickEffectActive && !pickEffectActive2) {
 			//g.drawImage(turnText,A1800, 900, null);
 			g.drawImage(turnText, 870, 500, null);
 		}
@@ -1019,7 +1043,14 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.setFont(new Font("Proxima Nova", Font.PLAIN, 16));
 			g.drawString("Player may click converter gizmos to build new gizmo", 420, 540);			
 		}
-		
+		g.setColor(Color.white);
+		g.drawRect(1700, 850,150, 150);
+		g.drawString("How To Play",1703, 925 );
+		if(howtoplay){
+			g.drawImage(howtopla, 0, 0, 1920, 1080, null);
+			g.drawRect(1700, 850, 150, 150);
+            g.drawString("BACK", 1740, 925);
+		}
 	}
 	private void DisplayTempConvertedMarbles(){
 		System.out.println("Temporary Convert Marble size: " + tempConvertedMarbleList.size());
@@ -1308,7 +1339,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			//System.out.println(fourMarbleList.get(i).getMarbleColor() + " in 4 free to pick marble list clickerd");
 		}
-		if(!pickEffectActive){
+		if(!pickEffectActive && !pickEffectActive2){
 			for (int i = 0; i < convertBoundList.size(); i++) {
 			if (convertBoundList.get(i).contains(e.getPoint())) {
 				privateGizmoBound.setBounds(convertBoundList.get(i));
@@ -1424,7 +1455,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}		
 		
 		System.out.println(x + ", " + y);
-		
+		if(x > 1700 && x < 1850 && y > 850 && y < 1000 && howtoplay == false){
+			howtoplay = true;
+		}
+		else 
+			howtoplay = false;
 		repaint();
 	}
     private void AddResearchCards(){
@@ -1521,7 +1556,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 					gizmoPrivateSelected.untriggered();
 				}
 				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
-
+					out.println("pick any two reached");
+					pickEffectActive = true;
+					pickEffectActive2 = true;
+					gizmoPrivateSelected.untriggered();
 				}
 
 			}
@@ -1583,66 +1621,66 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for(Gizmo g : pickGizmos){
 			if(g.getTrigger() == Gizmo.GizmoTgr.PickRed){
 				if(color.equals("Red")){
-					g.triggered(); 
+					if(!g.getJustBuilt()); g.triggered(); 
 					System.out.println("lil baby"); repaint();
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickBlue){
 				if(color.equals("Blue")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby2"); repaint();
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickYellow){
 				if(color.equals("Yellow")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby3"); repaint();
 				} 
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickGrey){
 				if(color.equals("Grey")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby4"); repaint();
 				} 
 			}
 			//////////////////////////////////////////////////////////
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickYellowOrRed){
 				if(color.equals("Yellow")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby5.1"); repaint();
 				} 
 				else if(color.equals("Red")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby5.2"); repaint();
 				}
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickYellowOrGrey){
 				if(color.equals("Yellow")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby6.1"); repaint();
 				} 
 				else if(color.equals("Grey")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby6.2"); repaint();
 				}
 			}	
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickGreyOrBlue){
 				if(color.equals("Grey")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby7.1"); repaint();
 				} 
 				else if(color.equals("Blue")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby7.2"); repaint();
 				}
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.PickRedOrBlue){
 				if(color.equals("Red")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby8.1"); repaint();
 				} 
 				else if(color.equals("Blue")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					System.out.println("lil baby8.2"); repaint();
 				}
 			}
@@ -1659,7 +1697,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			if(g.getTrigger() == Gizmo.GizmoTgr.BuildRed){
 				
 				if(color.equals("Red")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1672,7 +1710,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlue){
 				if(color.equals("Blue")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1685,7 +1723,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildYellow){
 				if(color.equals("Yellow")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1698,7 +1736,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildGrey){
 				if(color.equals("Grey")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1712,7 +1750,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			//////////////////////////////////////////////////////////
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlueOrRed){
 				if(color.equals("Blue")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1723,7 +1761,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump5.1"); repaint();
 				} 
 				else if(color.equals("Red")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1736,7 +1774,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildGreyOrYellow){
 				if(color.equals("Yellow")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1747,7 +1785,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump6.1"); repaint();
 				} 
 				else if(color.equals("Grey")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1760,7 +1798,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}	
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlueOrYellow){
 				if(color.equals("Blue")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1771,7 +1809,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump7.1"); repaint();
 				} 
 				else if(color.equals("Yellow")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1784,7 +1822,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildGreyOrRed){
 				if(color.equals("Red")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1795,7 +1833,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump8.1"); repaint();
 				} 
 				else if(color.equals("Grey")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1808,7 +1846,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildYellowOrRed){
 				if(color.equals("Yellow")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1819,7 +1857,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump9.1"); repaint();
 				} 
 				else if(color.equals("Red")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1832,7 +1870,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildBlueOrGrey){
 				if(color.equals("Blue")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1843,7 +1881,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					System.out.println("lil pump10.1"); repaint();
 				} 
 				else if(color.equals("Grey")){
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
@@ -1858,13 +1896,17 @@ public class BoardPanel extends JPanel implements MouseListener {
 			
 			else if(g.getTrigger() == Gizmo.GizmoTgr.BuildFromFile) {
 				if(color.equals("from file")) {
-					g.triggered();
+					if(!g.getJustBuilt()); g.triggered();
 					if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 					g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 						if(!p.spaceForMoreMarble()){
 							g.untriggered();
 							turnFinishedAlert = true;
 						}
+					}
+					if(g.getJustBuilt()){
+						out.println("just got built");
+						g.untriggered();
 					}
 					System.out.println("pop smoke 1"); repaint();
 				}
@@ -1881,7 +1923,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for(Gizmo g : fileGizmos){
 			out.println("erm what the flip");
 			if(g.getTrigger() == Gizmo.GizmoTgr.File){
-				g.triggered();
+				if(!g.getJustBuilt()); g.triggered();
 				if(g.getEffect() == Gizmo.GizmoEffect.PickAny || g.getEffect() == Gizmo.GizmoEffect.DrawOne ||
 				g.getEffect() == Gizmo.GizmoEffect.DrawThree || g.getEffect() == Gizmo.GizmoEffect.PickAnyTwo){
 					if(!p.spaceForMoreMarble()){
@@ -2081,10 +2123,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 					for (int i = 0; i < p.getArchivedGizmos().size(); i++) {
 						if (p.getArchivedGizmos().get(i) == g) {
 							System.out.println("$$$$$$$$$$$$$$$$$$$ found matching gizmo from archive list to remove");
-							
-							buildGizmoTriggered("from file");
+							g.setJustBuilt(true);
 							p.removeArchiveGizmo(g);
 							archiveBoundList.remove(i);
+							buildGizmoTriggered("from file");
 							break;
 						}
 					}
@@ -2208,12 +2250,13 @@ public class BoardPanel extends JPanel implements MouseListener {
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
 		ArrayList<Gizmo> buildGizmos = players.get(currentPlayer).getBuildGizmos();
 		ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos();
-		if(!turnFinishedAlert || pickEffectActive){
+		if(!turnFinishedAlert || pickEffectActive || pickEffectActive2){
 			JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn."); 
 			return;
 		}
 		for(Gizmo gizmo : fileGizmos){
 			if(gizmo.isTriggered()){
+				out.println(gizmo.getID());
 				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
 				return;
 			}
@@ -2222,6 +2265,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		for(Gizmo gizmo : buildGizmos){
 			if(gizmo.isTriggered()){
+				out.println(gizmo.getID());
+				out.println(gizmo.getJustBuilt());
+
 				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
 				return;
 			}
@@ -2230,6 +2276,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		for(Gizmo gizmo : pickGizmos){
 			if(gizmo.isTriggered()){
+				out.println(gizmo.getID());
 				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
 				return;
 			}
@@ -2238,6 +2285,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		for(Gizmo gizmo : pickGizmos){
 			if(gizmo.isTriggered()){
+				out.println(gizmo.getID());
 				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
 				return;
 			}
