@@ -72,6 +72,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private boolean tryConvertGizmos = false;
 	private boolean bGameOver = false;
 	
+	private boolean researching = false;;
 
 	public BoardPanel() {
 		players = new ArrayList<>();
@@ -166,7 +167,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		fileBound = new Rectangle(585, 580, 180, 75); 
 		pickBound = new Rectangle(765, 580, 163, 75);
 		buildBound = new Rectangle(930, 580, 163, 75);
-		//researchBound = new Rectangle(1095, 580, 120, 75);
+		researchBound = new Rectangle(1095, 580, 120, 75);
 
 		upgradeBoundList.add(new Rectangle(upgBound.x + 10, upgBound.y + upgBound.height, 143, 130));
 		convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height, 143, 130));
@@ -381,7 +382,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			}
 			g.setColor(Color.RED);
 			g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
-			g.drawString("Winner is Player " + sWinner + "!!!!!!!!!!!!", left, top + height * (players.size() + 2));
+			g.drawString("Player " + sWinner + "wins!!!!", left, top + height * (players.size() + 2));
 			return;
 		}
 		redCount = 0;
@@ -776,7 +777,6 @@ public class BoardPanel extends JPanel implements MouseListener {
 		
 		if (currentPlayer == 0) { g.drawImage(player1gui, 0, -180, null); }
 		else { g.drawImage(playergui, 0, -180, null); }
-		int v = 0;
 		int incrementPos = 0;
 		//int increment5Pos = 0;
 		// while (v < players.get(currentPlayer).getVictoryPoints()) {
@@ -932,13 +932,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.setColor(Color.YELLOW);
 			g.drawRect(privateGizmoBound.x, privateGizmoBound.y, privateGizmoBound.width, privateGizmoBound.height);
 		}
-
+		
 		g.setColor(Color.white);
-		if(FileBoundClicked){
+		if(FileBoundClicked && !turnFinishedAlert){
 			g.drawString("Filing...", (int)fileBound.getX(), (int)fileBound.getY() - 10);
 		}
 
 		g.setColor(Color.red);
+		if(pickEffectActive){
+			g.drawRect((int)pickBound.x, (int)pickBound.y, (int)pickBound.getWidth(), (int)pickBound.getHeight());
+		}
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
 		ArrayList<Gizmo> buildGizmos = players.get(currentPlayer).getBuildGizmos();
 		ArrayList<Gizmo> pickGizmos = players.get(currentPlayer).getPickGizmos();
@@ -980,7 +983,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		//g.setColor(Color.blue);
 		if (turnFinishedAlert && !reactionAvailable && !pickEffectActive) {
 			//g.drawImage(turnText,A1800, 900, null);
-			g.drawImage(turnText, 1080, 900, null);
+			g.drawImage(turnText, 870, 500, null);
 		}
 		else if(tryConvertGizmos){
 			g.setFont(new Font("Proxima Nova", Font.PLAIN, 16));
@@ -1338,6 +1341,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// in display area");
 
 		if(researchMode == 0){
+			researching = true;
 			if(tier1bound.contains(e.getPoint()))
 				researchMode = 1;
 			if(tier2bound.contains(e.getPoint()))
@@ -1383,6 +1387,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 				}
 				researchGizmoBoundList.clear();
 				researchMode = 0;
+				researching = false;
+				repaint();
 			}
 		}		
 		
@@ -1402,7 +1408,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				researchGizmoList.add(t2Gizmos.remove(t2Gizmos.size() - 1));
 			if(researchMode == 3)
 				researchGizmoList.add(t3Gizmos.remove(t3Gizmos.size() - 1));	
-			researchGizmoBoundList.add(new Rectangle(1000 + i * 170, 390, 140, 130));			
+			researchGizmoBoundList.add(new Rectangle(1400 + i * 170, 715, 140, 130));			
 		}
 		System.out.println("adding " + power + " tier " + researchMode + " gizmos to research list for player " + currentPlayer);
 	}
