@@ -10,6 +10,8 @@ import javax.swing.border.LineBorder;
 
 import org.w3c.dom.css.Rect;
 
+import com.formdev.flatlaf.ui.FlatSliderUI;
+
 public class BoardPanel extends JPanel implements MouseListener {
 
 	private BufferedImage marbleDispenser;
@@ -230,7 +232,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(0 * 490, 1 * 490, 490, 490), 2));
 
-		for (int j = 1; j <= 6; j++) {
+		for (int j = 1; j <= 6; j++) { // 
 			t3Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j * 490, 1 * 490, 490, 490), 3));
 		}
 		for (int i = 2; i <= 5; i++) {
@@ -251,8 +253,13 @@ public class BoardPanel extends JPanel implements MouseListener {
 		Collections.shuffle(t1Gizmos);
 		Collections.shuffle(t2Gizmos);
 		Collections.shuffle(t3Gizmos);
-
-		Collections.rotate(t3Gizmos, -8);
+		for (int i = 0 ; i < t3Gizmos.size() ; i++) {
+			if (!(i < 16)) {
+				t3Gizmos.remove(i-=1);
+			}
+		}
+		out.println(t3Gizmos.size());
+		Collections.rotate(t3Gizmos, 2);
 		Collections.rotate(t2Gizmos, -4);
 		Collections.rotate(t1Gizmos, -16);
 
@@ -285,23 +292,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 		System.out.println(p1.getFileGizmos().size());
 
-		// players.get(currentPlayer).addMarbleSpace(100);
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Red");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Yellow");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Blue");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
-		// for(int i = 0; i < 6; i++){
-		// 	Marble em = new Marble("Grey");
-		// 	players.get(currentPlayer).addMarble(em);
-		// }
+		players.get(currentPlayer).addMarbleSpace(100);
+		for(int i = 0; i < 6; i++){
+			Marble em = new Marble("Red");
+			players.get(currentPlayer).addMarble(em);
+		}
+		for(int i = 0; i < 6; i++){
+			Marble em = new Marble("Yellow");
+			players.get(currentPlayer).addMarble(em);
+		}
+		for(int i = 0; i < 6; i++){
+			Marble em = new Marble("Blue");
+			players.get(currentPlayer).addMarble(em);
+		}
+		for(int i = 0; i < 6; i++){
+			Marble em = new Marble("Grey");
+			players.get(currentPlayer).addMarble(em);
+		}
 	}
 
 	public void pickMarble(int index, String color) {
@@ -461,11 +468,19 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
 								u+=10;
 							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u, 75, 75, null);
+
+								u+=10;
+							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 83);
 							g.drawString("" + p.getBlueMarbles(), 1278, 83);
 							g.drawString("" + p.getGrayMarbles(), 1245, 108);
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player B", 1360, 15);
 							break;
 						case "C":
 							g.setColor(Color.white);
@@ -491,11 +506,18 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u1, 75, 75, null);
+								u1+=10;
+							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 233);
 							g.drawString("" + p.getBlueMarbles(), 1278, 233);
 							g.drawString("" + p.getGrayMarbles(), 1245, 258);
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player C", 1360, 172);
 							break;
 							
 						case "D":
@@ -522,11 +544,18 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u2, 75, 75, null);
+								u2+=10;
+							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 397);
 							g.drawString("" + p.getBlueMarbles(), 1278, 397);
 							g.drawString("" + p.getGrayMarbles(), 1245, 423);
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player D", 1360, 336);
 							break;
 						default:
 							out.println("DEFAULT TRIGGERED");
@@ -563,12 +592,21 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
 								u+=10;
 							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u, 75, 75, null);
+								u+=10;
+							}
 							g.setColor(Color.black);
 
 							g.drawString("" + p.getRedMarbles(), 1245, 83);
 							g.drawString("" + p.getBlueMarbles(), 1278, 83);
 							g.drawString("" + p.getGrayMarbles(), 1245, 108);
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
+
+							//g.drawString("A",);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player A", 1360, 15);
 							break;
 						case "C":
 							g.setColor(Color.white);
@@ -594,11 +632,18 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u1, 75, 75, null);
+								u1+=10;
+							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 233);
 							g.drawString("" + p.getBlueMarbles(), 1278, 233);
 							g.drawString("" + p.getGrayMarbles(), 1245, 258);
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player C", 1360, 172);
 							break;
 							
 						case "D":
@@ -625,11 +670,18 @@ public class BoardPanel extends JPanel implements MouseListener {
 								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u2, 75, 75, null);
+								u2+=10;
+							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 397);
 							g.drawString("" + p.getBlueMarbles(), 1278, 397);
 							g.drawString("" + p.getGrayMarbles(), 1245, 423);
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player D", 1360, 336);
 							break;
 							
 
@@ -673,6 +725,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getBlueMarbles(), 1278, 83);
 							g.drawString("" + p.getGrayMarbles(), 1245, 108);
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player A", 1360, 15);
 							break;
 						case "D":
 							g.setColor(Color.white);
@@ -704,6 +759,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getBlueMarbles(), 1278, 233);
 							g.drawString("" + p.getGrayMarbles(), 1245, 258);
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player D", 1360, 172);
 							break;
 							
 						case "B":
@@ -735,6 +793,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getBlueMarbles(), 1278, 397);
 							g.drawString("" + p.getGrayMarbles(), 1245, 423);
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player B", 1360, 336);
 							break;
 						default:
 							out.println("DEFAULT TRIGGERED");
@@ -778,6 +839,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getBlueMarbles(), 1278, 83);
 							g.drawString("" + p.getGrayMarbles(), 1245, 108);
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player A", 1360, 15);
 							break;
 						case "B":
 							g.setColor(Color.white);
@@ -809,6 +873,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getBlueMarbles(), 1278, 233);
 							g.drawString("" + p.getGrayMarbles(), 1245, 258);
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player B", 1360, 172);
 							break;
 							
 							
@@ -842,6 +909,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getBlueMarbles(), 1278, 397);
 							g.drawString("" + p.getGrayMarbles(), 1245, 423);
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
+							g.setColor(Color.white);
+							g.setFont(g.getFont().deriveFont(15f));
+							g.drawString("Player C", 1360, 336);
 							break;
 						default:
 							out.println("DEFAULT TRIGGERED");
@@ -1094,6 +1164,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		System.out.println("clicked his mouse");
 		int x = e.getX();
 		int y = e.getY();
+		out.println(x + ", " + y);
 		
 		if (nextPlayerBound.contains(e.getPoint())) {
 			if (turnFinishedAlert) {
@@ -1492,7 +1563,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}		
 		
 		System.out.println(x + ", " + y);
-		if(x > 1700 && x < 1850 && y > 850 && y < 1000 && howtoplay == false){
+		if(x > 1700 && x < 1840 && y > 850 && y < 1000 && howtoplay == false){
 			howtoplay = true;
 		}
 		else 
@@ -2033,9 +2104,27 @@ public class BoardPanel extends JPanel implements MouseListener {
 						takeThisGizmo = 1;
 					break;
 				default:
+					
 					if (greyCount >= g.getCost())
 						takeThisGizmo = 1;
 					break;
+				// case "Generic":
+				// 	String genericBuildAmounts;
+				// 	JTextField xField = new JTextField(5);
+      			// 	JTextField yField = new JTextField(5);
+      			// 	add(new JLabel("Red:"));
+      			// 	add(xField);
+      			// 	add(Box.createHorizontalStrut(15));
+      			// 	add(new JLabel("Gray:"));
+      			// 	add(yField);
+				// 	add(new JLabel("Yellow:"));
+					// if ((redCount + blueCount + yellowCount + greyCount) >= g.getCost()) {
+					// 	genericBuildAmounts = JOptionPane.showInputDialog(null, "Please enter the amount of each marble you would like to utilize when building the generic");
+					// 	int genericRedAmount = Integer.parseInt(genericBuildAmounts.split(" ")[0]);
+					// 	int genericBlueAmount = Integer.parseInt(genericBuildAmounts.split(" ")[1]);
+					// 	int genericGrayAmount = Integer.parseInt(genericBuildAmounts.split(" ")[2]);
+					// 	int genericYellowAmount = Integer.parseInt(genericBuildAmounts.split(" ")[3]);
+					// }
 			}
 
 			if (takeThisGizmo == 1) {
@@ -2294,7 +2383,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for(Gizmo gizmo : fileGizmos){
 			if(gizmo.isTriggered()){
 				out.println(gizmo.getID());
-				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+				JOptionPane.showMessageDialog(null, "Please trigger your gizmos outlined with a red box before proceeding.");
 				return;
 			}
 			gizmo.untriggered();
@@ -2305,7 +2394,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				out.println(gizmo.getID());
 				out.println(gizmo.getJustBuilt());
 
-				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+				JOptionPane.showMessageDialog(null, "Please trigger your gizmos outlined with a red box before proceeding.");
 				return;
 			}
 			gizmo.untriggered();
@@ -2314,7 +2403,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for(Gizmo gizmo : pickGizmos){
 			if(gizmo.isTriggered()){
 				out.println(gizmo.getID());
-				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
+				JOptionPane.showMessageDialog(null, "Please trigger your gizmos outlined with a red box before proceeding.");
 				return;
 			}
 			gizmo.untriggered();
