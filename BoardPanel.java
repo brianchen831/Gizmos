@@ -2330,6 +2330,126 @@ public class BoardPanel extends JPanel implements MouseListener {
 		FileBoundClicked = false;
 
 	}
+
+	//so that when they look at the board after the game ends they can freely switch between players
+	private void GameOverNextPlayer() {
+		
+		turnFinishedAlert = false;
+		pickEffectActive = false;
+		tryConvertGizmos = false;
+		selectedResearchGizmoIndex = -1;
+		Player p = players.get(currentPlayer);
+		gizmoBeingBuilt = null;
+		gizmoPrivateSelected = null;
+		usedPrivateGizmoThisRound.clear();
+		tempConvertedMarbleList.clear();
+		currentPlayer++;
+		currentPlayer = currentPlayer % 4;
+		if(currentPlayer == 0){
+			currentRound++;
+			System.out.println("Round " + currentRound + " we can check if there is a winner");
+			if(GameOver()){
+				System.out.println("Game Over");
+				bGameOver = true;
+				repaint();
+			}
+		}
+		p = players.get(currentPlayer);
+		System.out.println("Next player: " + p.getName());
+		recountCurrentPlayerMarbles(p);
+
+
+		// System.out.println("Current player: " + p.getName() + " has " +
+		// p.getHeldMarbles().size() + " marbles");
+		// System.out.println("Red: " + redCount + " Yellow: " + yellowCount + " Blue: "
+		// + blueCount + " Grey: " + greyCount);
+
+		activeBound.setBounds(0, 0, 0, 0);
+		privateGizmoBound.setBounds(0, 0, 0, 0);
+		buildBoundList.clear();
+		if (p.getBuildGizmos().size() > 1) {
+			for (int i = 0; i < p.getBuildGizmos().size(); i++) {
+				if (i < p.getBuildGizmos().size() - 1)
+					buildBoundList
+							.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 30, 143, 30));
+				else
+					buildBoundList
+							.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height + i * 30, 143, 130));
+			}
+		} else
+			buildBoundList.add(new Rectangle(buildBound.x + 20, buildBound.y + buildBound.height, 143, 130));
+
+		pickBoundList.clear();
+		if (p.getPickGizmos().size() > 1) {
+			for (int i = 0; i < p.getPickGizmos().size(); i++) {
+				if (i < p.getPickGizmos().size() - 1)
+					pickBoundList
+							.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 30, 143, 30));
+				else
+					pickBoundList
+							.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height + i * 30, 143, 130));
+			}
+		} else
+			pickBoundList.add(new Rectangle(pickBound.x + 20, pickBound.y + pickBound.height, 143, 130));
+		fileBoundList.clear();
+		if (p.getFileGizmos().size() > 1) {
+			for (int i = 0; i < p.getFileGizmos().size(); i++) {
+				if (i < p.getFileGizmos().size() - 1)
+					fileBoundList
+							.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 30, 143, 30));
+				else
+					fileBoundList
+							.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height + i * 30, 143, 130));
+			}
+		} else
+			fileBoundList.add(new Rectangle(fileBound.x + 20, fileBound.y + fileBound.height, 143, 130));
+
+		upgradeBoundList.clear();
+		if (p.getUpgradeGizmos().size() > 1) {
+			for (int i = 0; i < p.getUpgradeGizmos().size(); i++) {
+				if (i < p.getUpgradeGizmos().size() - 1)
+					upgradeBoundList
+							.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 30, 143, 30));
+				else
+					upgradeBoundList
+							.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height + i * 30, 143, 130));
+			}
+		} else
+			upgradeBoundList.add(new Rectangle(upgBound.x + 20, upgBound.y + upgBound.height, 143, 130));
+		convertBoundList.clear();
+		if (p.getConvertGizmos().size() > 1) {
+			for (int i = 0; i < p.getConvertGizmos().size(); i++) {
+				if (i < p.getConvertGizmos().size() - 1)
+					convertBoundList.add(
+							new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height + i * 30, 143, 30));
+				else
+					convertBoundList.add(new Rectangle(convertBound.x + 20,
+							convertBound.y + convertBound.height + i * 30, 143, 130));
+			}
+		} else
+			convertBoundList.add(new Rectangle(convertBound.x + 20, convertBound.y + convertBound.height, 143, 130));
+
+		archiveBoundList.clear();
+		if (p.getArchivedGizmos().size() > 1) {
+			for (int i = 0; i < p.getArchivedGizmos().size(); i++) {
+				if (i < p.getArchivedGizmos().size() - 1)
+					archiveBoundList.add(
+							new Rectangle(archiveBound.x + 20, archiveBound.y + archiveBound.height + i * 30, 143, 30));
+				else
+					archiveBoundList.add(new Rectangle(archiveBound.x + 20,
+							archiveBound.y + archiveBound.height + i * 30, 143, 130));
+			}
+		} else
+			archiveBoundList.add(new Rectangle(archiveBound.x + 20, archiveBound.y + archiveBound.height, 143, 130));
+		// System.out.println("Coverted list: " + convertBoundList.size());
+		// System.out.println("Build list: " + buildBoundList.size());
+		// System.out.println("File list: " + fileBoundList.size());
+		// System.out.println("Upgrade list: " + upgradeBoundList.size());
+		// System.out.println("Pick list: " + pickBoundList.size());
+		// System.out.println("Archive list: " + archiveBoundList.size());
+		FileBoundClicked = false;
+
+	}
 	
 
 	private void SwitchPlayerMarbles(){
