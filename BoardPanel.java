@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage turnText, background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd;
+	private BufferedImage turnText, background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd, howtopla;
 	private int yellowCount, redCount, greyCount, blueCount;
 	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; // temporary
 																											// hardcode
@@ -66,7 +66,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Rectangle> researchGizmoBoundList;
 	private ArrayList<Gizmo> researchGizmoList;
 	private int selectedResearchGizmoIndex;
-
+	private boolean howtoplay = false;
 	private boolean filing;
 	private int currentRound = 0;
 	private boolean tryConvertGizmos = false;
@@ -192,6 +192,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			victoryPoint5 = ImageIO.read(BoardFrame.class.getResource("/images/victoryPoint5.png"));
 			displayWhen2nd = ImageIO.read(BoardFrame.class.getResource("/images/case1display.png"));
 			displayWhen1st = ImageIO.read(BoardFrame.class.getResource("/images/case2display.png"));
+			howtopla = ImageIO.read(BoardFrame.class.getResource("/images/DIRECTIONDIRECTIONSDIRECTIONS.png"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -349,6 +350,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// g.drawString(": " + greyCount);
 
 		// delete this if it doesnt work or breaks stuff
+		
 		if(bGameOver){
 			g.drawImage(background, 0, 0, null);
 			g.setColor(Color.YELLOW);
@@ -989,7 +991,14 @@ public class BoardPanel extends JPanel implements MouseListener {
 			g.setFont(new Font("Proxima Nova", Font.PLAIN, 16));
 			g.drawString("Player may click converter gizmos to build new gizmo", 420, 540);			
 		}
-		
+		g.setColor(Color.white);
+		g.drawRect(1700, 850,150, 150);
+		g.drawString("How To Play",1703, 925 );
+		if(howtoplay){
+			g.drawImage(howtopla, 0, 0, 1920, 1080, null);
+			g.drawRect(1700, 850, 150, 150);
+            g.drawString("BACK", 1740, 925);
+		}
 	}
 	private void DisplayTempConvertedMarbles(){
 		System.out.println("Temporary Convert Marble size: " + tempConvertedMarbleList.size());
@@ -1393,7 +1402,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}		
 		
 		System.out.println(x + ", " + y);
-		
+		if(x > 1700 && x < 1850 && y > 850 && y < 1000 && howtoplay == false){
+			howtoplay = true;
+		}
+		else 
+			howtoplay = false;
 		repaint();
 	}
     private void AddResearchCards(){
