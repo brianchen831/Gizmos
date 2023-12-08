@@ -9,11 +9,13 @@ public class BoardFrame extends JFrame{
 	private static final int HEIGHT = 1080;
 	public BoardFrame (String framename) {
 
-
+		
 		super(framename);
+		add (new BoardPanel());
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(WIDTH, HEIGHT);
-		add (new BoardPanel());
+	
 		setVisible(true);
 
 
