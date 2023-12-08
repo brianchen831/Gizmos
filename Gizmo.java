@@ -754,6 +754,7 @@ public class Gizmo {
 				type = GizmoType.FILE;
 				trigger = GizmoTgr.File;
 				effect = GizmoEffect.DrawThree;
+				color = "Yellow";
 				cost = 4;
 				victoryPoint = 4;
 				break;
