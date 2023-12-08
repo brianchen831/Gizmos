@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "swingUI/flatlaf-3.2.5.jar"
+    ]
+}

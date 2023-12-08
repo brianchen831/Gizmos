@@ -18,7 +18,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private ArrayList<Marble> marbles;
 	private ArrayList<Player> players;
 	private boolean firstDraw;
-	private BufferedImage turnText, background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd, howtopla;
+	private BufferedImage victoryPointDisplay, turnText, background, playergui, player1gui, gizmoSheet1, gizmoSheet2, victoryPoint1, victoryPoint5, displayWhen1st, displayWhen2nd, howtopla;
 	private int yellowCount, redCount, greyCount, blueCount;
 	private Rectangle marbleBound1, marbleBound2, marbleBound3, marbleBound4, marbleBound5, marbleBound6; // temporary
 																											// hardcode
@@ -183,7 +183,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				
 		try {
 			// Load images
-			
+			victoryPointDisplay = ImageIO.read(BoardFrame.class.getResource("/images/victoryPointDisplay.png"));
 			marbleDispenser = ImageIO.read(BoardFrame.class.getResource("/images/Dispenser.png"));
 			background = ImageIO.read(BoardFrame.class.getResource("/images/gameback.png"));
 			playergui = ImageIO.read(BoardFrame.class.getResource("/images/playergui.png"));
@@ -438,6 +438,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 				for (Player p : players) {
 					switch(p.getName()) {
 						case "B":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 87);
 						    int u = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
@@ -466,6 +468,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							break;
 						case "C":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 237);
 							int u1 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
@@ -495,6 +499,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 							break;
 							
 						case "D":
+							g.setColor(Color.white);
+                            g.drawString("" + p.getVictoryPoints(), 1195, 405);
 							int u2 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
@@ -534,6 +540,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 				for (Player p : players) {
 					switch(p.getName()) {
 						case "A":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 87);
 						    int u = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
@@ -563,6 +571,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							break;
 						case "C":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 237);
 							int u1 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
@@ -592,6 +602,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 							break;
 							
 						case "D":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 405);
 							int u2 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
@@ -633,6 +645,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 				for (Player p : players) {
 					switch(p.getName()) {
 						case "A":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 87);
 						    int u = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
@@ -661,6 +675,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							break;
 						case "D":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 237);	
 							int u1 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
@@ -691,6 +707,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 							break;
 							
 						case "B":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 405);
 							int u2 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
@@ -730,6 +748,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 				for (Player p : players) {
 					switch(p.getName()) {
 						case "A":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 87);
+							
 						    int u = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
@@ -759,6 +780,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							break;
 						case "B":
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 237);
+							
 							int u1 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
@@ -789,6 +813,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							
 							
 						case "C":
+
+							g.setColor(Color.white);
+							g.drawString("" + p.getVictoryPoints(), 1195, 405);
 							int u2 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
@@ -853,7 +880,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for(int k = 0; k < oneVp; k++){
 			g.drawImage(victoryPoint1, 108 + incrementPos, 891, 63, 91, null); incrementPos+=40; 
 		}
-
+		g.drawImage(victoryPointDisplay, 0, 0, null);
 		g.drawImage(marbleDispenser, 0, 0, null);
 		g.setFont(new Font("Proxima Nova", Font.PLAIN, 25));
 		g.setColor(Color.BLACK);
