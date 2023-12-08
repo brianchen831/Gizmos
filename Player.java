@@ -166,22 +166,26 @@ public class Player {
     	for (int i = 0 ; i < reds ; i++) {
     		
     		heldMarbles.remove("Red");
+           
     		
     	}
     	
     	for (int i = 0 ; i < blues ; i++) {
     		
     		heldMarbles.remove("Blue");
+     
     		
     	}
     	for (int i = 0 ; i < yellows ; i++) {
     		
     		heldMarbles.remove("Yellow");
+        
     		
     	}
 		for (int i = 0 ; i < grays ; i++) {
 	
 			heldMarbles.remove("Grey");
+ 
 	
 		}
     	

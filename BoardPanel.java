@@ -454,11 +454,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 			} else {
 				greyCount++;
 			}
+			redCount-=spentRed;
+			blueCount-=spentBlue;
+			yellowCount-=spentYellow;
+			greyCount-=spentGray;
 		}
-		redCount -= spentRed;
-		blueCount -= spentBlue;
-		yellowCount -= spentYellow;
-		greyCount -= spentGray;
+		
 		
 		g.drawImage(background, 0, 0, null);
 		switch (currentPlayer) {
@@ -2272,11 +2273,6 @@ public class BoardPanel extends JPanel implements MouseListener {
 						spentBlue = Integer.parseInt(blueMarbleInput.getText());
 						spentGray = Integer.parseInt(grayMarbleInput.getText());
 						spentYellow = Integer.parseInt(yellowMarbleInput.getText());
-						redCount -= spentRed;
-						blueCount -= spentBlue;
-						greyCount -= spentGray;
-						yellowCount -= spentYellow;
-						repaint();
 						takeThisGizmo=1;
 					}
 					
@@ -2552,6 +2548,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		return false;
 	}
 	private void recountCurrentPlayerMarbles(Player p){
+
 		redCount = yellowCount = blueCount = greyCount = 0;
 		for (int i = 0; i < p.getHeldMarbles().size(); i++) {
 			Marble m = p.getHeldMarbles().get(i);
@@ -2565,6 +2562,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			else
 				greyCount++;
 		}
+		
 	}
 	private void NextPlayer() {
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
