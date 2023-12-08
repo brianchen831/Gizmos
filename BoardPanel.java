@@ -924,6 +924,9 @@ public class BoardPanel extends JPanel implements MouseListener {
                 researchGizmoBoundList.get(selectedResearchGizmoIndex).width, researchGizmoBoundList.get(selectedResearchGizmoIndex).height);
             g.drawRect(fileBound.x, fileBound.y, fileBound.width, fileBound.height);
             g.drawRect(buildBound.x, buildBound.y, buildBound.width, buildBound.height);
+			g.drawRect(1550, 600, 100, 100);
+			g.drawString("Dismiss", 1550, 650);
+			g.drawString("Research", 1550, 670);
         }
 		
 		if (tempConvertedMarbleList.size() > 0) {
@@ -1383,7 +1386,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				AddResearchCards();
 		}
 		else{
-			boolean clearResearchList = true;
+			boolean clearResearchList = false;
 			for(int i = 0; i < researchGizmoBoundList.size(); i++){
 				if(researchGizmoBoundList.get(i).contains(e.getPoint())){
 					gizmoBeingBuilt = researchGizmoList.get(i);
@@ -1403,6 +1406,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 				clearResearchList = false;
 				//try to build this gizmo from research list but don't want the function to put the gizmo back to deck
 				ActOnGizmoClick(gizmoBeingBuilt, 100);
+			}
+			
+			
+			if(x > 1550 && x < 1650 && y > 600 && y < 700){
+				clearResearchList = true;
+				turnFinishedAlert = true;
 			}
 			if(turnFinishedAlert)
 				clearResearchList = true;
