@@ -12,6 +12,7 @@ public class BoardFrame extends JFrame{
 		
 		super(framename);
 		add (new BoardPanel());
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(WIDTH, HEIGHT);
 	

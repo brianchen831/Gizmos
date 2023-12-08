@@ -6,6 +6,7 @@ import java.util.*;
 import java.awt.event.*;
 import static java.lang.System.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import org.w3c.dom.css.Rect;
 
@@ -914,7 +915,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		g.drawRect(nextPlayerBound.x, nextPlayerBound.y, nextPlayerBound.width, nextPlayerBound.height);
 
 		Player p = players.get(currentPlayer);
-		g.drawString(p.getName(), nextPlayerBound.x + 25, nextPlayerBound.y + 30);
+		g.drawString("  " + p.getName(), nextPlayerBound.x + 25, nextPlayerBound.y + 30);
 		g.drawString("Next", nextPlayerBound.x + 25, nextPlayerBound.y + 60);
 
 		// draw player dashboard area
@@ -1070,7 +1071,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 				NextPlayer();
 
 			} else {
-
+				setBorder(new LineBorder(Color.black, 2, true));
 				JOptionPane.showMessageDialog(null, "Please complete an action before completing your turn.");
 
 			}
