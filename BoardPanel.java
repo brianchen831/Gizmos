@@ -67,6 +67,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private boolean pickEffectActive2 = false;
 	private boolean buildEffectActive = false;
 	// private boolean fileEffectActive = false;
+	private int u1, u2, u3, u4, u5, u6;
 	JTextField redMarbleInput = new JTextField();
 	JTextField grayMarbleInput = new JTextField();
 	JTextField yellowMarbleInput = new JTextField();
@@ -471,31 +472,36 @@ public class BoardPanel extends JPanel implements MouseListener {
 						case "B":
 							g.setColor(Color.white);
 							g.drawString("" + p.getVictoryPoints(), 1195, 87);
-						    int u = 0;
+						    u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1350, 100 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1450, 100 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1550, 100 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1650, 100 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1750, 100 + u5, 75, 75, null);
+								u5+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 100 + u, 75, 75, null);
+								g.drawImage(c.getImage(), 1840, 100 + u6, 75, 75, null);
 
-								u+=10;
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 83);
@@ -504,35 +510,41 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player B", 1360, 15);
+							g.drawString("Player B", 1160, 15);
 							break;
 						case "C":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
 							g.drawString("" + p.getVictoryPoints(), 1195, 237);
-							int u1 = 0;
+							
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1450, 250 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1550, 250 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1650, 250 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1750, 250 + u5, 75, 75, null);
+								u5+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1840, 250 + u6, 75, 75, null);
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 233);
@@ -541,36 +553,42 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player C", 1360, 172);
+							g.drawString("Player C", 1160, 172);
 							break;
 							
 						case "D":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
                             g.drawString("" + p.getVictoryPoints(), 1195, 405);
-							int u2 = 0;
+							
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1350, 400 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
 								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1550, 400 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1650, 400 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1750, 400 + u5, 75, 75, null);
+								u5+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1840, 400 + u6, 75, 75, null);
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 397);
@@ -579,7 +597,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player D", 1360, 336);
+							g.drawString("Player D", 1160, 336);
 							break;
 						default:
 							out.println("DEFAULT TRIGGERED");
@@ -593,72 +611,81 @@ public class BoardPanel extends JPanel implements MouseListener {
 				for (Player p : players) {
 					switch(p.getName()) {
 						case "A":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
 							g.drawString("" + p.getVictoryPoints(), 1195, 87);
-						    int u = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1350, 100 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1450, 100 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1550, 100 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1650, 100 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1750, 100 + u5, 75, 75, null);
+								u5+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1840, 100 + u6, 75, 75, null);
+
+								u6+=10;
 							}
 							g.setColor(Color.black);
-
 							g.drawString("" + p.getRedMarbles(), 1245, 83);
 							g.drawString("" + p.getBlueMarbles(), 1278, 83);
 							g.drawString("" + p.getGrayMarbles(), 1245, 108);
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
-
-							//g.drawString("A",);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player A", 1360, 15);
+							g.drawString("Player A", 1160, 15);
 							break;
 						case "C":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
 							g.drawString("" + p.getVictoryPoints(), 1195, 237);
-							int u1 = 0;
+							
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1450, 250 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1550, 250 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1650, 250 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1750, 250 + u5, 75, 75, null);
+								u5+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1840, 250 + u6, 75, 75, null);
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 233);
@@ -667,36 +694,42 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player C", 1360, 172);
+							g.drawString("Player C", 1160, 172);
 							break;
 							
 						case "D":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
-							g.drawString("" + p.getVictoryPoints(), 1195, 405);
-							int u2 = 0;
+										g.drawString("" + p.getVictoryPoints(), 1195, 405);
+							
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1350, 400 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
 								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1550, 400 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1650, 400 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1750, 400 + u5, 75, 75, null);
+								u5+=10;
 							}
 							for (Gizmo c : p.getArchivedGizmos()) {
-								g.drawImage(c.getImage(), 1840, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1840, 400 + u6, 75, 75, null);
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 397);
@@ -705,9 +738,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player D", 1360, 336);
+							g.drawString("Player D", 1160, 336);
 							break;
-							
 
 						default:
 							out.println("DEFAULT TRIGGERED");
@@ -723,26 +755,36 @@ public class BoardPanel extends JPanel implements MouseListener {
 						case "A":
 							g.setColor(Color.white);
 							g.drawString("" + p.getVictoryPoints(), 1195, 87);
-						    int u = 0;
+								u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1350, 100 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1450, 100 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1550, 100 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1650, 100 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1750, 100 + u5, 75, 75, null);
+								u5+=10;
+							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u6, 75, 75, null);
+
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 83);
@@ -751,33 +793,43 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player A", 1360, 15);
+							g.drawString("Player A", 1160, 15);
 							break;
+
 						case "D":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
-							g.drawString("" + p.getVictoryPoints(), 1195, 237);	
-							int u1 = 0;
+							g.drawString("" + p.getVictoryPoints(), 1195, 237);
+							
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1450, 250 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1550, 250 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1650, 250 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1750, 250 + u5, 75, 75, null);
+								u5+=10;
 							}
-							
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 250 + u6, 75, 75, null);
+								u6+=10;
+							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 233);
 							g.drawString("" + p.getBlueMarbles(), 1278, 233);
@@ -785,32 +837,42 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player D", 1360, 172);
+							g.drawString("Player D", 1160, 172);
 							break;
 							
 						case "B":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
-							g.drawString("" + p.getVictoryPoints(), 1195, 405);
-							int u2 = 0;
+										g.drawString("" + p.getVictoryPoints(), 1195, 405);
+							
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1350, 400 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
 								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1550, 400 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1650, 400 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1750, 400 + u5, 75, 75, null);
+								u5+=10;
+							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 400 + u6, 75, 75, null);
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 397);
@@ -819,8 +881,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player B", 1360, 336);
+							g.drawString("Player B", 1160, 336);
 							break;
+
 						default:
 							out.println("DEFAULT TRIGGERED");
 							break;
@@ -835,62 +898,79 @@ public class BoardPanel extends JPanel implements MouseListener {
 						case "A":
 							g.setColor(Color.white);
 							g.drawString("" + p.getVictoryPoints(), 1195, 87);
-							
-						    int u = 0;
+								u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1350, 100 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1450, 100 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1550, 100 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1650, 100 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 100 + u, 75, 75, null);
-								u+=10;
+								g.drawImage(c.getImage(), 1750, 100 + u5, 75, 75, null);
+								u5+=10;
+							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 100 + u6, 75, 75, null);
+
+								u6+=10;
 							}
 							g.setColor(Color.black);
-
 							g.drawString("" + p.getRedMarbles(), 1245, 83);
 							g.drawString("" + p.getBlueMarbles(), 1278, 83);
 							g.drawString("" + p.getGrayMarbles(), 1245, 108);
 							g.drawString("" + p.getYellowMarbles(), 1278, 108);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player A", 1360, 15);
+							g.drawString("Player A", 1160, 15);
 							break;
 						case "B":
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
 							g.drawString("" + p.getVictoryPoints(), 1195, 237);
 							
-							int u1 = 0;
 							for (Gizmo c : p.getUpgradeGizmos()) {
 								g.drawImage(c.getImage(), 1350, 250 + u1, 75, 75, null);
 								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
-								g.drawImage(c.getImage(), 1450, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1450, 250 + u2, 75, 75, null);
+								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1550, 250 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1650, 250 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 250 + u1, 75, 75, null);
-								u1+=10;
+								g.drawImage(c.getImage(), 1750, 250 + u5, 75, 75, null);
+								u5+=10;
+							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 250 + u6, 75, 75, null);
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 233);
@@ -899,34 +979,41 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 258);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player B", 1360, 172);
+							g.drawString("Player B", 1160, 172);
 							break;
-							
-							
 						case "C":
-
+							u1 = 0;
+							u2 = 0;
+							u3 = 0;
+							u4 = 0;
+							u5 = 0;
+							u6 = 0;
 							g.setColor(Color.white);
-							g.drawString("" + p.getVictoryPoints(), 1195, 405);
-							int u2 = 0;
+										g.drawString("" + p.getVictoryPoints(), 1195, 405);
+							
 							for (Gizmo c : p.getUpgradeGizmos()) {
-								g.drawImage(c.getImage(), 1350, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1350, 400 + u1, 75, 75, null);
+								u1+=10;
 							}
 							for (Gizmo c : p.getConvertGizmos()) {
 								g.drawImage(c.getImage(), 1450, 400 + u2, 75, 75, null);
 								u2+=10;
 							}
 							for (Gizmo c : p.getFileGizmos()) {
-								g.drawImage(c.getImage(), 1550, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1550, 400 + u3, 75, 75, null);
+								u3+=10;
 							}
 							for (Gizmo c : p.getPickGizmos()) {
-								g.drawImage(c.getImage(), 1650, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1650, 400 + u4, 75, 75, null);
+								u4+=10;
 							}
 							for (Gizmo c : p.getBuildGizmos()) {
-								g.drawImage(c.getImage(), 1750, 400 + u2, 75, 75, null);
-								u2+=10;
+								g.drawImage(c.getImage(), 1750, 400 + u5, 75, 75, null);
+								u5+=10;
+							}
+							for (Gizmo c : p.getArchivedGizmos()) {
+								g.drawImage(c.getImage(), 1840, 400 + u6, 75, 75, null);
+								u6+=10;
 							}
 							g.setColor(Color.black);
 							g.drawString("" + p.getRedMarbles(), 1245, 397);
@@ -935,8 +1022,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 							g.drawString("" + p.getYellowMarbles(), 1278, 423);
 							g.setColor(Color.white);
 							g.setFont(g.getFont().deriveFont(15f));
-							g.drawString("Player C", 1360, 336);
+							g.drawString("Player C", 1160, 336);
 							break;
+
+
 						default:
 							out.println("DEFAULT TRIGGERED");
 							
