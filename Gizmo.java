@@ -905,6 +905,7 @@ public class Gizmo {
 				cost = 7;
 				victoryPoint = 7;
 				color = "Generic";
+				break;
 			case 106:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
@@ -912,6 +913,7 @@ public class Gizmo {
 				cost = 7;
 				victoryPoint = 7;
 				color = "Generic";
+				break;
 			case 107:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
@@ -919,6 +921,7 @@ public class Gizmo {
 				cost = 7;
 				victoryPoint = 7;
 				color = "Generic";
+				break;
 			case 108:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
