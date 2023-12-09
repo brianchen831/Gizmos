@@ -269,17 +269,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		
 		
-		// Collections.shuffle(t1Gizmos);
-		// Collections.shuffle(t2Gizmos);
-		// Collections.shuffle(t3Gizmos);
+		Collections.shuffle(t1Gizmos);
+		Collections.shuffle(t2Gizmos);
+		Collections.shuffle(t3Gizmos);
 
-		for (int i = 0 ; i < t3Gizmos.size() ; i++) {
-			if (!(i < 16)) {
-				t3Gizmos.remove(i-=1);
-			}
-		}
 		out.println(t3Gizmos.size());
-		Collections.rotate(t3Gizmos, 2);
+		Collections.rotate(t3Gizmos, 4);
 		Collections.rotate(t2Gizmos, -4);
 		Collections.rotate(t1Gizmos, -16);
 
@@ -312,23 +307,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 		
 		System.out.println(p1.getFileGizmos().size());
 
-		 players.get(currentPlayer).addMarbleSpace(100);
-		 for(int i = 0; i < 6; i++){
-		 	Marble em = new Marble("Red");
-		 	players.get(currentPlayer).addMarble(em);
-		 }
-		 for(int i = 0; i < 6; i++){
-		 	Marble em = new Marble("Yellow");
-		 	players.get(currentPlayer).addMarble(em);
-		 }
-		 for(int i = 0; i < 6; i++){
-		 	Marble em = new Marble("Blue");
-		 	players.get(currentPlayer).addMarble(em);
-		 }
-		 for(int i = 0; i < 6; i++){
-		 	Marble em = new Marble("Grey");
-		 	players.get(currentPlayer).addMarble(em);
-		 }
+		//  players.get(currentPlayer).addMarbleSpace(100);
+		//  for(int i = 0; i < 6; i++){
+		//  	Marble em = new Marble("Red");
+		//  	players.get(currentPlayer).addMarble(em);
+		//  }
+		//  for(int i = 0; i < 6; i++){
+		//  	Marble em = new Marble("Yellow");
+		//  	players.get(currentPlayer).addMarble(em);
+		//  }
+		//  for(int i = 0; i < 6; i++){
+		//  	Marble em = new Marble("Blue");
+		//  	players.get(currentPlayer).addMarble(em);
+		//  }
+		//  for(int i = 0; i < 6; i++){
+		//  	Marble em = new Marble("Grey");
+		//  	players.get(currentPlayer).addMarble(em);
+		//  }
 	}
 
 	public void pickMarble(int index, String color) {
@@ -2846,7 +2841,20 @@ public class BoardPanel extends JPanel implements MouseListener {
 				p.addVictoryPoint(genericVictoryPoints);
 				
 				JOptionPane.showMessageDialog(null, p.getName() + " will receive  " 
-				+ genericVictoryPoints + " victory points from a victory point wild gizmo!");
+				+ genericVictoryPoints + " victory points from a victory point type wild gizmo!");
+				//p.addVictoryPoint(p.getVictoryPoints() / 5 + p.getVictoryPoints % 5);
+			}
+		}
+		for(Gizmo g : upgradeGizmos){
+			if(g.getColor().equals("Generic") && g.getEffect() == Gizmo.GizmoEffect.VictoryPointsFromTokenCount){
+				int redVP = p.getRedMarbles();
+				int blueVP = p.getBlueMarbles();
+				int yellowVP = p.getYellowMarbles();
+				int greyVP = p.getGrayMarbles();
+				p.addVictoryPoint(redVP + blueVP + yellowVP + greyVP);
+				
+				JOptionPane.showMessageDialog(null, p.getName() + " will receive  " 
+				+ (redVP + blueVP + yellowVP + greyVP) + " victory points from a marble type wild gizmo!");
 				//p.addVictoryPoint(p.getVictoryPoints() / 5 + p.getVictoryPoints % 5);
 			}
 		}
