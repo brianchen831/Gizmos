@@ -92,7 +92,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 						
 		};
 	
-	private boolean researching = false;;
+	private boolean researching = false;
+	private boolean didntDothisAlready1;
+	private boolean didntDothisAlready2;
+	private boolean didntDothisAlready3;
 
 	public BoardPanel() {
 		
@@ -983,20 +986,44 @@ public class BoardPanel extends JPanel implements MouseListener {
 		
 		int temp = 0;
 		for (int i = 0; i < 4; i++) {
-			g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
-			temp += 170;
+			if(i < t1Gizmos.size()){
+				g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
+				temp += 170;
+			}
+			else{
+				if(didntDothisAlready1){ //ik its a dumb name
+					JOptionPane.showMessageDialog(null, "Almost out of t1 Gizmos");
+					didntDothisAlready3 = false;
+				}
+			}
 		}
 		temp = 0;
 
 		for (int i = 0; i < 3; i++) {
-			g.drawImage(t2Gizmos.get(i).getImage(), 200 + temp, 235, 143, 130, null);
-			temp += 170;
+			if(i < t2Gizmos.size()){
+				g.drawImage(t2Gizmos.get(i).getImage(), 200 + temp, 235, 143, 130, null);
+				temp += 170;
+			}
+			else{
+				if(didntDothisAlready2){ //ik its a dumb name
+					JOptionPane.showMessageDialog(null, "Almost out of t2 Gizmos");
+					didntDothisAlready3 = false;
+				}
+			}
 			// if (temp > 340) { break; }
 		}
 		temp = 0;
 		for (int i = 0; i < 2; i++) {
-			g.drawImage(t3Gizmos.get(i).getImage(), 200 + temp, 80, 143, 130, null);
-			temp += 170;
+			if(i < t3Gizmos.size()){
+				g.drawImage(t3Gizmos.get(i).getImage(), 200 + temp, 80, 143, 130, null);
+				temp += 170;
+			}
+			else{
+				if(didntDothisAlready3){ //ik its a dumb name
+					JOptionPane.showMessageDialog(null, "Almost out of t3 Gizmos");
+					didntDothisAlready3 = false;
+				}
+			}
 		}
 		int i = 0;
 		for (Marble m : visibleMarbles) {
