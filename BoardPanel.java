@@ -980,51 +980,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		g.drawString("" + blueCount, 123, 649);
 		g.drawString("" + yellowCount, 123, 693);
 		g.setColor(Color.YELLOW);
-		// int temp = 0;
-		// if(t1Gizmos.size() < 4){
-		// 	for (int i = 0; i < 4; i++) {
-		// 		g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
-		// 		temp += 170;
-		// 	}		
-		// }
-		// else{
-		// 	JOptionPane.showMessageDialog(null, "Almost out of t1 gizmos");
-		// 	for(int i = 0; i < t1Gizmos.size(); i++){
-		// 		g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
-		// 		temp += 170;
-		// 	}
-			
-		// }
-
-		// temp = 0;
-		// if(t2Gizmos.size() < 3){
-		// 	for (int i = 0; i < 3; i++) {
-		// 		g.drawImage(t2Gizmos.get(i).getImage(), 200 + temp, 235, 143, 130, null);
-		// 		temp += 170;
-		// 	}	
-		// }
-		// else{
-		// 	for(int i = 0; i < t2Gizmos.size(); i++){
-		// 		JOptionPane.showMessageDialog(null, "Almost out of t2 gizmos");
-		// 		g.drawImage(t2Gizmos.get(i).getImage(), 200 + temp, 235, 143, 130, null);
-		// 		temp += 170;
-		// 	}
-		// }
-
-
-		// temp = 0;
-		// if(t3Gizmos.size() < 2){
-		// 	for (int i = 0; i < 2; i++) {
-		// 		g.drawImage(t3Gizmos.get(i).getImage(), 200 + temp, 80, 143, 130, null);
-		// 		temp += 170;
-		// 	}
-		// }
-		// else{
-		// 	for (int i = 0; i < t3Gizmos.size(); i++) {
-		// 		g.drawImage(t3Gizmos.get(i).getImage(), 200 + temp, 80, 143, 130, null);
-		// 		temp += 170;
-		// 	}
-		// }
+		
 		int temp = 0;
 		for (int i = 0; i < 4; i++) {
 			g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
@@ -1753,14 +1709,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 					gizmoPrivateSelected.untriggered();
 					gizmoPrivateSelected.triggeredThisRound(true);
 				}
-				// else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.File
-				//  && !gizmoPrivateSelected.isTriggeredThisRound()){
-				// 	out.println("building free t1");
-				// 	fileEffectActive = true;
-				// 	FileBoundClicked = true;
-				// 	gizmoPrivateSelected.untriggered();
-				// 	gizmoPrivateSelected.triggeredThisRound(true);
-				// } i give up on this one
+				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.File
+				 && !gizmoPrivateSelected.isTriggeredThisRound()){
+					out.println("filing free");
+					buildEffectActive = true; //i know this aint right but we just gotta thug it out
+					FileBoundClicked = true;
+					gizmoPrivateSelected.untriggered();
+					gizmoPrivateSelected.triggeredThisRound(true);
+				} //i give up on this one
+				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.Research
+				 && !gizmoPrivateSelected.isTriggeredThisRound()){
+					out.println("researching free");
+					buildEffectActive = true; //i know this aint right but we just gotta thug it out
+					JOptionPane.showMessageDialog(null, "Yeah this one doesn't work");
+					FileBoundClicked = true;
+					gizmoPrivateSelected.untriggered();
+					gizmoPrivateSelected.triggeredThisRound(true);
+				} //i give up on this one
 
 			}
 			else if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.FILE){
@@ -2315,7 +2280,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			// if File is clicked and then another gizmo from level 1/2/3 is clicked, add
 			// that gizmo to archive section of player dashboard area
 
-			if(!buildEffectActive){
+			// if(!buildEffectActive){
 				if (FileBoundClicked) {
 					if (p.spaceForMoreArchive()) {
 						System.out.println(
@@ -2344,7 +2309,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					return;
 				}
 
-			}
+			//}
 
 			switch (g.getColor()) {
 				case "Red":
