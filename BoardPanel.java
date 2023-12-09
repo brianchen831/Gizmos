@@ -269,18 +269,19 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		
 		
-		Collections.shuffle(t1Gizmos);
-		Collections.shuffle(t2Gizmos);
-		Collections.shuffle(t3Gizmos);
+		// Collections.shuffle(t1Gizmos);
+		// Collections.shuffle(t2Gizmos);
+		// Collections.shuffle(t3Gizmos);
+
 		for (int i = 0 ; i < t3Gizmos.size() ; i++) {
 			if (!(i < 16)) {
 				t3Gizmos.remove(i-=1);
 			}
 		}
 		out.println(t3Gizmos.size());
-		// Collections.rotate(t3Gizmos, 2);
-		// Collections.rotate(t2Gizmos, -4);
-		// Collections.rotate(t1Gizmos, -16);
+		Collections.rotate(t3Gizmos, 2);
+		Collections.rotate(t2Gizmos, -4);
+		Collections.rotate(t1Gizmos, -16);
 
 		Player p1 = new Player("A");
 		p1.setPosition(0);
@@ -2836,6 +2837,19 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// System.out.println("Archive list: " + archiveBoundList.size());
 		FileBoundClicked = false;
 
+		ArrayList<Gizmo> upgradeGizmos = p.getUpgradeGizmos();
+		for(Gizmo g : upgradeGizmos){
+			if(g.getColor().equals("Generic") && g.getEffect() == Gizmo.GizmoEffect.VictoryPointsFromTokenCount){
+				int quotient = p.getVictoryPoints() / 5;
+				int remainder = p.getVictoryPoints() % 5;
+				int genericVictoryPoints = quotient + remainder;
+				p.addVictoryPoint(genericVictoryPoints);
+				
+				JOptionPane.showMessageDialog(null, p.getName() + " will receive  " 
+				+ genericVictoryPoints + " victory points from a victory point wild gizmo!");
+				//p.addVictoryPoint(p.getVictoryPoints() / 5 + p.getVictoryPoints % 5);
+			}
+		}
 	}
 
 	//so that when they look at the board after the game ends they can freely switch between players
