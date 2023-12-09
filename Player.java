@@ -149,6 +149,7 @@ public class Player {
     }
  
     public void payMarble(int cost, String color){
+    	
         int removedMarbles = 0;
         for(int i = heldMarbles.size() - 1; i >= 0; i--){
             if(removedMarbles == cost)
@@ -159,6 +160,48 @@ public class Player {
                 removedMarbles++;
             }
         }
+    }
+    public void payMarble(int reds, int blues, int yellows, int grays) {
+        
+    	for (int i = 0 ; i < reds ; i++) {
+    		System.out.println("Reds removed");
+    		for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Red")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
+    	}
+    	for (int i = 0 ; i < blues ; i++) {
+            System.out.println("Blues removed");
+    		for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Blue")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
+    	}
+    	for (int i = 0 ; i < yellows ; i++) {
+    		System.out.println("Yellows removed");
+    		for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Yellow")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
+    	}
+		for (int i = 0 ; i < grays ; i++) {
+	        System.out.println("Grays removed");
+			for (Marble m : heldMarbles) {
+                if (m.getMarbleColor().equals("Grey")) {
+                    heldMarbles.remove(m);
+                    break;
+                }
+            }
+		}
+        System.out.println(heldMarbles);
+    	
+    	
     }
     public ArrayList<Marble> getHeldMarbles() {
         return heldMarbles;

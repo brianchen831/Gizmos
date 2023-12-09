@@ -10,7 +10,6 @@ import javax.swing.border.LineBorder;
 
 import org.w3c.dom.css.Rect;
 
-import com.formdev.flatlaf.ui.FlatSliderUI;
 
 public class BoardPanel extends JPanel implements MouseListener {
 
@@ -29,6 +28,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 																											// more
 																											// difficult
 																											// part
+	private int spentRed, spentBlue, spentGray, spentYellow;
 	private Rectangle gizmoBound1_1, gizmoBound1_2, gizmoBound1_3, gizmoBound1_4;
 	private Rectangle gizmoBound2_1, gizmoBound2_2, gizmoBound2_3;
 	private Rectangle gizmoBound3_1, gizmoBound3_2;
@@ -68,6 +68,10 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private boolean buildEffectActive = false;
 	// private boolean fileEffectActive = false;
 	private int u1, u2, u3, u4, u5, u6;
+	JTextField redMarbleInput = new JTextField();
+	JTextField grayMarbleInput = new JTextField();
+	JTextField yellowMarbleInput = new JTextField();
+	JTextField blueMarbleInput = new JTextField();
 	private int researchMode = 0;
 	private ArrayList<Rectangle> researchGizmoBoundList;
 	private ArrayList<Gizmo> researchGizmoList;
@@ -77,6 +81,17 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private int currentRound = 0;
 	private boolean tryConvertGizmos = false;
 	private boolean bGameOver = false;
+	private JComponent[] inputs = new JComponent[] {
+						new JLabel("Red"),
+						redMarbleInput,
+						new JLabel("Gray"),
+						grayMarbleInput,
+						new JLabel("Blue"),
+						blueMarbleInput,
+						new JLabel("Yellow"),
+						yellowMarbleInput,
+						
+		};
 	
 	private boolean researching = false;;
 
@@ -232,7 +247,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		for (int j = 0; j <= 6; j++) {
 			t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(j * 490, 0 * 490, 490, 490), 2));
 		}
-		t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(6 * 490, 0 * 490, 490, 490), 2));
+		t2Gizmos.add(new Gizmo(gizmoSheet2.getSubimage(0 * 490, 1 * 490, 490, 490), 2));
 
 
 
@@ -255,18 +270,14 @@ public class BoardPanel extends JPanel implements MouseListener {
 		}
 		
 		
-		Collections.shuffle(t1Gizmos);
-		Collections.shuffle(t2Gizmos);
-		Collections.shuffle(t3Gizmos);
-		for (int i = 0 ; i < t3Gizmos.size() ; i++) {
-			if (!(i < 16)) {
-				t3Gizmos.remove(i-=1);
-			}
-		}
+		// Collections.shuffle(t1Gizmos);
+		// Collections.shuffle(t2Gizmos);
+		// Collections.shuffle(t3Gizmos);
+
 		out.println(t3Gizmos.size());
-		// Collections.rotate(t3Gizmos, 2);
-		// Collections.rotate(t2Gizmos, -4);
-		// Collections.rotate(t1Gizmos, -16);
+		Collections.rotate(t3Gizmos, 3);
+		Collections.rotate(t2Gizmos, -4);
+		Collections.rotate(t1Gizmos, -16);
 
 		Player p1 = new Player("A");
 		p1.setPosition(0);
@@ -294,26 +305,26 @@ public class BoardPanel extends JPanel implements MouseListener {
 		players.add(p4);
 		addMouseListener(this);
 		firstDraw = true;
-
+		
 		System.out.println(p1.getFileGizmos().size());
 
-		players.get(currentPlayer).addMarbleSpace(100);
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Red");
-			players.get(currentPlayer).addMarble(em);
-		}
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Yellow");
-			players.get(currentPlayer).addMarble(em);
-		}
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Blue");
-			players.get(currentPlayer).addMarble(em);
-		}
-		for(int i = 0; i < 6; i++){
-			Marble em = new Marble("Grey");
-			players.get(currentPlayer).addMarble(em);
-		}
+		 players.get(currentPlayer).addMarbleSpace(100);
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Red");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Yellow");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Blue");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
+		 for(int i = 0; i < 6; i++){
+		 	Marble em = new Marble("Grey");
+		 	players.get(currentPlayer).addMarble(em);
+		 }
 	}
 
 	public void pickMarble(int index, String color) {
@@ -440,7 +451,13 @@ public class BoardPanel extends JPanel implements MouseListener {
 			} else {
 				greyCount++;
 			}
+			
 		}
+		// redCount-=spentRed;
+		// blueCount-=spentBlue;
+		// yellowCount-=spentYellow;
+		// greyCount-=spentGray;
+		
 		
 		g.drawImage(background, 0, 0, null);
 		switch (currentPlayer) {
@@ -1052,6 +1069,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		g.drawString("" + blueCount, 123, 649);
 		g.drawString("" + yellowCount, 123, 693);
 		g.setColor(Color.YELLOW);
+		
 		int temp = 0;
 		for (int i = 0; i < 4; i++) {
 			g.drawImage(t1Gizmos.get(i).getImage(), 200 + temp, 390, 143, 130, null);
@@ -1780,22 +1798,30 @@ public class BoardPanel extends JPanel implements MouseListener {
 					gizmoPrivateSelected.untriggered();
 					gizmoPrivateSelected.triggeredThisRound(true);
 				}
-				// else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.File
-				//  && !gizmoPrivateSelected.isTriggeredThisRound()){
-				// 	out.println("building free t1");
-				// 	fileEffectActive = true;
-				// 	FileBoundClicked = true;
-				// 	gizmoPrivateSelected.untriggered();
-				// 	gizmoPrivateSelected.triggeredThisRound(true);
-				// }
+				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.File
+				 && !gizmoPrivateSelected.isTriggeredThisRound()){
+					out.println("filing free");
+					buildEffectActive = true; //i know this aint right but we just gotta thug it out
+					FileBoundClicked = true;
+					gizmoPrivateSelected.untriggered();
+					gizmoPrivateSelected.triggeredThisRound(true);
+				} //i give up on this one
+				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.Research
+				 && !gizmoPrivateSelected.isTriggeredThisRound()){
+					out.println("researching free");
+					buildEffectActive = true; //i know this aint right but we just gotta thug it out
+					JOptionPane.showMessageDialog(null, "Yeah this one doesn't work");
+					FileBoundClicked = true;
+					gizmoPrivateSelected.untriggered();
+					gizmoPrivateSelected.triggeredThisRound(true);
+				} //i give up on this one
 
 			}
 			else if(gizmoPrivateSelected.getType() == Gizmo.GizmoType.FILE){
 
-				Marble m = marbles.remove(marbles.size() - 1);
-
 				if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.DrawOne
 				 && !gizmoPrivateSelected.isTriggeredThisRound()){
+					Marble m = marbles.remove(marbles.size() - 1);
 					
 					gizmoPrivateSelected.untriggered();
 					gizmoPrivateSelected.triggeredThisRound(true);
@@ -1814,6 +1840,61 @@ public class BoardPanel extends JPanel implements MouseListener {
 							blueCount++;
 						}
 					}
+					
+				}
+				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.DrawThree
+				 && !gizmoPrivateSelected.isTriggeredThisRound()){
+					Marble m = marbles.remove(marbles.size() - 1);
+					
+					gizmoPrivateSelected.untriggered();
+					gizmoPrivateSelected.triggeredThisRound(true);
+					if(p.spaceForMoreMarble()){
+						p.addMarble(m);
+						if (m.getMarbleColor() == "Red"){
+							redCount++;
+						}
+						else if (m.getMarbleColor() == "Yellow"){
+							yellowCount++;
+						}
+						else if (m.getMarbleColor() == "Grey"){
+							greyCount++;
+						}
+						else if (m.getMarbleColor() == "Blue"){
+							blueCount++;
+						}
+					}
+					m = marbles.remove(marbles.size() - 1);
+					if(p.spaceForMoreMarble()){
+						p.addMarble(m);
+						if (m.getMarbleColor() == "Red"){
+							redCount++;
+						}
+						else if (m.getMarbleColor() == "Yellow"){
+							yellowCount++;
+						}
+						else if (m.getMarbleColor() == "Grey"){
+							greyCount++;
+						}
+						else if (m.getMarbleColor() == "Blue"){
+							blueCount++;
+						}
+					}
+					m = marbles.remove(marbles.size() - 1);
+					if(p.spaceForMoreMarble()){
+						p.addMarble(m);
+						if (m.getMarbleColor() == "Red"){
+							redCount++;
+						}
+						else if (m.getMarbleColor() == "Yellow"){
+							yellowCount++;
+						}
+						else if (m.getMarbleColor() == "Grey"){
+							greyCount++;
+						}
+						else if (m.getMarbleColor() == "Blue"){
+							blueCount++;
+						}
+					} //this way is kind of dumb but it works
 					
 				}
 				else if(gizmoPrivateSelected.getEffect() == Gizmo.GizmoEffect.PickAny
@@ -1838,6 +1919,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					gizmoPrivateSelected.untriggered();
 					gizmoPrivateSelected.triggeredThisRound(true);
 				}
+				
 			}
 			turnFinishedAlert = true;
 			repaint();
@@ -2287,7 +2369,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			// if File is clicked and then another gizmo from level 1/2/3 is clicked, add
 			// that gizmo to archive section of player dashboard area
 
-			if(!buildEffectActive){
+			// if(!buildEffectActive){
 				if (FileBoundClicked) {
 					if (p.spaceForMoreArchive()) {
 						System.out.println(
@@ -2316,7 +2398,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 					return;
 				}
 
-			}
+			//}
 
 			switch (g.getColor()) {
 				case "Red":
@@ -2331,11 +2413,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 					if (yellowCount >= g.getCost())
 						takeThisGizmo = 1;
 					break;
-				default:
-					
+				case "Grey":
 					if (greyCount >= g.getCost())
 						takeThisGizmo = 1;
 					break;
+				case "Generic":
+					if (redCount + blueCount + greyCount + yellowCount >= 7) {
+						//UIManager.put("OptionPane.minimumSize",new Dimension(500,500)); 
+						int result = JOptionPane.showConfirmDialog(null, inputs, "Enter the amount of each marble you would like to use to build the generic gizmo.", JOptionPane.PLAIN_MESSAGE);
+						spentRed = Integer.parseInt(redMarbleInput.getText());
+						spentBlue = Integer.parseInt(blueMarbleInput.getText());
+						spentGray = Integer.parseInt(grayMarbleInput.getText());
+						spentYellow = Integer.parseInt(yellowMarbleInput.getText());
+						takeThisGizmo=1;
+					}
+					
+					break;
+				
 				// case "Generic":
 				// 	String genericBuildAmounts;
 				// 	JTextField xField = new JTextField(5);
@@ -2410,9 +2504,22 @@ public class BoardPanel extends JPanel implements MouseListener {
 					case UPGRADE:
 						turnFinishedAlert = true; out.println("Built Gizmo Turn Finished True");
 						System.out.println("convert add to upgrade list for player " + p.getName());
+						System.out.println(g.getColor());
 						p.addUpgradeGizmo(g);
-						p.payMarble(g.getCost(), g.getColor());
-						putbackMarble(g.getCost(), g.getColor());
+						
+						if (g.getColor().equals("Generic")) {
+							out.println("Red" + spentRed + " Blue" + spentBlue + " Yellow" + spentYellow + " Gray" + spentGray);
+							p.payMarble(spentRed, spentBlue, spentYellow, spentGray);
+							putbackMarble(spentRed, "Red");
+							putbackMarble(spentYellow, "Yellow");
+							putbackMarble(spentGray, "Grey");
+							putbackMarble(spentBlue, "Blue");
+						} else {
+							
+							p.payMarble(g.getCost(), g.getColor());
+							putbackMarble(g.getCost(), g.getColor());
+							
+						}
 						if (p.getUpgradeGizmos().size() > 1) {
 							int prevTopCard = p.getUpgradeGizmos().size() - 2;
 							upgradeBoundList.get(prevTopCard).setBounds(upgradeBoundList.get(prevTopCard).x,
@@ -2593,6 +2700,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		return false;
 	}
 	private void recountCurrentPlayerMarbles(Player p){
+
 		redCount = yellowCount = blueCount = greyCount = 0;
 		for (int i = 0; i < p.getHeldMarbles().size(); i++) {
 			Marble m = p.getHeldMarbles().get(i);
@@ -2606,6 +2714,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			else
 				greyCount++;
 		}
+		
 	}
 	private void NextPlayer() {
 		ArrayList<Gizmo> fileGizmos = players.get(currentPlayer).getFileGizmos();
@@ -2662,6 +2771,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 		pickEffectActive = false;
 		pickEffectActive2 = false;
 		buildEffectActive = false;
+		showFourMarbleList = false;
+
 		tryConvertGizmos = false;
 		selectedResearchGizmoIndex = -1;
 		Player p = players.get(currentPlayer);
@@ -2775,6 +2886,36 @@ public class BoardPanel extends JPanel implements MouseListener {
 		// System.out.println("Archive list: " + archiveBoundList.size());
 		FileBoundClicked = false;
 
+		ArrayList<Gizmo> upgradeGizmos = p.getUpgradeGizmos();
+		for(Gizmo g : upgradeGizmos){
+			if(g.getEffect() == Gizmo.GizmoEffect.VictoryPointsFromMarbleCount){
+				out.println("what the flippity flip" + g.getEffect());
+				int redVP = p.getRedMarbles();
+				int blueVP = p.getBlueMarbles();
+				int yellowVP = p.getYellowMarbles();
+				int greyVP = p.getGrayMarbles();
+				p.addVictoryPoint(redVP + blueVP + yellowVP + greyVP);
+				out.println(g.getID());
+				out.println(g.getEffect());
+				JOptionPane.showMessageDialog(null, p.getName() + " will receive  " 
+				+ (redVP + blueVP + yellowVP + greyVP) + " victory points from a marble type wild gizmo!");
+				//p.addVictoryPoint(p.getVictoryPoints() / 5 + p.getVictoryPoints % 5);
+			}
+			
+			if(g.getEffect() == Gizmo.GizmoEffect.VictoryPointsFromTokenCount){
+				out.println("what the heck" + g.getEffect());
+				int quotient = p.getVictoryPoints() / 5;
+				int remainder = p.getVictoryPoints() % 5;
+				int genericVictoryPoints = quotient + remainder;
+				p.addVictoryPoint(genericVictoryPoints);
+				out.println(g.getID());
+				out.println(g.getEffect());
+				JOptionPane.showMessageDialog(null, p.getName() + " will receive  " 
+				+ genericVictoryPoints + " victory points from a victory point type wild gizmo!");
+				//p.addVictoryPoint(p.getVictoryPoints() / 5 + p.getVictoryPoints % 5);
+			}
+			
+		}
 	}
 
 	//so that when they look at the board after the game ends they can freely switch between players

@@ -136,7 +136,16 @@ public class Gizmo {
 		tier = t;
 		this.gizmoImage = RoundCorners.makeRoundedCorner(gizmoImage, 70);
 		trigger = null;
-		color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
+		if (!((ID >= 105) && (ID <= 108))) {
+			
+			color = ClosestColorFinder.getColorName(new Color(gizmoImage.getRGB(4, 275)));
+			
+		} else {
+			
+			color = "Generic";
+			
+		}
+		
         // if (temp=="Gray") { color="Grey"; System.out.println("Grey");}
 		// else if (temp=="Red") { color="Red"; System.out.println("Red");}
 		// else if (temp=="Yellow") { color="Yellow"; System.out.println("Yellow");}
@@ -745,6 +754,7 @@ public class Gizmo {
 				type = GizmoType.FILE;
 				trigger = GizmoTgr.File;
 				effect = GizmoEffect.DrawThree;
+				color = "Yellow";
 				cost = 4;
 				victoryPoint = 4;
 				break;
@@ -894,14 +904,16 @@ public class Gizmo {
 				effect = GizmoEffect.VictoryPointsFromMarbleCount;
 				cost = 7;
 				victoryPoint = 7;
-				color = "generic";
+				color = "Generic";
+				break;
 			case 106:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
 				effect = GizmoEffect.VictoryPointsFromMarbleCount;
 				cost = 7;
 				victoryPoint = 7;
-				color = "generic";
+				color = "Generic";
+				break;
 			case 107:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
@@ -909,6 +921,7 @@ public class Gizmo {
 				cost = 7;
 				victoryPoint = 7;
 				color = "Generic";
+				break;
 			case 108:
 				type = GizmoType.UPGRADE;
 				trigger = GizmoTgr.none;
